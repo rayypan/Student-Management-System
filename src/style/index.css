@@ -1,0 +1,197 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../assets/background 1.png');
+  background-position: center;
+  position: relative;
+}
+
+/* Blue gradient overlay for background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 60, 114, 0.85) 0%,
+    rgba(42, 82, 152, 0.75) 50%,
+    rgba(30, 60, 114, 0.85) 100%
+  );
+  z-index: -1;
+}
+
+#root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Card Component */
+.Card {
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(240, 245, 255, 0.95) 100%
+  );
+  border: 2px solid rgba(135, 206, 250, 0.6);
+  border-radius: 12px;
+  padding: 40px 35px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(135, 206, 250, 0.2),
+    0 0 20px rgba(135, 206, 250, 0.3);
+  animation: cardGlow 3s ease-in-out infinite;
+}
+
+@keyframes cardGlow {
+  0%, 100% {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(135, 206, 250, 0.2),
+      0 0 20px rgba(135, 206, 250, 0.3);
+  }
+  50% {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(135, 206, 250, 0.4),
+      0 0 25px rgba(135, 206, 250, 0.5);
+  }
+}
+
+/* Input Fields Section */
+.InputFields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.InputFields label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+.InputFields strong {
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.InputFields input {
+  padding: 12px 14px;
+  border: 1.5px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #ffffff;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.InputFields input:focus {
+  border-color: #87ceeb;
+  box-shadow: 
+    0 0 0 3px rgba(135, 206, 250, 0.15),
+    0 0 12px rgba(135, 206, 250, 0.4);
+  background: #fafcff;
+}
+
+.InputFields input::placeholder {
+  color: #9ca3af;
+}
+
+/* Submit Button */
+.BtnSubmit {
+  margin-bottom: 20px;
+}
+
+.BtnSubmit button {
+  width: 100%;
+  padding: 13px 20px;
+  background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
+}
+
+.BtnSubmit button:hover {
+  background: linear-gradient(135deg, #ff9d5c 0%, #ff7a4d 100%);
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.35);
+  transform: translateY(-1px);
+}
+
+.BtnSubmit button:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(255, 107, 53, 0.3);
+}
+
+/* Navigation Links */
+.Links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(135, 206, 250, 0.3);
+}
+
+.Links a {
+  display: block;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #1e3c72;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  border: 1px solid #d0d7de;
+  transition: all 0.3s ease;
+}
+
+.Links a:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: #87ceeb;
+  box-shadow: 0 0 12px rgba(135, 206, 250, 0.4);
+  color: #2a5298;
+  transform: translateY(-1px);
+}
+
+.Links a:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .Card {
+    padding: 30px 25px;
+  }
+  
+  body {
+    padding: 15px;
+  }
+}
