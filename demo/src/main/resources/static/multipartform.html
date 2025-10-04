@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Multiple File Upload</title>
+</head>
+<body>
+  <h2>Multiple File Upload</h2>
+  <form action="/api/multi-upload" method="post" enctype="multipart/form-data">
+    Name: <input type="text" name="name"><br><br>
+    Email: <input type="email" name="email"><br><br>
+    Select files: <input type="file" name="files" multiple><br><br>
+    <button type="submit">Upload</button>
+  </form>
+</body>
+</html>
