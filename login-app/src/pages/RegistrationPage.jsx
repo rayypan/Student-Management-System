@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { UrlPaths } from "../modules/UrlPaths";
+import { PathConstants } from "../modules/PathConstants";
 
 export default function RegistrationPage() {
   const formData = {
@@ -69,7 +69,7 @@ export default function RegistrationPage() {
 
   function handleSubmit() {
     alert(JSON.stringify(formData));
-    navigate(UrlPaths.LOGIN);
+    navigate(PathConstants.RootPaths.LOGIN);
   }
 
   function handleChange(event) {
@@ -101,7 +101,7 @@ export default function RegistrationPage() {
       </div>
 
       <nav className="Links">
-        <Link to={UrlPaths.LOGIN}>Back to Login</Link>
+        <Link to={PathConstants.RootPaths.LOGIN}>Back to Login</Link>
       </nav>
     </div>
   );

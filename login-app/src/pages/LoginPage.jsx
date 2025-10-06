@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { UrlPaths } from "../modules/UrlPaths";
+import { PathConstants } from "../modules/PathConstants";
 
 export default function LoginPage() {
   const [userName, setUsername] = useState("");
@@ -8,9 +8,9 @@ export default function LoginPage() {
 
   let i = 0;
   const options = [
-    { id: ++i, text: "Forget Password", path: UrlPaths.FORGOT_PASSWORD },
-    { id: ++i, text: "Forget Username", path: UrlPaths.FORGOT_USERNAME },
-    { id: ++i, text: "Not Registered?", path: UrlPaths.REGISTER },
+    { id: ++i, text: "Forget Password", path: PathConstants.RootPaths.FORGOT_PASSWORD },
+    { id: ++i, text: "Forget Username", path: PathConstants.RootPaths.FORGOT_USERNAME },
+    { id: ++i, text: "Not Registered?", path: PathConstants.RootPaths.REGISTER },
   ];
 
   const inputFields = [

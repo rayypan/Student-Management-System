@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UrlPaths } from "../modules/UrlPaths";
+import { PathConstants } from "../modules/PathConstants";
 
 export default function ForgetPassword() {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ export default function ForgetPassword() {
 
   function handleSubmit() {
     alert(JSON.stringify({ emailOrUserName, otp }));
-    navigate(UrlPaths.LOGIN);
+    navigate(PathConstants.RootPaths.LOGIN);
   }
 
   let i = 0;
