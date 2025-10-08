@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { NameConstants } from "../../modules/NameConstants";
 import { PathConstants } from "../../modules/PathConstants";
-import RollNumberInputForm from "./RollNumberInputForm";
+import SectionAdminHomePage from "./SectionAdminHomePage";
+import SectionReadAll from "./SectionReadAll";
+import SectionReadByRoll from "./SectionReadByRoll";
+import SectionUpdate from "./SectionUpdate";
+import SectionDelete from "./SectionDelete";
+import SectionProfile from "./SectionProfile";
+import SectionRollNoForm from "./SectionRollNoForm";
 
 export function AdminHomePage() {
+  const [rollNumber, setrollNumber] = useState("");
   let i = 0;
 
   const crudOptions = [
@@ -44,17 +51,32 @@ export function AdminHomePage() {
   function MainContentView() {
     switch (optionPath) {
       case PathConstants.AdminHomePage.HOMEPAGE:
-        return <h1>{optionPath}</h1>;
+        return <SectionAdminHomePage />;
       case PathConstants.AdminHomePage.READ_ALL:
-        return <RollNumberInputForm />;
+        return <SectionReadAll />;
       case PathConstants.AdminHomePage.READ_BY_ROLL:
-        return <h1>{optionPath}</h1>;
+        if (!rollNumber) {
+          return (
+            <SectionRollNoForm onSubmit={(rollNo) => setrollNumber(rollNo)} />
+          );
+        }
+        return <SectionReadByRoll />;
       case PathConstants.AdminHomePage.UPDATE:
-        return <h1>{optionPath}</h1>;
+        if (!rollNumber) {
+          return (
+            <SectionRollNoForm onSubmit={(rollNo) => setrollNumber(rollNo)} />
+          );
+        }
+        return <SectionUpdate />;
+        if (!rollNumber) {
+          return (
+            <SectionRollNoForm onSubmit={(rollNo) => setrollNumber(rollNo)} />
+          );
+        }
       case PathConstants.AdminHomePage.DELETE:
-        return <h1>{optionPath}</h1>;
+        return <SectionDelete />;
       case PathConstants.AdminHomePage.PROFILE:
-        return <h1>{optionPath}</h1>;
+        return <SectionProfile />;
       default:
         return null;
     }
@@ -62,10 +84,13 @@ export function AdminHomePage() {
 
   return (
     <>
-      <div className="Admin-SideBar">
-        <nav className="Admin-SideBar-CRUD-Options">
+      <div className="AdminHomePage-SideBar">
+        <nav className="AdminHomePage-SideBar-CrudOptions">
           {crudOptions.map((item) => (
-            <div className="Admin-SideBar-CRUD-Options-item" key={item.id}>
+            <div
+              className="AdminHomePage-SideBar-CrudOptions-Item"
+              key={item.id}
+            >
               <a href="#" onClick={(e) => setOptionPath(item.path)}>
                 {item.name}
               </a>
@@ -73,9 +98,12 @@ export function AdminHomePage() {
           ))}
         </nav>
 
-        <nav className="Admin-SideBar-Profile">
+        <nav className="AdminHomePage-SideBar-ProfileOptions">
           {profileOptions.map((item) => (
-            <div className="Admin-SideBar-Profile-item" key={item.id}>
+            <div
+              className="AdminHomePage-SideBar-ProfileOptions-Item"
+              key={item.id}
+            >
               <a href="#" onClick={(e) => setOptionPath(item.path)}>
                 {item.name}
               </a>
@@ -84,10 +112,10 @@ export function AdminHomePage() {
         </nav>
       </div>
 
-      <div className="Admin-Main">
-        <div className="Admin-Main-DashBoard"></div>
+      <div className="AdminHomePage-Content">
+        <div className="AdminHomePage-Content-DashBoard"></div>
 
-        <div className="Admin-Main-MainContent">
+        <div className="AdminHomePage-Content-MainContentView">
           <MainContentView />
         </div>
       </div>
