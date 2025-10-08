@@ -8,9 +8,10 @@ import SectionUpdate from "./SectionUpdate";
 import SectionDelete from "./SectionDelete";
 import SectionProfile from "./SectionProfile";
 import SectionRollNoForm from "./SectionRollNoForm";
+import AdminDashBoard from "./AdminDashBoard";
 
 export function AdminHomePage() {
-  const [rollNumber, setrollNumber] = useState("");
+  const [rollNumber, setRollNumber] = useState("");
   let i = 0;
 
   const crudOptions = [
@@ -44,39 +45,59 @@ export function AdminHomePage() {
     },
   ];
 
-  const [optionPath, setOptionPath] = useState(
-    PathConstants.AdminHomePage.HOMEPAGE
-  );
+  const [optionItem, setOptionItem] = useState({
+    id: -1,
+    name: NameConstants.AdminHomePage.HOMEPAGE,
+    path: PathConstants.AdminHomePage.HOMEPAGE,
+  });
 
   function MainContentView() {
+    const optionPath = optionItem.path;
+    const optionName = optionItem.name;
+
     switch (optionPath) {
       case PathConstants.AdminHomePage.HOMEPAGE:
         return <SectionAdminHomePage />;
+
       case PathConstants.AdminHomePage.READ_ALL:
         return <SectionReadAll />;
+
       case PathConstants.AdminHomePage.READ_BY_ROLL:
         if (!rollNumber) {
           return (
-            <SectionRollNoForm onSubmit={(rollNo) => setrollNumber(rollNo)} />
+            <SectionRollNoForm
+              pageName={optionName}
+              onSubmit={(rollNo) => setRollNumber(rollNo)}
+            />
           );
         }
-        return <SectionReadByRoll />;
+        return <SectionReadByRoll rollNo={rollNumber} />;
+
       case PathConstants.AdminHomePage.UPDATE:
         if (!rollNumber) {
           return (
-            <SectionRollNoForm onSubmit={(rollNo) => setrollNumber(rollNo)} />
+            <SectionRollNoForm
+              pageName={optionName}
+              onSubmit={(rollNo) => setRollNumber(rollNo)}
+            />
           );
         }
-        return <SectionUpdate />;
+        return <SectionUpdate rollNo={rollNumber} />;
+
+      case PathConstants.AdminHomePage.DELETE:
         if (!rollNumber) {
           return (
-            <SectionRollNoForm onSubmit={(rollNo) => setrollNumber(rollNo)} />
+            <SectionRollNoForm
+              pageName={optionName}
+              onSubmit={(rollNo) => setRollNumber(rollNo)}
+            />
           );
         }
-      case PathConstants.AdminHomePage.DELETE:
-        return <SectionDelete />;
+        return <SectionDelete rollNo={rollNumber} />;
+
       case PathConstants.AdminHomePage.PROFILE:
         return <SectionProfile />;
+
       default:
         return null;
     }
@@ -91,7 +112,13 @@ export function AdminHomePage() {
               className="AdminHomePage-SideBar-CrudOptions-Item"
               key={item.id}
             >
-              <a href="#" onClick={(e) => setOptionPath(item.path)}>
+              <a
+                href="#"
+                onClick={(e) => {
+                  setOptionItem(item);
+                  setRollNumber("");
+                }}
+              >
                 {item.name}
               </a>
             </div>
@@ -104,7 +131,13 @@ export function AdminHomePage() {
               className="AdminHomePage-SideBar-ProfileOptions-Item"
               key={item.id}
             >
-              <a href="#" onClick={(e) => setOptionPath(item.path)}>
+              <a
+                href="#"
+                onClick={(e) => {
+                  setOptionItem(item);
+                  setRollNumber("");
+                }}
+              >
                 {item.name}
               </a>
             </div>
@@ -113,7 +146,9 @@ export function AdminHomePage() {
       </div>
 
       <div className="AdminHomePage-Content">
-        <div className="AdminHomePage-Content-DashBoard"></div>
+        <div className="AdminHomePage-Content-DashBoard">
+          <AdminDashBoard />
+        </div>
 
         <div className="AdminHomePage-Content-MainContentView">
           <MainContentView />

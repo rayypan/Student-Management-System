@@ -1,7 +1,25 @@
-export default function SectionReadByRoll() {
+import { useState } from "react";
+import SectionAdminHomePage from "./SectionAdminHomePage";
+
+export default function SectionReadByRoll({ rollNo }) {
+  const [sumbitted, setSubmitted] = useState(false);
+
+  if (sumbitted) {
+    return <SectionAdminHomePage />;
+  }
+
   return (
-    <form className="AdminHomePage-SectionReadByRoll">
-      <h1>Read Student Details</h1>
-    </form>
+    <>
+      <div className="AdminHomePage-SectionReadByRoll">
+        <h1>Read Student Details</h1>
+        <h4>{rollNo}</h4>
+      </div>{" "}
+      <button
+        className="AdminHomePage-BtnBackToHome"
+        onClick={(e) => setSubmitted(true)}
+      >
+        Back to Home
+      </button>
+    </>
   );
 }

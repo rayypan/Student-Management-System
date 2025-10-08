@@ -1,31 +1,30 @@
 import { useState } from "react";
 
-export default function SectionRollNoForm({ onSubmit }) {
-  const [rollno, setrollno] = useState(""); 
+export default function SectionRollNoForm({ pageName, onSubmit }) {
+  const [rollNo, setRollNo] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!rollno) {
-      alert("Submit button clicked");
+    if (!rollNo) {
+      alert("Roll Number Empty");
       return;
     }
-    onSubmit(rollno);
-    setrollno("");
+    onSubmit(rollNo);
+    setRollNo("");
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="AdminHomePage-SectionRollNoForm">
-        <label>
-          <strong>Roll No:</strong>
-          <input
-            type="number"
-            value={rollno}
-            onChange={(e) => setrollno(e.target.value)}
-          />
-        </label>
-        <button type="submit">Submit</button>
-      </form>
-    </>
+    <form onSubmit={handleSubmit} className="AdminHomePage-SectionRollNoForm">
+      <h1>{pageName}</h1>
+      <label>
+        <strong>Roll No:</strong>
+        <input
+          type="number"
+          value={rollNo}
+          onChange={(e) => setRollNo(e.target.value)}
+        />
+      </label>
+      <button type="submit">Submit</button>
+    </form>
   );
 }
