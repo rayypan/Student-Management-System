@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SectionAdminHomePage from "./SectionAdminHomePage";
 
-export default function SectionUpdate({ rollNo }) {
+export default function SectionProfile() {
   const [sumbitted, setSubmitted] = useState(false);
 
   if (sumbitted) {
@@ -9,17 +9,17 @@ export default function SectionUpdate({ rollNo }) {
   }
 
   return (
-    <>
-      <form className="AdminHomePage-SectionUpdate">
-        <h1>Update Student Details</h1>
-        <h4>{rollNo}</h4>
-      </form>{" "}
+    <div className="AdminHomePage-SectionProfile">
+      <form className="AdminHomePage-SectionProfile-Form">
+        <h1>Your Admin Profile</h1>
+      </form>
+
       <button
         className="AdminHomePage-BtnBackToHome"
         onClick={(e) => setSubmitted(true)}
       >
         Back to Home
       </button>
-    </>
+    </div>
   );
 }

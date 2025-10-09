@@ -5,6 +5,7 @@ export const PathConstants = {
     REGISTER: "/register",
     FORGOT_PASSWORD: "/forgot-password",
     FORGOT_USERNAME: "/forgot-username",
+    ADMIN_HOME_PAGE: "/admin-home-page",
   },
 
   AdminHomePage: {
@@ -15,4 +16,8 @@ export const PathConstants = {
     DELETE: "delete",
     PROFILE: "profile",
   },
+
+  EnrollNavigate: {
+    ENROLL_STUDENT_LIST: "/enroll-student-list"
+  }
 };

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { NameConstants } from "../../modules/NameConstants";
-import { PathConstants } from "../../modules/PathConstants";
+import { NameConstants } from "../../../modules/NameConstants";
+import { PathConstants } from "../../../modules/PathConstants";
 import SectionAdminHomePage from "./SectionAdminHomePage";
 import SectionReadAll from "./SectionReadAll";
 import SectionReadByRoll from "./SectionReadByRoll";
@@ -10,7 +10,9 @@ import SectionProfile from "./SectionProfile";
 import SectionRollNoForm from "./SectionRollNoForm";
 import AdminDashBoard from "./AdminDashBoard";
 
-export function AdminHomePage() {
+import "../../../style/AdminHomePage.css";
+
+export default function AdminHomePage() {
   const [rollNumber, setRollNumber] = useState("");
   let i = 0;
 
@@ -104,56 +106,58 @@ export function AdminHomePage() {
   }
 
   return (
-    <>
-      <div className="AdminHomePage-SideBar">
-        <nav className="AdminHomePage-SideBar-CrudOptions">
-          {crudOptions.map((item) => (
-            <div
-              className="AdminHomePage-SideBar-CrudOptions-Item"
-              key={item.id}
-            >
-              <a
-                href="#"
-                onClick={(e) => {
-                  setOptionItem(item);
-                  setRollNumber("");
-                }}
+    <div className="AdminHomePage-Container">
+      <div className="AdminHomePage-Card">
+        <div className="AdminHomePage-SideBar">
+          <nav className="AdminHomePage-SideBar-CrudOptions">
+            {crudOptions.map((item) => (
+              <div
+                className="AdminHomePage-SideBar-CrudOptions-Item"
+                key={item.id}
               >
-                {item.name}
-              </a>
-            </div>
-          ))}
-        </nav>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    setOptionItem(item);
+                    setRollNumber("");
+                  }}
+                >
+                  {item.name}
+                </a>
+              </div>
+            ))}
+          </nav>
 
-        <nav className="AdminHomePage-SideBar-ProfileOptions">
-          {profileOptions.map((item) => (
-            <div
-              className="AdminHomePage-SideBar-ProfileOptions-Item"
-              key={item.id}
-            >
-              <a
-                href="#"
-                onClick={(e) => {
-                  setOptionItem(item);
-                  setRollNumber("");
-                }}
+          <nav className="AdminHomePage-SideBar-ProfileOptions">
+            {profileOptions.map((item) => (
+              <div
+                className="AdminHomePage-SideBar-ProfileOptions-Item"
+                key={item.id}
               >
-                {item.name}
-              </a>
-            </div>
-          ))}
-        </nav>
-      </div>
-
-      <div className="AdminHomePage-Content">
-        <div className="AdminHomePage-Content-DashBoard">
-          <AdminDashBoard />
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    setOptionItem(item);
+                    setRollNumber("");
+                  }}
+                >
+                  {item.name}
+                </a>
+              </div>
+            ))}
+          </nav>
         </div>
 
-        <div className="AdminHomePage-Content-MainContentView">
-          <MainContentView />
+        <div className="AdminHomePage-Content">
+          <div className="AdminHomePage-Content-DashBoard">
+            <AdminDashBoard />
+          </div>
+
+          <div className="AdminHomePage-Content-MainContentView">
+            <MainContentView />
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

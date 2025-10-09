@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SectionAdminHomePage from "./SectionAdminHomePage";
 
-export default function SectionDelete({ rollNo }) {
+export default function SectionReadByRoll({ rollNo }) {
   const [sumbitted, setSubmitted] = useState(false);
 
   if (sumbitted) {
@@ -9,18 +9,18 @@ export default function SectionDelete({ rollNo }) {
   }
 
   return (
-    <>
-      <form className="AdminHomePage-SectionDelete">
-        <h1>Delete Student</h1>
+    <div className="AdminHomePage-SectionReadByRoll">
+      <div className="AdminHomePage-SectionReadByRoll-Content">
+        <h1>Read Student Details</h1>
         <h4>{rollNo}</h4>
-      </form>
+      </div>
+
       <button
         className="AdminHomePage-BtnBackToHome"
         onClick={(e) => setSubmitted(true)}
       >
         Back to Home
       </button>
-    </>
-    
+    </div>
   );
 }

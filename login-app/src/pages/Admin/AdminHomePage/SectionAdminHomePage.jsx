@@ -1,4 +1,3 @@
-
 export default function SectionAdminHomePage() {
   return (
     <div className="AdminHomePage-SectionAdminHomePage">
