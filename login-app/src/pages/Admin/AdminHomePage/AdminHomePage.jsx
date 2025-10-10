@@ -116,7 +116,7 @@ export default function AdminHomePage() {
                 key={item.id}
               >
                 <a
-                  href="#"
+                  href={PathConstants.DEFAULT_HREF}
                   onClick={(e) => {
                     setOptionItem(item);
                     setRollNumber("");
@@ -135,7 +135,7 @@ export default function AdminHomePage() {
                 key={item.id}
               >
                 <a
-                  href="#"
+                  href={PathConstants.DEFAULT_HREF}
                   onClick={(e) => {
                     setOptionItem(item);
                     setRollNumber("");

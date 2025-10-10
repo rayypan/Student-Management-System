@@ -1,4 +1,6 @@
 export const PathConstants = {
+  DEFAULT_HREF: "/#",
+
   RootPaths: {
     ROOT: "/",
     LOGIN: "/login",

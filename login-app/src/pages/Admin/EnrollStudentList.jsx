@@ -92,7 +92,7 @@ export default function EnrollStudentList() {
         ))}
       </div>
 
-      <a href="#" onClick={handleClick}>
+      <a href={PathConstants.DEFAULT_HREF} onClick={handleClick}>
         Back to Home Page
       </a>
 

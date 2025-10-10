@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
-import { Roles } from "../modules/Types";
 import LoginPage from "../pages/LoginPage";
 import RegistrationPage from "../pages/RegistrationPage";
 import ForgetPassword from "../pages/ForgetPassword";
 import ForgetUserName from "../pages/ForgetUserName";
 import AdminHomePage from "../pages/Admin/AdminHomePage/AdminHomePage";
 import EnrollStudentList from "../pages/Admin/EnrollStudentList";
-import AdminOrStudentReadOrUpdateForm from "./AdminOrStudentReadOrUpdateForm";
+import FormAdminProfile from "./FormAdminProfile";
+import FormStudentData from "./FormStudentData";
 
 export default function App() {
   return (
@@ -23,7 +23,8 @@ export default function App() {
           <Route path={PathConstants.EnrollNavigate.ENROLL_STUDENT_LIST} Component={EnrollStudentList}/>
         </Routes>
       </BrowserRouter> */}
-      <AdminOrStudentReadOrUpdateForm isForm={true} role={Roles.ADMIN} rollNo={1} />
+      <FormAdminProfile isForm={false} />
+      <FormStudentData isForm={false} rollNo={1} />
     </>
   );
 }
