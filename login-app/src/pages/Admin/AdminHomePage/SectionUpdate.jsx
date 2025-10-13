@@ -5,6 +5,7 @@ export default function SectionUpdate({ rollNo }) {
   const [sumbitted, setSubmitted] = useState(false);
 
   if (sumbitted) {
+    
     return <SectionAdminHomePage />;
   }
 

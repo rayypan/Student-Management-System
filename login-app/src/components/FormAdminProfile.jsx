@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { NameConstants } from "../modules/NameConstants";
 import { fetchRandomFakeData } from "../modules/FakeData";
+import "../style/Form.css"
 
 function BasicFields({ data, enabled, onChange }) {
   const fields = [
@@ -12,7 +13,7 @@ function BasicFields({ data, enabled, onChange }) {
   ];
 
   return (
-    <>
+    <div className="FormReadOrUpdate-Fields">
       {fields.map((field) => (
         <label key={field.name}>
           {field.label}:
@@ -25,7 +26,7 @@ function BasicFields({ data, enabled, onChange }) {
           />
         </label>
       ))}
-    </>
+    </div>
   );
 }
 
@@ -87,7 +88,7 @@ export default function FormAdminProfile({ isForm }) {
   }
 
   return (
-    <form className="FormAdminProfile-Form">
+    <form className="FormReadOrUpdate-Form">
       <h1>Admin Profile</h1>
       <BasicFields
         data={data}
@@ -95,7 +96,7 @@ export default function FormAdminProfile({ isForm }) {
         onChange={handleChange}
       />
 
-      <div className="FormAdminProfile-Buttons">
+      <div className="FormReadOrUpdate-Buttons">
         {buttons.map((btn) =>
           btn.visible ? (
             <button key={btn.id} disabled={!btn.enabled} onClick={btn.onClick}>

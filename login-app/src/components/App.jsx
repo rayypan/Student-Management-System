@@ -12,19 +12,22 @@ import FormStudentData from "./FormStudentData";
 export default function App() {
   return (
     <>
-      {/* <BrowserRouter>
-        <Routes> */}
-          {/* <Route path={PathConstants.RootPaths.ROOT} Component={LoginPage}/>
+      <BrowserRouter>
+        <Routes>
+          <Route path={PathConstants.RootPaths.ROOT} Component={LoginPage}/>
           <Route path={PathConstants.RootPaths.LOGIN} Component={LoginPage}/>
           <Route path={PathConstants.RootPaths.REGISTER} Component={RegistrationPage}/>
           <Route path={PathConstants.RootPaths.FORGOT_PASSWORD} Component={ForgetPassword}/>
-          <Route path={PathConstants.RootPaths.FORGOT_USERNAME} Component={ForgetUserName}/> */}
+          <Route path={PathConstants.RootPaths.FORGOT_USERNAME} Component={ForgetUserName}/>
           {/* <Route path={PathConstants.RootPaths.ADMIN_HOME_PAGE} Component={AdminHomePage}/>
-          <Route path={PathConstants.EnrollNavigate.ENROLL_STUDENT_LIST} Component={EnrollStudentList}/>
+          <Route path={PathConstants.EnrollNavigate.ENROLL_STUDENT_LIST} Component={EnrollStudentList}/>*/}
         </Routes>
-      </BrowserRouter> */}
-      <FormAdminProfile isForm={false} />
-      <FormStudentData isForm={false} rollNo={1} />
+      </BrowserRouter>
+      {/* <FormAdminProfile isForm={true} />
+      <FormStudentData isForm={true} rollNo={1} /> */}
+
+
+      
     </>
   );
 }

@@ -1,0 +1,247 @@
+/* FormReadOrUpdate Component - Admin Profile & Student Data Forms */
+
+/* Form Container */
+.FormReadOrUpdate-Form {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 245, 255, 0.95) 100%);
+  border: 2px solid rgba(135, 206, 250, 0.6);
+  border-radius: 12px;
+  padding: 40px 50px;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(135, 206, 250, 0.2),
+    0 0 20px rgba(135, 206, 250, 0.3);
+  animation: cardGlow 3s ease-in-out infinite;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+@keyframes cardGlow {
+  0%, 100% {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(135, 206, 250, 0.2),
+      0 0 20px rgba(135, 206, 250, 0.3);
+  }
+  50% {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(135, 206, 250, 0.4),
+      0 0 25px rgba(135, 206, 250, 0.5);
+  }
+}
+
+/* Form Title */
+.FormReadOrUpdate-Form h1 {
+  font-size: 28px;
+  color: #1e3c72;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin: 0;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(135, 206, 250, 0.3);
+}
+
+/* Fields Container */
+.FormReadOrUpdate-Fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Individual Field Labels */
+.FormReadOrUpdate-Fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: #2c3e50;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Input Fields */
+.FormReadOrUpdate-Fields input {
+  padding: 12px 14px;
+  border: 1.5px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #ffffff;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+  outline: none;
+  font-weight: 400;
+}
+
+/* Input Focus State */
+.FormReadOrUpdate-Fields input:focus {
+  border-color: #87ceeb;
+  box-shadow: 
+    0 0 0 3px rgba(135, 206, 250, 0.15),
+    0 0 12px rgba(135, 206, 250, 0.4);
+  background: #fafcff;
+}
+
+/* Disabled Input State */
+.FormReadOrUpdate-Fields input:disabled {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #6c757d;
+  border-color: #d0d7de;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Input Placeholder */
+.FormReadOrUpdate-Fields input::placeholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Buttons Container */
+.FormReadOrUpdate-Buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+/* Base Button Styles */
+.FormReadOrUpdate-Buttons button {
+  padding: 13px 32px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  min-width: 140px;
+}
+
+/* Submit Button */
+.FormReadOrUpdate-Buttons button:first-child {
+  background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
+}
+
+.FormReadOrUpdate-Buttons button:first-child:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff9d5c 0%, #ff7a4d 100%);
+  box-shadow: 0 6px 16px rgba(255, 107, 53, 0.35);
+  transform: translateY(-1px);
+}
+
+.FormReadOrUpdate-Buttons button:first-child:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(255, 107, 53, 0.3);
+}
+
+/* Update Button */
+.FormReadOrUpdate-Buttons button:nth-child(2) {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.FormReadOrUpdate-Buttons button:nth-child(2):hover:not(:disabled) {
+  background: linear-gradient(135deg, #5db560 0%, #4fb052 100%);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+  transform: translateY(-1px);
+}
+
+.FormReadOrUpdate-Buttons button:nth-child(2):active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(76, 175, 80, 0.3);
+}
+
+/* Disabled Button State */
+.FormReadOrUpdate-Buttons button:disabled {
+  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  cursor: not-allowed;
+  opacity: 0.5;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Loading State */
+.FormReadOrUpdate-Form h1:only-child {
+  font-size: 24px;
+  color: #2a5298;
+  text-align: center;
+  padding: 40px 20px;
+  border: none;
+}
+
+/* Responsive Design - Tablets */
+@media (max-width: 768px) {
+  .FormReadOrUpdate-Form {
+    padding: 35px 40px;
+    max-width: 500px;
+  }
+
+  .FormReadOrUpdate-Form h1 {
+    font-size: 24px;
+  }
+
+  .FormReadOrUpdate-Buttons {
+    flex-direction: column;
+  }
+
+  .FormReadOrUpdate-Buttons button {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+/* Responsive Design - Mobile */
+@media (max-width: 480px) {
+  .FormReadOrUpdate-Form {
+    padding: 30px 25px;
+    gap: 25px;
+  }
+
+  .FormReadOrUpdate-Form h1 {
+    font-size: 22px;
+  }
+
+  .FormReadOrUpdate-Fields {
+    gap: 18px;
+  }
+
+  .FormReadOrUpdate-Fields label {
+    font-size: 13px;
+  }
+
+  .FormReadOrUpdate-Fields input {
+    padding: 11px 12px;
+    font-size: 13px;
+  }
+
+  .FormReadOrUpdate-Buttons button {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+}
+
+/* Additional styling for multiple field sections */
+.FormReadOrUpdate-Form > .FormReadOrUpdate-Fields + .FormReadOrUpdate-Fields {
+  padding-top: 20px;
+  border-top: 1px solid rgba(135, 206, 250, 0.3);
+}
+
+/* Hover effect for the entire form */
+.FormReadOrUpdate-Form:hover {
+  border-color: rgba(135, 206, 250, 0.7);
+}
+
+/* Focus-within effect for better UX */
+.FormReadOrUpdate-Form:focus-within {
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(135, 206, 250, 0.4),
+    0 0 30px rgba(135, 206, 250, 0.5);
+}

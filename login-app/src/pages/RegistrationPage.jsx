@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
+import ExtraDetailsForm from "../components/ExtraDetailsForm";
 
 export default function RegistrationPage() {
   const formData = {
@@ -11,53 +12,57 @@ export default function RegistrationPage() {
     DoB: "",
     Role: "",
   };
+ let j=0;
+  const extraform = [
+    {id:++j,type:"text",name:"Subjects"}
+  ]
 
   let i = 0;
   const fields = [
     {
-      id: i++,
+      id: ++i,
       type: "text",
       name: "Username",
       onChange: handleChange,
       required: false,
     },
     {
-      id: i++,
+      id: ++i,
       type: "email",
       name: "Email",
       onChange: handleChange,
       required: true,
     },
     {
-      id: i++,
+      id: ++i,
       type: "password",
       name: "Confirm Password",
       onChange: handleChange,
       required: true,
     },
     {
-      id: i++,
+      id: ++i,
       type: "password",
       name: "Password",
       onChange: handleChange,
       required: true,
     },
     {
-      id: i++,
+      id: ++i,
       type: "text",
       name: "First Name & Last Name",
       onChange: handleChange,
       required: true,
     },
     {
-      id: i++,
+      id: ++i,
       type: "date",
       name: "DoB",
       onChange: handleChange,
       required: true,
     },
     {
-      id: i++,
+      id: ++i,
       type: "combobox",
       name: "Role",
       onChange: handleChange,
@@ -95,6 +100,9 @@ export default function RegistrationPage() {
           </label>
         ))}
       </div>
+
+        <ExtraDetailsForm options={extraform} buttonLabel={"Go with RegistrationPage"}/>
+
 
       <div className="BtnSubmit">
         <button onClick={handleSubmit}>Submit</button>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { NameConstants } from "../modules/NameConstants";
 import { fetchRandomFakeData } from "../modules/FakeData";
 import { Roles } from "../modules/Types";
+import "../style/Form.css";
 
 function BasicFields({ data, enabled, onChange }) {
   const fields = [
@@ -13,7 +14,7 @@ function BasicFields({ data, enabled, onChange }) {
   ];
 
   return (
-    <>
+    <div className="FormReadOrUpdate-Fields">
       {fields.map((field) => (
         <label key={field.name}>
           {field.label}:
@@ -26,7 +27,7 @@ function BasicFields({ data, enabled, onChange }) {
           />
         </label>
       ))}
-    </>
+    </div>
   );
 }
 
@@ -38,7 +39,7 @@ function StudentFields({ data, enabled, onChange }) {
   ];
 
   return (
-    <>
+    <div className="FormReadOrUpdate-Fields">
       {fields.map((field) => (
         <label key={field.name}>
           {field.label}:
@@ -55,11 +56,11 @@ function StudentFields({ data, enabled, onChange }) {
           />
         </label>
       ))}
-    </>
+    </div>
   );
 }
 
-export default function FormStudentData({ isForm, rollNo }) {
+export default function FormStudentData({ isForm, rollNo, onSubmit,onFetch }) {
   const [enableSubmitBtn, setEnableSubmitBtn] = useState(isForm);
   const [enableUpdateBtn, setEnableUpdateBtn] = useState(!isForm);
   const [showUpdateBtn, ] = useState(!isForm);
@@ -117,7 +118,7 @@ export default function FormStudentData({ isForm, rollNo }) {
   }
 
   return (
-    <form className="FormStudentData-Form">
+    <form className="FormReadOrUpdate-Form" onSubmit={onSubmit}>
       <h1>Student Details</h1>
       <BasicFields
         data={data}
@@ -130,7 +131,7 @@ export default function FormStudentData({ isForm, rollNo }) {
         onChange={handleChange}
       />
 
-      <div className="FormStudentData-Buttons">
+      <div className="FormReadOrUpdate-Buttons">
         {buttons.map((btn) =>
           btn.visible ? (
             <button key={btn.id} disabled={!btn.enabled} onClick={btn.onClick}>
