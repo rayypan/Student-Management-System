@@ -1,6 +1,7 @@
-export default function ExtraDetailsForm({ options, buttonLabel }) {
-  function handleSubmit() {
+export default function ExtraDetailsForm({ options, buttonLabel, onSubmit }) {
+  function handleSubmit(e) {
     alert("Submit");
+    onSubmit(e)
   }
   return (
     <div>

@@ -1,116 +1,116 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
-import ExtraDetailsForm from "../components/ExtraDetailsForm";
+import { Roles } from "../modules/Types";
 
 export default function RegistrationPage() {
-  const formData = {
-    Username: "",
-    Email: "",
-    "Confirm Password": "",
-    Password: "",
-    "First Name & Last Name": "",
-    DoB: "",
-    Role: "",
-  };
- let j=0;
-  const extraform = [
-    {id:++j,type:"text",name:"Subjects"}
-  ]
+  const [formData, setFormData] = useState({});
 
   let i = 0;
-  const fields = [
-    {
-      id: ++i,
-      type: "text",
-      name: "Username",
-      onChange: handleChange,
-      required: false,
-    },
-    {
-      id: ++i,
-      type: "email",
-      name: "Email",
-      onChange: handleChange,
-      required: true,
-    },
-    {
-      id: ++i,
-      type: "password",
-      name: "Confirm Password",
-      onChange: handleChange,
-      required: true,
-    },
-    {
-      id: ++i,
-      type: "password",
-      name: "Password",
-      onChange: handleChange,
-      required: true,
-    },
-    {
-      id: ++i,
-      type: "text",
-      name: "First Name & Last Name",
-      onChange: handleChange,
-      required: true,
-    },
-    {
-      id: ++i,
-      type: "date",
-      name: "DoB",
-      onChange: handleChange,
-      required: true,
-    },
-    {
-      id: ++i,
-      type: "combobox",
-      name: "Role",
-      onChange: handleChange,
-      required: true,
-    },
-  ];
+  const [fields, setFields] = useState(
+    // prettier-ignore
+    [
+      { id: ++i, type: "text", name: "Username", onChange: handleChange, required: false },
+      { id: ++i, type: "email", name: "Email", onChange: handleChange, required: true, },
+      { id: ++i, type: "password", name: "Confirm Password", onChange: handleChange, required: true, },
+      { id: ++i, type: "password", name: "Password", onChange: handleChange, required: true, },
+      { id: ++i, type: "text", name: "First Name & Last Name", onChange: handleChange, required: true, },
+      { id: ++i, type: "date", name: "DoB", onChange: handleChange, required: true, },
+      { id: ++i, type: "select", name: "Role", onChange: handleChange, required: true, option: Object.values(Roles) },
+    ]
+  );
+
+  const extraForm = [{ id: ++i, type: "text", name: "Subjects" }];
 
   const navigate = useNavigate();
 
-  function handleSubmit() {
-    alert(JSON.stringify(formData));
+  // e -> {
+  //   target -> {
+  //     "firstName": ...,
+  //     "lastName": ...,
+  //     ...
+  //   }
+  // }
+
+  function handleSubmit(formEvent) {
+    formEvent.preventDefault();
+    let data = new FormData(formEvent.target);
+    data = Object.fromEntries(data);
+    setFormData(data);
+    alert(JSON.stringify(data));
     navigate(PathConstants.RootPaths.LOGIN);
   }
 
-  function handleChange(event) {
-    for (const field of fields) {
-      if (event.target.name === field.name) {
-        formData[field.name] = event.target.value;
+  function handleChange(changeEvent) {
+    if (changeEvent.target.name === "Role") {
+      // student
+      if (changeEvent.target.value === Roles.STUDENT) {
+        setFields([...fields, ...extraForm]);
       }
+
+      // admin
+      else {
+        setFormData((oldFormData) => {
+          delete oldFormData["Subjects"];
+          return oldFormData;
+        });
+
+        setFields((oldFields) =>
+          oldFields.filter((field) => field.name !== "Subjects")
+        );
+      }
+
+      // end of if-role
     }
   }
 
   return (
-    <div className="Card">
+    <form className="Card" onSubmit={handleSubmit}>
       <div className="InputFields">
-        {fields.map((field) => (
-          <label key={field.id}>
-            <strong>{field.name}:</strong>
-            <input
-              name={field.name}
-              type={field.type}
-              required={field.required}
-              onChange={field.onChange}
-            />
-          </label>
-        ))}
+        {fields.map((field) =>
+          field.type === "select" ? (
+            <label key={field.id}>
+              <strong>{field.name}:</strong>
+              <select
+                name={field.name}
+                type={field.type}
+                required={field.required}
+                onChange={field.onChange}
+              >
+                {field.option.map((optn, idx) => (
+                  <option key={idx} value={optn}>
+                    {optn}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : (
+            <label key={field.id}>
+              <strong>{field.name}:</strong>
+              <input
+                name={field.name}
+                type={field.type}
+                required={field.required}
+                onChange={field.onChange}
+              />
+            </label>
+          )
+        )}
       </div>
 
-        <ExtraDetailsForm options={extraform} buttonLabel={"Go with RegistrationPage"}/>
-
+      {/* <ExtraDetailsForm
+        options={extraform}
+        buttonLabel={"Go with RegistrationPage"}
+        onSubmit={handleSubmit}
+      /> */}
 
       <div className="BtnSubmit">
-        <button onClick={handleSubmit}>Submit</button>
+        <button type="submit">Submit</button>
       </div>
 
       <nav className="Links">
         <Link to={PathConstants.RootPaths.LOGIN}>Back to Login</Link>
       </nav>
-    </div>
+    </form>
   );
 }
