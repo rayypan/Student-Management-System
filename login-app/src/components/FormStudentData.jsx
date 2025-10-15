@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { NameConstants } from "../modules/NameConstants";
 import { fetchRandomFakeData } from "../modules/FakeData";
 import { Roles } from "../modules/Types";
+
 import "../style/Form.css";
 
 function BasicFields({ data, enabled, onChange }) {
@@ -12,6 +13,8 @@ function BasicFields({ data, enabled, onChange }) {
     { label: "Last Name", name: "lastName", enabled },
     { label: "Email", name: "email", enabled: false },
   ];
+
+  if (data == null) return null;
 
   return (
     <div className="FormReadOrUpdate-Fields">
@@ -38,6 +41,8 @@ function StudentFields({ data, enabled, onChange }) {
     { label: "Subjects", name: "subjects", enabled },
   ];
 
+  if (data == null) return null;
+
   return (
     <div className="FormReadOrUpdate-Fields">
       {fields.map((field) => (
@@ -60,10 +65,11 @@ function StudentFields({ data, enabled, onChange }) {
   );
 }
 
-export default function FormStudentData({ isForm, rollNo, onSubmit,onFetch }) {
-  const [enableSubmitBtn, setEnableSubmitBtn] = useState(isForm);
-  const [enableUpdateBtn, setEnableUpdateBtn] = useState(!isForm);
-  const [showUpdateBtn, ] = useState(!isForm);
+export default function FormStudentData({ title, isForm, rollNo, onSubmit, onFetch }) {
+  const showButtons = isForm;
+
+  const [enableUpdateBtn, setEnableUpdateBtn] = useState(isForm);
+  const [enableSubmitBtn, setEnableSubmitBtn] = useState(!enableUpdateBtn);
 
   var i = 0;
   const buttons = [
@@ -71,15 +77,17 @@ export default function FormStudentData({ isForm, rollNo, onSubmit,onFetch }) {
       id: ++i,
       label: NameConstants.FormButtons.SUBMIT,
       enabled: enableSubmitBtn,
-      visible: true,
-      onClick: handleSubmitClick,
+      visible: showButtons,
+      onClick: null,
+      type: "submit",
     },
     {
       id: ++i,
       label: NameConstants.FormButtons.UPDATE,
       enabled: enableUpdateBtn,
-      visible: showUpdateBtn,
+      visible: showButtons,
       onClick: handleUpdateClick,
+      type: null,
     },
   ];
 
@@ -89,16 +97,23 @@ export default function FormStudentData({ isForm, rollNo, onSubmit,onFetch }) {
   useEffect(
     () =>
       void fetchRandomFakeData(Roles.STUDENT, rollNo)
-        .then((data) => setData(data))
+        .then((data) => {
+          setData(data);
+          return data;
+        })
+        .then((data) => onFetch?.(data))
         .catch((e) => alert(e.toString())),
-    [rollNo]
+    [rollNo, onFetch]
   );
 
-  async function handleSubmitClick() {
+  async function handleSubmit(e) {
+    e.preventDefault();
+
     setEnableSubmitBtn((prev) => !prev);
     setEnableUpdateBtn((prev) => !prev);
-    // TODO: api call
     alert(JSON.stringify(formData));
+
+    onSubmit?.(formData);
   }
 
   function handleUpdateClick() {
@@ -113,13 +128,9 @@ export default function FormStudentData({ isForm, rollNo, onSubmit,onFetch }) {
     }));
   }
 
-  if (data == null) {
-    return <h1>Loading...</h1>;
-  }
-
   return (
-    <form className="FormReadOrUpdate-Form" onSubmit={onSubmit}>
-      <h1>Student Details</h1>
+    <form className="FormReadOrUpdate-Form" onSubmit={handleSubmit}>
+      <h1>{title}</h1>
       <BasicFields
         data={data}
         enabled={enableSubmitBtn}
@@ -134,7 +145,12 @@ export default function FormStudentData({ isForm, rollNo, onSubmit,onFetch }) {
       <div className="FormReadOrUpdate-Buttons">
         {buttons.map((btn) =>
           btn.visible ? (
-            <button key={btn.id} disabled={!btn.enabled} onClick={btn.onClick}>
+            <button
+              key={btn.id}
+              disabled={!btn.enabled}
+              onClick={btn.onClick}
+              type={btn.type}
+            >
               {btn.label}
             </button>
           ) : (

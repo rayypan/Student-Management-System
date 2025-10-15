@@ -5,9 +5,8 @@ import RegistrationPage from "../pages/RegistrationPage";
 import ForgetPassword from "../pages/ForgetPassword";
 import ForgetUserName from "../pages/ForgetUserName";
 import AdminHomePage from "../pages/Admin/AdminHomePage/AdminHomePage";
+import StudentHomePage from "../pages/Student/StudentHomePage";
 import EnrollStudentList from "../pages/Admin/EnrollStudentList";
-import FormAdminProfile from "./FormAdminProfile";
-import FormStudentData from "./FormStudentData";
 
 export default function App() {
   return (
@@ -19,15 +18,11 @@ export default function App() {
           <Route path={PathConstants.RootPaths.REGISTER} Component={RegistrationPage}/>
           <Route path={PathConstants.RootPaths.FORGOT_PASSWORD} Component={ForgetPassword}/>
           <Route path={PathConstants.RootPaths.FORGOT_USERNAME} Component={ForgetUserName}/>
-          {/* <Route path={PathConstants.RootPaths.ADMIN_HOME_PAGE} Component={AdminHomePage}/>
-          <Route path={PathConstants.EnrollNavigate.ENROLL_STUDENT_LIST} Component={EnrollStudentList}/>*/}
+          <Route path={PathConstants.RootPaths.ADMIN_HOME_PAGE} Component={AdminHomePage}/>
+          <Route path={PathConstants.RootPaths.STUDENT_HOME_PAGE} Component={StudentHomePage}/>
+          <Route path={PathConstants.EnrollNavigate.ENROLL_STUDENT_LIST} Component={EnrollStudentList}/>
         </Routes>
       </BrowserRouter>
-      {/* <FormAdminProfile isForm={true} />
-      <FormStudentData isForm={true} rollNo={1} /> */}
-
-
-      
     </>
   );
 }

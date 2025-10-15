@@ -1,16 +1,33 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
+import { fetchFakeLogin } from "../modules/FakeData";
+import { Roles } from "../modules/Types";
+import StudentHomePage from "./Student/StudentHomePage";
+import AdminHomePage from "./Admin/AdminHomePage/AdminHomePage";
 
 export default function LoginPage() {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loginData, setLoginData] = useState(null);
 
   let i = 0;
   const options = [
-    { id: ++i, text: "Forget Password", path: PathConstants.RootPaths.FORGOT_PASSWORD },
-    { id: ++i, text: "Forget Username", path: PathConstants.RootPaths.FORGOT_USERNAME },
-    { id: ++i, text: "Not Registered?", path: PathConstants.RootPaths.REGISTER },
+    {
+      id: ++i,
+      text: "Forget Password",
+      path: PathConstants.RootPaths.FORGOT_PASSWORD,
+    },
+    {
+      id: ++i,
+      text: "Forget Username",
+      path: PathConstants.RootPaths.FORGOT_USERNAME,
+    },
+    {
+      id: ++i,
+      text: "Not Registered?",
+      path: PathConstants.RootPaths.REGISTER,
+    },
   ];
 
   const inputFields = [
@@ -30,8 +47,24 @@ export default function LoginPage() {
     },
   ];
 
-  function handleSubmit(event) {
+  //when login is done, write to database
+  async function handleSubmit(event) {
+    // a wrapper to keep the received data from backend
+    const loginData = await fetchFakeLogin();
+    setLoginData(loginData);
     alert("Submit button clicked");
+  }
+
+  function AdminOrStudent({ role }) {
+    if (role === Roles.STUDENT) {
+      return <StudentHomePage rollNo={loginData.roll} />;
+    } else {
+      return <AdminHomePage />;
+    }
+  }
+
+  if (loginData != null) {
+    return <AdminOrStudent role={loginData.role} />;
   }
 
   return (

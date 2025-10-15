@@ -3,24 +3,22 @@ import SectionAdminHomePage from "./SectionAdminHomePage";
 import FormStudentData from "../../../components/FormStudentData";
 
 export default function SectionReadByRoll({ rollNo }) {
-  const [sumbitted, setSubmitted] = useState(false);
+  const [backToHome, setBackToHome] = useState(false);
 
-  if (sumbitted) {
+  if (backToHome) {
     return <SectionAdminHomePage />;
   }
-   
 
   return (
     <div className="AdminHomePage-SectionReadByRoll">
-      <div className="AdminHomePage-SectionReadByRoll-Content">
-        <h1>Read Student Details</h1>
-        <h4>{rollNo}</h4>
-        <FormStudentData isForm={false} rollNo={rollNo} />
-      </div>
-
+      <FormStudentData
+        title="Read Student Details"
+        isForm={false}
+        rollNo={rollNo}
+      />
       <button
         className="AdminHomePage-BtnBackToHome"
-        onClick={(e) => setSubmitted(true)}
+        onClick={(e) => setBackToHome(true)}
       >
         Back to Home
       </button>

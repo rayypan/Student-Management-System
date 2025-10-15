@@ -1,5 +1,5 @@
 export const PathConstants = {
-  DEFAULT_HREF: "/#",
+  DEFAULT_HREF: "#",
 
   RootPaths: {
     ROOT: "/",
@@ -8,6 +8,7 @@ export const PathConstants = {
     FORGOT_PASSWORD: "/forgot-password",
     FORGOT_USERNAME: "/forgot-username",
     ADMIN_HOME_PAGE: "/admin-home-page",
+    STUDENT_HOME_PAGE: "/student-home-page",
   },
 
   AdminHomePage: {

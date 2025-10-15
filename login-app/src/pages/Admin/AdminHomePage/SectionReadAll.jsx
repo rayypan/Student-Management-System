@@ -15,9 +15,9 @@ const studentData = Array.from({ length: 20 }, (_, i) => ({
 }));
 
 export default function SectionReadAll() {
-  const [sumbitted, setSubmitted] = useState(false);
+  const [backToHome, setBackToHome] = useState(false);
 
-  if (sumbitted) {
+  if (backToHome) {
     return <SectionAdminHomePage />;
   }
 
@@ -54,7 +54,7 @@ export default function SectionReadAll() {
 
       <button
         className="AdminHomePage-BtnBackToHome"
-        onClick={(e) => setSubmitted(true)}
+        onClick={(e) => setBackToHome(true)}
       >
         Back to Home
       </button>

@@ -2,22 +2,23 @@ import { useState } from "react";
 import SectionAdminHomePage from "./SectionAdminHomePage";
 
 export default function SectionDelete({ rollNo }) {
-  const [sumbitted, setSubmitted] = useState(false);
+  const [backToHome, setBackToHome] = useState(false);
 
-  if (sumbitted) {
-   
+  if (backToHome) {
     return <SectionAdminHomePage />;
   }
 
-  function handleDelete(){
-        //send the roll and call the back function to perform the delete op.
-        alert("Deleted Successfully")
-        return <SectionAdminHomePage />;
+  function handleDelete(e) {
+    e.preventDefault();
+
+    //send the roll and call the back function to perform the delete op.
+    alert("Deleted Successfully");
+    setBackToHome(true)
   }
 
   return (
-    <div className="AdminHomePage-SectionDelete" onSubmit={handleDelete}>
-      <form className="AdminHomePage-SectionDelete-Form">
+    <div className="AdminHomePage-SectionDelete" >
+      <form className="AdminHomePage-SectionDelete-Form" onSubmit={handleDelete}>
         <h1>Delete Student</h1>
         <h4>{rollNo}</h4>
         <button type="submit">Delete</button>
@@ -25,11 +26,10 @@ export default function SectionDelete({ rollNo }) {
 
       <button
         className="AdminHomePage-BtnBackToHome"
-        onClick={(e) => setSubmitted(true)}
+        onClick={(e) => setBackToHome(true)}
       >
         Back to Home
       </button>
     </div>
-    
   );
 }

@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
+import { Roles } from "../modules/Types";
 import { NameConstants } from "../modules/NameConstants";
 import { fetchRandomFakeData } from "../modules/FakeData";
-import "../style/Form.css"
+
+import "../style/Form.css";
 
 function BasicFields({ data, enabled, onChange }) {
   const fields = [
@@ -11,6 +13,8 @@ function BasicFields({ data, enabled, onChange }) {
     { label: "Last Name", name: "lastName", enabled },
     { label: "Email", name: "email", enabled: false },
   ];
+
+  if (data == null) return null;
 
   return (
     <div className="FormReadOrUpdate-Fields">
@@ -30,10 +34,16 @@ function BasicFields({ data, enabled, onChange }) {
   );
 }
 
-export default function FormAdminProfile({ isForm }) {
-  const [enableSubmitBtn, setEnableSubmitBtn] = useState(isForm);
-  const [enableUpdateBtn, setEnableUpdateBtn] = useState(!isForm);
-  const [showUpdateBtn, ] = useState(!isForm);
+export default function FormAdminProfile({
+  title,
+  isForm = true,
+  onSubmit,
+  onFetch,
+}) {
+  const showButtons = isForm;
+
+  const [enableUpdateBtn, setEnableUpdateBtn] = useState(isForm);
+  const [enableSubmitBtn, setEnableSubmitBtn] = useState(!enableUpdateBtn);
 
   var i = 0;
   const buttons = [
@@ -41,15 +51,17 @@ export default function FormAdminProfile({ isForm }) {
       id: ++i,
       label: NameConstants.FormButtons.SUBMIT,
       enabled: enableSubmitBtn,
-      visible: true,
-      onClick: handleSubmitClick,
+      visible: showButtons,
+      onClick: null,
+      type: "submit",
     },
     {
       id: ++i,
       label: NameConstants.FormButtons.UPDATE,
       enabled: enableUpdateBtn,
-      visible: showUpdateBtn,
+      visible: showButtons,
       onClick: handleUpdateClick,
+      type: null,
     },
   ];
 
@@ -58,21 +70,29 @@ export default function FormAdminProfile({ isForm }) {
 
   useEffect(
     () =>
-      void fetchRandomFakeData()
-        .then((data) => setData(data))
+      void fetchRandomFakeData(Roles.ADMIN)
+        .then((data) => {
+          setData(data);
+          return data;
+        })
+        .then((data) => onFetch?.(data))
         .catch((e) => alert(e.toString())),
-    []
+    [onFetch]
   );
 
-  async function handleSubmitClick() {
+  async function handleSubmit(e) {
+    e.preventDefault();
+
     setEnableSubmitBtn((prev) => !prev);
     setEnableUpdateBtn((prev) => !prev);
-    // TODO: api call
     alert(JSON.stringify(formData));
+
+    setData(formData);
+    onSubmit?.(formData);
   }
 
   function handleUpdateClick() {
-    setEnableUpdateBtn(!showUpdateBtn);
+    setEnableUpdateBtn(!enableUpdateBtn);
     setEnableSubmitBtn(!enableSubmitBtn);
   }
 
@@ -83,13 +103,13 @@ export default function FormAdminProfile({ isForm }) {
     }));
   }
 
-  if (data == null) {
-    return <h1>Loading...</h1>;
-  }
-
   return (
-    <form className="FormReadOrUpdate-Form">
-      <h1>Admin Profile</h1>
+    <form className="FormReadOrUpdate-Form" onSubmit={handleSubmit}>
+      <h1>
+        {data == null
+          ? "Welcome Admin"
+          : `Welcome ${data.firstName} ${data.lastName}`}
+      </h1>
       <BasicFields
         data={data}
         enabled={enableSubmitBtn}
@@ -99,7 +119,12 @@ export default function FormAdminProfile({ isForm }) {
       <div className="FormReadOrUpdate-Buttons">
         {buttons.map((btn) =>
           btn.visible ? (
-            <button key={btn.id} disabled={!btn.enabled} onClick={btn.onClick}>
+            <button
+              key={btn.id}
+              disabled={!btn.enabled}
+              onClick={btn.onClick}
+              type={btn.type}
+            >
               {btn.label}
             </button>
           ) : (

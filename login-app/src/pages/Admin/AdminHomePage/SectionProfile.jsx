@@ -1,22 +1,20 @@
 import { useState } from "react";
 import SectionAdminHomePage from "./SectionAdminHomePage";
+import FormAdminProfile from "../../../components/FormAdminProfile";
 
 export default function SectionProfile() {
-  const [sumbitted, setSubmitted] = useState(false);
+  const [backToHome, setBackToHome] = useState(false);
 
-  if (sumbitted) {
+  if (backToHome) {
     return <SectionAdminHomePage />;
   }
 
   return (
     <div className="AdminHomePage-SectionProfile">
-      <form className="AdminHomePage-SectionProfile-Form">
-        <h1>Your Admin Profile</h1>
-      </form>
-
+      <FormAdminProfile isForm={true} />
       <button
         className="AdminHomePage-BtnBackToHome"
-        onClick={(e) => setSubmitted(true)}
+        onClick={(e) => setBackToHome(true)}
       >
         Back to Home
       </button>
