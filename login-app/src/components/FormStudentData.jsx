@@ -68,8 +68,8 @@ function StudentFields({ data, enabled, onChange }) {
 export default function FormStudentData({ title, isForm, rollNo, onSubmit, onFetch }) {
   const showButtons = isForm;
 
-  const [enableUpdateBtn, setEnableUpdateBtn] = useState(isForm);
-  const [enableSubmitBtn, setEnableSubmitBtn] = useState(!enableUpdateBtn);
+  const [enableUpdateBtn, setEnableUpdateBtn] = useState(true);
+  const [enableSubmitBtn, setEnableSubmitBtn] = useState(false);
 
   var i = 0;
   const buttons = [

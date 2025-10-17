@@ -98,12 +98,6 @@ export default function RegistrationPage() {
         )}
       </div>
 
-      {/* <ExtraDetailsForm
-        options={extraform}
-        buttonLabel={"Go with RegistrationPage"}
-        onSubmit={handleSubmit}
-      /> */}
-
       <div className="BtnSubmit">
         <button type="submit">Submit</button>
       </div>
