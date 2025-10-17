@@ -8,7 +8,7 @@ export default function StudentHomePage({ rollNo }) {
     "The elevator to success is out of order. You'll have to take the stairs.";
 
   function Default() {
-    return <FormStudentData isForm={true} rollNo={rollNo} />;
+    return <FormStudentData title={heading} isForm={true} rollNo={rollNo} />;
   }
 
   function MainContentView() {
