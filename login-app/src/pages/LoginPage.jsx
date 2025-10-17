@@ -49,6 +49,7 @@ export default function LoginPage() {
 
   //when login is done, write to database
   async function handleSubmit(event) {
+    event.preventDefault();
     // a wrapper to keep the received data from backend
     const loginData = await fetchFakeLogin();
     setLoginData(loginData);
@@ -68,7 +69,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="Card">
+    <form className="Card" onSubmit={handleSubmit}>
       <div className="InputFields">
         {inputFields.map((inputField) => (
           <label key={inputField.id}>
@@ -85,7 +86,7 @@ export default function LoginPage() {
       </div>
 
       <div className="BtnSubmit">
-        <button onClick={handleSubmit}>Submit</button>
+        <button type="submit">Submit</button>
       </div>
 
       <nav className="Links">
@@ -95,6 +96,6 @@ export default function LoginPage() {
           </div>
         ))}
       </nav>
-    </div>
+    </form>
   );
 }
