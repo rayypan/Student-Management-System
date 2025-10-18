@@ -5,9 +5,10 @@ import lombok.Data;
 @Data
 public class StudentDetailsModel {
 
-    private int roll_no;                // auto-incr
+    private int roll_no; // pk, autoincrement
+
+    private RegistrationModel registration;
     private String subjects;
-    private long fk_registration_no;    // fk to RegistrationModel
     private boolean is_enrolled;
 
 }
