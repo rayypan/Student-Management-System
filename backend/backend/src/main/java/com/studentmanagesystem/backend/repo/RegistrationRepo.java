@@ -2,7 +2,8 @@ package com.studentmanagesystem.backend.repo;
 
 // RegistrationRepo:
 
-// - create(username, email, password, firstName, lastName, dob, role)
+// - create(username, email, password, firstName, lastName, dob, roleEnum)
+//     - role = roleEnum.name()
 //     - sql: INSERT INTO registration_table
 //                (username, email, password, first_name, last_name, dob, role)
 //            VALUES
