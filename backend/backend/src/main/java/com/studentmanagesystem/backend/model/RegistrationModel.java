@@ -14,6 +14,6 @@ public class RegistrationModel {
     private String first_name;
     private String last_name;
     private String dob;
-    private RoleEnum role;
+    private String role; // use Constants.Roles
 
 }
