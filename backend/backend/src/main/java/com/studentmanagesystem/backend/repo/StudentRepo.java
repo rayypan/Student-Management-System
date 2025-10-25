@@ -24,54 +24,7 @@ package com.studentmanagesystem.backend.repo;
 //                subjects = COALESCE(subjects, subjects)
 //            WHERE registration_no = registrationNo;
 
-// - read(registrationNo)
-//     - sql: SELECT
-//                r.registration_no AS r_registration_no,
-//                r.username        AS r_username,
-//                r.email           AS r_email,
-//                r.password        AS r_password,
-//                r.first_name      AS r_first_name,
-//                r.last_name       AS r_last_name,
-//                r.dob             AS r_dob,
-//                r.role            AS r_role,
-//                r.registered_on   AS r_registered_on,
-//                s.roll_no         AS s_roll_no,
-//                s.subjects        AS s_subjects,
-//                s.is_enrolled     AS s_is_enrolled
-//            FROM registration_table r
-//            JOIN student_table s ON r.registration_no = s.registration_no
-//            WHERE r.registration_no = registrationNo;
-//     - StudentModel s = new StudentModel();
-//     -    s.set: s_roll_no, s_subjects, s_is_enrolled
-//     - RegistrationModel r = new RegistrationModel();
-//     -    r.set: r_registration_no, r_username, r_email, r_password, r_first_name, r_last_name, r_dob, r_role, r_registered_on
-//     - s.setRegistration(r)
-//     - return s
-
-// - readAll()
-//     - sql: SELECT
-//                r.registration_no AS r_registration_no,
-//                r.username        AS r_username,
-//                r.email           AS r_email,
-//                r.password        AS r_password,
-//                r.first_name      AS r_first_name,
-//                r.last_name       AS r_last_name,
-//                r.dob             AS r_dob,
-//                r.role            AS r_role,
-//                r.registered_on   AS r_registered_on,
-//                s.roll_no         AS s_roll_no,
-//                s.subjects        AS s_subjects,
-//                s.is_enrolled     AS s_is_enrolled
-//            FROM registration_table r
-//            JOIN student_table s ON r.registration_no = s.registration_no;
-//     - StudentModel s = new StudentModel();
-//     -    s.set: s_roll_no, s_subjects, s_is_enrolled
-//     - RegistrationModel r = new RegistrationModel();
-//     -    r.set: r_registration_no, r_username, r_email, r_password, r_first_name, r_last_name, r_dob, r_role, r_registered_on
-//     - s.setRegistration(r)
-//     - return s
-
-// - readIsEnrolled(status: true | false)
+// - read(status: true | false, registrationNo: long)
 //     - sql: SELECT
 //                r.registration_no AS r_registration_no,
 //                r.username        AS r_username,
