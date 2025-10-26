@@ -1,54 +1,14 @@
 package com.studentmanagesystem.backend.repo;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
-
 import com.studentmanagesystem.backend.model.Constants;
 import com.studentmanagesystem.backend.model.RegistrationModel;
-
-// RegistrationRepo:
-
-// - create(username, email, password, firstName, lastName, dob, roleEnum)
-//     - registration_no = lastRegnNo + 1
-//     - sql: INSERT INTO registration_table
-//                (registration_no, username, email, password, first_name, last_name, dob, role)
-//            VALUES
-//                (registration_no, username, email, password, firstName, lastName, dob, role);
-//     - lastRegnNo = registration_no
-//     - return registration_no
-
-// - update(registrationNo, { firstName, lastName })
-//     - sql: UPDATE registration_table SET
-//                first_name = firstName
-//                last_name = lastName
-//            WHERE registration_no = registrationNo;
-
-// - setRegisteredOn(registrationNo)
-//     - time = Instant.now().toString();
-//     - sql: UPDATE registration_table SET
-//                registered_on = time
-//            WHERE 
-//                registration_no = registrationNo
-//                AND
-//                registered_on IS NULL;
-
-// - delete(registrationNo)
-//     - sql: DELETE FROM registration_table
-//            WHERE registration_no = registrationNo;
-
-// - read(registrationNo)
-//     - sql: SELECT registration_no, username, email, password, first_name, last_name, dob, role, registered_on
-//            FROM registration_table
-//            WHERE registration_no = registrationNo;
-//     - RegistrationModel r = new RegistrationModel();
-//     -    r.set: registration_no, username, email, password, first_name, last_name, dob, role, registered_on
-//     - return r
+import com.studentmanagesystem.backend.errors.UserMessageException;
 
 public class RegistrationRepo {
 
@@ -116,7 +76,15 @@ public class RegistrationRepo {
                 """,
                 Constants.TableNames.REGISTRATION_TABLE);
 
-        jdbcTemplate.update(sql, registrationNo, userName, email, password, firstName, lastName, dob, role);
+        int rowsAffected = jdbcTemplate.update(
+                sql, registrationNo,
+                userName, email, password,
+                firstName, lastName, dob, role
+            );
+
+        if (rowsAffected == 0) {
+            throw new UserMessageException(400, "Registration failed");
+        }
 
         // save new registration number at last: so if INSERT fails, lastRegistrationNo
         // remains the old value
@@ -126,7 +94,13 @@ public class RegistrationRepo {
 
     }
 
+
+    //update operation
     public void update(long registrationNo, String firstName, String lastName) {
+        if (firstName == null || lastName == null || firstName.equals("") || lastName.equals("")) {
+            throw new UserMessageException(400, "First and last names should not be blank");
+        }
+
         String sql = String.format("""
                 UPDATE %s SET
                     first_name = ?,
@@ -135,7 +109,10 @@ public class RegistrationRepo {
                 """,
                 Constants.TableNames.REGISTRATION_TABLE);
 
-        jdbcTemplate.update(sql, firstName, lastName, registrationNo);
+        int rowsAffected = jdbcTemplate.update(sql, firstName, lastName, registrationNo);
+        if (rowsAffected == 0) {
+            throw new UserMessageException(400, "Update registration failed");
+        }
     }
 
     public void setRegisteredOn(long registrationNo) {
@@ -151,17 +128,39 @@ public class RegistrationRepo {
                 """,
                 Constants.TableNames.REGISTRATION_TABLE);
 
-        jdbcTemplate.update(sql, time, registrationNo);
+        int rowsAffected = jdbcTemplate.update(sql, time, registrationNo);
+        if (rowsAffected == 0) {
+            throw new UserMessageException(400, "Set registered_on failed");
+        }
     }
 
-    public void delete(long registrationNo) {
+    public void deleteByRegNo(long registrationNo) {
         String sql = String.format("""
                 DELETE FROM %s
                 WHERE registration_no = ?;
                 """,
                 Constants.TableNames.REGISTRATION_TABLE);
 
-        jdbcTemplate.update(sql, registrationNo);
+        int rowsAffected = jdbcTemplate.update(sql, registrationNo);
+        if (rowsAffected == 0) {
+            throw new UserMessageException(400, "Delete registration failed");
+        }
+    }
+
+    public void deleteOnStudentReject(long registrationNo) {
+        String sql = String.format("""
+                DELETE FROM %s
+                WHERE
+                    registration_no = ?
+                    AND
+                    registered_on IS NULL;
+                """,
+                Constants.TableNames.REGISTRATION_TABLE);
+
+        int rowsAffected = jdbcTemplate.update(sql, registrationNo);
+        if (rowsAffected == 0) {
+            throw new UserMessageException(400, "Delete registration on student reject failed");
+        }
     }
 
     public RegistrationModel read(long registrationNo) {
@@ -171,11 +170,13 @@ public class RegistrationRepo {
                 """,
                 Constants.TableNames.REGISTRATION_TABLE);
 
-        List<RegistrationModel> list = jdbcTemplate.query(sql, (row, rn) -> RegistrationRepo.rowMapper(row), registrationNo);
+        List<RegistrationModel> list = jdbcTemplate.query(sql, (row, rn) -> RegistrationRepo.rowMapper(row),
+                registrationNo);
 
         if (list.isEmpty()) {
             return null;
         }
+
         return list.get(0);
     }
 }

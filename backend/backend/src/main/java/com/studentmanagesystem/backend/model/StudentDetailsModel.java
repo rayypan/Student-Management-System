@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class StudentDetailsModel {
 
-    private int roll_no; // pk, autoincrement
+    private long roll_no; // pk, sql-side autoincrement
 
     private RegistrationModel registration;
     private String subjects;

@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class RegistrationModel {
     
-    private long registration_no; // pk, autoincrement
+    private long registration_no; // pk, server-side (java) auto-increment
     private String registered_on; // generated
 
     private String username;
