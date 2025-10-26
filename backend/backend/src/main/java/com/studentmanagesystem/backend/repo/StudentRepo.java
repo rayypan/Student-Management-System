@@ -151,12 +151,12 @@ public class StudentRepo {
 
         // map from database to registration repo
         RegistrationModel r = new RegistrationModel();
-        r.setDob(rs.getString("dob"));
+        r.setDob(rs.getDate("dob"));
         r.setEmail(rs.getString("email"));
         r.setFirst_name(rs.getString("first_name"));
         r.setLast_name(rs.getString("last_name"));
         r.setPassword(rs.getString("password"));
-        r.setRegistered_on(rs.getString("registered_on"));
+        r.setRegistered_on(rs.getTimestamp("registered_on"));
         r.setRegistration_no(rs.getLong("registration_no"));
         r.setRole(rs.getString("role"));
         r.setUsername(rs.getString("username"));
@@ -201,6 +201,11 @@ public class StudentRepo {
         }
         // return single list item
         return list.get(0);
+    }
+
+    public boolean getIsEnrolled(long registrationNo) {
+        StudentDetailsModel s = this.readByRegnNo(registrationNo);
+        return s.is_enrolled();
     }
 
 }

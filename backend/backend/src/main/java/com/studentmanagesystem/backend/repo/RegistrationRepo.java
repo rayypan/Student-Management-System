@@ -2,6 +2,7 @@ package com.studentmanagesystem.backend.repo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,12 +22,12 @@ public class RegistrationRepo {
 
         RegistrationModel r = new RegistrationModel();
 
-        r.setDob(row.getString("dob"));
+        r.setDob(row.getDate("dob"));
         r.setEmail(row.getString("email"));
         r.setFirst_name(row.getString("first_name"));
         r.setLast_name(row.getString("last_name"));
         r.setPassword(row.getString("password"));
-        r.setRegistered_on(row.getString("registered_on"));
+        r.setRegistered_on(row.getTimestamp("registered_on"));
         r.setRegistration_no(row.getLong("registration_no"));
         r.setRole(row.getString("role"));
         r.setUsername(row.getString("username"));
@@ -116,7 +117,7 @@ public class RegistrationRepo {
     }
 
     public void setRegisteredOn(long registrationNo) {
-        String time = Instant.now().toString();
+        LocalDateTime currentDateTime = LocalDateTime.now();
 
         String sql = String.format("""
                 UPDATE %s SET
@@ -128,7 +129,7 @@ public class RegistrationRepo {
                 """,
                 Constants.TableNames.REGISTRATION_TABLE);
 
-        int rowsAffected = jdbcTemplate.update(sql, time, registrationNo);
+        int rowsAffected = jdbcTemplate.update(sql, currentDateTime, registrationNo);
         if (rowsAffected == 0) {
             throw new UserMessageException(400, "Set registered_on failed");
         }
