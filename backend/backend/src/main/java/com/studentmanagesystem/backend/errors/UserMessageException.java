@@ -1,12 +1,24 @@
 package com.studentmanagesystem.backend.errors;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 public class UserMessageException extends RuntimeException {
 
-    public int status;
+    private int status;
+
+    public UserMessageException(HttpStatus status, String message) {
+        super(message);
+        this.status = status.value();
+    }
 
     public UserMessageException(int status, String message) {
         super(message);
         this.status = status;
+    }
+
+    public int getStatus() {
+        return this.status;
     }
 
     @Override
