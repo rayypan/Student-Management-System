@@ -57,8 +57,8 @@ public class StudentService {
     // Used by admin (delete by roll)
     public boolean deleteDetails(Long rollNo) {
         long registrationNo = studentRepo.getRegistrationNo(rollNo);
-        registrationRepo.deleteByRegNo(registrationNo);  
         studentRepo.deleteByRegnNo(registrationNo);
+        registrationRepo.deleteByRegNo(registrationNo);
         return true;  
     }
 
@@ -73,12 +73,9 @@ public class StudentService {
     //On reject - delete record from stud and registration db
     public boolean rejectEnrollment(Long rollNo) {
         long registationNo = studentRepo.getRegistrationNo(rollNo);
-        // deleteOnStudentReject will fail if registeredOn is not set
+        studentRepo.deleteOnStudentReject(registationNo);
         registrationRepo.deleteOnStudentReject(registationNo);
-        /* deleteByRegnNo will delete without checking, so
-         * deleteOnStudentReject should be called first to
-         * act as a guard */
-        studentRepo.deleteByRegnNo(registationNo);
         return true;
     }
 }
+

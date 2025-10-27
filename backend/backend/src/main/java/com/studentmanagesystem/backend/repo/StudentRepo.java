@@ -96,7 +96,7 @@ public class StudentRepo {
     // database as well as registration database
     public void deleteOnReject(long registrationNo) {
         String sql = String.format("""
-                DELETE %s
+                DELETE FROM %s
                 WHERE
                     registration_no = ?
                     AND
@@ -115,7 +115,7 @@ public class StudentRepo {
     // performed by registration number
     public void deleteByRegnNo(long registrationNo) {
         String sql = String.format("""
-                DELETE %s
+                DELETE FROM %s
                 WHERE registration_no = ?;
                 """,
                 Constants.TableNames.STUDENT_TABLE);
@@ -127,14 +127,32 @@ public class StudentRepo {
         }
     }
 
+    public void deleteOnStudentReject(long registrationNo) {
+        String sql = String.format("""
+                DELETE FROM %s
+                WHERE
+                  registration_no = ?
+                  AND
+                  is_enrolled = FALSE;
+                """,
+                Constants.TableNames.STUDENT_TABLE);
+
+        int rowsAffected = jdbcTemplate.update(sql, registrationNo);
+        // handles error
+        if (rowsAffected == 0) {
+            throw new UserMessageException(400, "Delete student on rejection failed");
+        }
+    }
+
     // to set the is_enrolled status to true if the admin accepts and change the
     // is_enrolled from false to true
     public void setIsEnrolled(long registrationNo) {
-        String sql = """
+        String sql = String.format("""
                 UPDATE %s SET
                     is_enrolled = TRUE
                 WHERE registration_no = ?;
-                """;
+                """,
+                Constants.TableNames.STUDENT_TABLE);
 
         int rowsAffected = jdbcTemplate.update(sql, registrationNo);
         // handles error
