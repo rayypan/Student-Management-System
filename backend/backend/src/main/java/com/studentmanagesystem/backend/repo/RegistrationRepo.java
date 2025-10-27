@@ -40,50 +40,19 @@ public class RegistrationRepo {
         return r;
     }
 
-    long lastRegistrationNo = 0;
-
-    long getLastRegistrationNo() {
-        if (lastRegistrationNo != 0) {
-            // registration number is non-zero, which means it is not reset
-            return lastRegistrationNo;
-        } else {
-            // fetch the last registration number if lastregistration number becomes 0
-            String sql = String.format("""
-                    SELECT registration_no
-                    FROM %s ORDER BY
-                    registration_no DESC LIMIT 1;
-                    """,
-                    Constants.TableNames.REGISTRATION_TABLE);
-
-            List<Long> list = jdbcTemplate.query(sql, (row, rowNum) -> row.getLong("registration_no"));
-            // if the the list is empty
-            if (list.isEmpty()) {
-                return lastRegistrationNo;
-            }
-            // return the last registration number entered into thee database
-            lastRegistrationNo = list.get(0);
-            return lastRegistrationNo;
-        }
-    }
-
     public long create(
             String userName, String email, String password,
             String firstName, String lastName, LocalDate dob, String role) {
 
-        // get last reg number if needed
-        lastRegistrationNo = getLastRegistrationNo();
-        // create new registration number
-        long registrationNo = lastRegistrationNo + 1;
-
         String sql = String.format("""
                 INSERT INTO %s
-                (registration_no, username, email, password, first_name, last_name, dob, role)
-                VALUES (?,?,?,?,?,?,?,?);
+                (username, email, password, first_name, last_name, dob, role)
+                VALUES (?,?,?,?,?,?,?);
                 """,
                 Constants.TableNames.REGISTRATION_TABLE);
 
         int rowsAffected = jdbcTemplate.update(
-                sql, registrationNo,
+                sql,
                 userName, email, password,
                 firstName, lastName, dob, role);
 
@@ -91,10 +60,12 @@ public class RegistrationRepo {
             throw new UserMessageException(400, "Registration failed");
         }
 
-        // save new registration number at last: so if INSERT fails, lastRegistrationNo
-        // remains the old value
-        lastRegistrationNo = registrationNo;
         // return the new registration number
+        Long registrationNo = jdbcTemplate.queryForObject(
+                String.format("SELECT registration_no FROM %s WHERE email = ?;", Constants.TableNames.REGISTRATION_TABLE),
+                Long.class,
+                email);
+
         return registrationNo;
 
     }

@@ -172,15 +172,13 @@ public class StudentRepo {
 
     // basic query string to be reused for read student
     private static String BASE_QUERY = """
-            SELECT registration_no, username,   email,       password,
+            SELECT s.registration_no AS registration_no,
+                   username,   email,       password,
                    first_name,      last_name,  dob,         role,     registered_on,
-                   roll_no,         subjects,   is_enrolled
-            FROM """ + Constants.TableNames.STUDENT_TABLE + """
-            r
-            JOIN """ + Constants.TableNames.REGISTRATION_TABLE + """
-            s
-            ON r.registration_no = s.registration_no
-            """;
+                   roll_no,         subjects,   is_enrolled """ +
+            " FROM " + Constants.TableNames.REGISTRATION_TABLE + " r " +
+            " JOIN " + Constants.TableNames.STUDENT_TABLE + " s " +
+            " ON r.registration_no = s.registration_no ";
 
     // get all students who are enrolled (used by admin read all page)
     public List<StudentDetailsModel> readIsEnrolled() {
@@ -196,7 +194,7 @@ public class StudentRepo {
 
     // get a single student by regn number
     public StudentDetailsModel readByRegnNo(long registrationNo) {
-        String sql = BASE_QUERY + " WHERE registration_no = ?;";
+        String sql = BASE_QUERY + " WHERE s.registration_no = ?;";
         // get result of db query as a list of students
         List<StudentDetailsModel> list = jdbcTemplate.query(sql, (row, rn) -> mapToStudent(row), registrationNo);
         // if list is empty it means student not found
