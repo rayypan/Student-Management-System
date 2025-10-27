@@ -1,41 +1,84 @@
 package com.studentmanagesystem.backend.service;
 
-// StudentService:
+import java.util.List;
 
-// - create(username, email, password, firstName, lastName, dob, role, subjects)
-//     - registrationNo = RegistrationRepo.create(username, email, password, firstName, lastName, dob, role)
-//     - StudentRepo.create(registrationNo, subjects)
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-// - update(rollNo, { firstName | null, lastName | null, subjects | null })
-//     - registrationNo = StudentRepo.getregistrationNo(rollNo)
-//     - RegistrationRepo.update(registrationNo, { firstName, lastName })
-//     - StudentRepo.update(registrationNo, { subjects })
+import com.studentmanagesystem.backend.dtos.StudentRegistrationDTO;
+import com.studentmanagesystem.backend.model.StudentDetailsModel;
+import com.studentmanagesystem.backend.repo.RegistrationRepo;
+import com.studentmanagesystem.backend.repo.StudentRepo;
 
-// - accept(rollNo)
-//     - registrationNo = StudentRepo.getregistrationNo(rollNo)
-//     - StudentRepo.setEnrolled(registrationNo)
-//     - RegistrationRepo.setRegisteredOn(registrationNo)
-
-// - reject(rollNo)
-//     - registrationNo = StudentRepo.getRegistrationNo(rollNo)
-//     - RegistrationRepo.delete(registrationNo)
-//     - StudentRepo.delete(registrationNo)
-
-// - readByRoll(rollNo)
-//     - registrationNo = StudentRepo.getRegistrationNo(rollNo)
-//     - return StudentRepo.read(registrationNo)
-
-// - readAll()
-//     - return StudentRepo.readAll()
-
-// - readEnrolled()
-//     - return StudentRepo.readIsEnrolled(true)
-
-// - readNotYetEnrolled()
-//     - return StudentRepo.readIsEnrolled(false)
-
+@Service
 public class StudentService {
 
-    
+    @Autowired
+    private StudentRepo studentRepo;
 
+    @Autowired
+    private RegistrationRepo registrationRepo;
+
+    public StudentDetailsModel registration(StudentRegistrationDTO reqBody) {
+        long registrationNo = registrationRepo.create(
+                reqBody.username, reqBody.email, reqBody.password,
+                reqBody.firstName, reqBody.lastName,
+                reqBody.dob, reqBody.role);
+
+        studentRepo.create(registrationNo, reqBody.subjects);
+
+        return studentRepo.readByRegnNo(registrationNo);
+    }
+
+    // Used by both admin (update by roll) & student self (update details)
+    public StudentDetailsModel updateDetails(long rollNo, StudentRegistrationDTO reqBody) {
+        long registrationNo = studentRepo.getRegistrationNo(rollNo);
+        registrationRepo.update(registrationNo, reqBody.firstName, reqBody.lastName);
+        studentRepo.update(registrationNo, reqBody.subjects);
+        return studentRepo.readByRegnNo(registrationNo);
+    }
+
+    // Used by both admin (read by roll) & student self (read details)
+    public StudentDetailsModel getDetails(long rollNo) {
+        long registrationNo = studentRepo.getRegistrationNo(rollNo);
+        return studentRepo.readByRegnNo(registrationNo);
+    }
+
+    // Used by admin (read all (only shows enrolled ones))
+    public List<StudentDetailsModel> getAllEnrolled(){
+        return studentRepo.readIsEnrolled();   
+    }
+
+    // Used by admin (read all (only shows enrolled ones))
+    public List<StudentDetailsModel> getAllToBeEnrolled(){
+        return studentRepo.readIsNotYetEnrolled();   
+    }
+
+    // Used by admin (delete by roll)
+    public boolean deleteDetails(Long rollNo) {
+        long registrationNo = studentRepo.getRegistrationNo(rollNo);
+        registrationRepo.deleteByRegNo(registrationNo);  
+        studentRepo.deleteByRegnNo(registrationNo);
+        return true;  
+    }
+
+    //Set is_enrolled true on accept
+    public boolean acceptEnrollment(Long rollNo){
+        long registationNo = studentRepo.getRegistrationNo(rollNo);
+        registrationRepo.setRegisteredOn(registationNo);
+        studentRepo.setIsEnrolled(registationNo);
+        return true;
+    }
+
+    //On reject - delete record from stud and registration db
+    public boolean rejectEnrollment(Long rollNo) {
+        long registationNo = studentRepo.getRegistrationNo(rollNo);
+        // deleteOnStudentReject will fail if registeredOn is not set
+        registrationRepo.deleteOnStudentReject(registationNo);
+        /* deleteByRegnNo will delete without checking, so
+         * deleteOnStudentReject should be called first to
+         * act as a guard */
+        studentRepo.deleteByRegnNo(registationNo);
+        return true;
+    }
 }

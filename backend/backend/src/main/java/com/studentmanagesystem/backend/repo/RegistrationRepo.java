@@ -1,16 +1,21 @@
 package com.studentmanagesystem.backend.repo;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.stereotype.Repository;
+
 import com.studentmanagesystem.backend.model.Constants;
 import com.studentmanagesystem.backend.model.RegistrationModel;
 import com.studentmanagesystem.backend.errors.UserMessageException;
 
+@Repository
 public class RegistrationRepo {
 
     @Autowired
@@ -22,12 +27,12 @@ public class RegistrationRepo {
 
         RegistrationModel r = new RegistrationModel();
 
-        r.setDob(row.getDate("dob"));
+        r.setDob(row.getObject("dob", LocalDate.class));
         r.setEmail(row.getString("email"));
         r.setFirst_name(row.getString("first_name"));
         r.setLast_name(row.getString("last_name"));
         r.setPassword(row.getString("password"));
-        r.setRegistered_on(row.getTimestamp("registered_on"));
+        r.setRegistered_on(row.getObject("registered_on", LocalDateTime.class));
         r.setRegistration_no(row.getLong("registration_no"));
         r.setRole(row.getString("role"));
         r.setUsername(row.getString("username"));
@@ -63,7 +68,7 @@ public class RegistrationRepo {
 
     public long create(
             String userName, String email, String password,
-            String firstName, String lastName, String dob, String role) {
+            String firstName, String lastName, LocalDate dob, String role) {
 
         // get last reg number if needed
         lastRegistrationNo = getLastRegistrationNo();
@@ -80,8 +85,7 @@ public class RegistrationRepo {
         int rowsAffected = jdbcTemplate.update(
                 sql, registrationNo,
                 userName, email, password,
-                firstName, lastName, dob, role
-            );
+                firstName, lastName, dob, role);
 
         if (rowsAffected == 0) {
             throw new UserMessageException(400, "Registration failed");
@@ -95,8 +99,7 @@ public class RegistrationRepo {
 
     }
 
-
-    //update operation
+    // update operation
     public void update(long registrationNo, String firstName, String lastName) {
         if (firstName == null || lastName == null || firstName.equals("") || lastName.equals("")) {
             throw new UserMessageException(400, "First and last names should not be blank");
@@ -171,13 +174,29 @@ public class RegistrationRepo {
                 """,
                 Constants.TableNames.REGISTRATION_TABLE);
 
-        List<RegistrationModel> list = jdbcTemplate.query(sql, (row, rn) -> RegistrationRepo.rowMapper(row),
+        List<RegistrationModel> list = jdbcTemplate.query(
+                sql,
+                (row, rn) -> RegistrationRepo.rowMapper(row),
                 registrationNo);
 
         if (list.isEmpty()) {
-            return null;
+            throw new UserMessageException(404, "No Records Found!");
         }
 
         return list.get(0);
+    }
+
+    public long getRegistrationNo(String email) {
+        String sql = String.format("""
+                SELECT registration_no FROM %s
+                WHERE email = ?;
+                """,
+                Constants.TableNames.REGISTRATION_TABLE);
+
+        Long registrationNo = jdbcTemplate.queryForObject(sql, Long.class, email);
+        if (registrationNo == null) {
+            throw new UserMessageException(404, "No Records Found!");
+        }
+        return registrationNo;
     }
 }

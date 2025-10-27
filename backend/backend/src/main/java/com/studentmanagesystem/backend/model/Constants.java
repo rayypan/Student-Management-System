@@ -9,7 +9,7 @@ public class Constants {
 
     public class TableNames {
         public static String REGISTRATION_TABLE = "Registration";
-        public static String STUDENT_TABLE = "Student";
+        public static String STUDENT_TABLE = "StudentDetails";
     }
 
 }
