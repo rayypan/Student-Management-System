@@ -26,34 +26,33 @@ public class StudentRepo {
 
         String sql = String.format("""
                 SELECT roll_no FROM %s
-                WHERE registation_no = ?;
+                WHERE registration_no = ?;
                 """,
                 Constants.TableNames.STUDENT_TABLE);
 
-        Long rollNo = jdbcTemplate.queryForObject(sql, Long.class, registrationNo);
-        // if roll_number is null then tro error with http status (for now it will mean
-        // role is admin)
-        if (rollNo == null) {
+        List<Long> rollNo = jdbcTemplate.query(sql, (row, rn) -> row.getLong("roll_no"), registrationNo);
+        // handles the roll number if not found then throw error
+        if (rollNo.isEmpty()) {
             throw new UserMessageException(404, "Roll number not found!");
         }
-        return rollNo;
+        return rollNo.get(0);
     }
 
     // to get the registration number against the existing roll number
     public long getRegistrationNo(long rollNo) {
 
         String sql = String.format("""
-                SELECT registation_no FROM %s
+                SELECT registration_no FROM %s
                 WHERE roll_no = ?;
                 """,
                 Constants.TableNames.STUDENT_TABLE);
 
-        Long registrationNo = jdbcTemplate.queryForObject(sql, Long.class, rollNo);
-        // handles the registrationnumber if not found then throw error
-        if (registrationNo == null) {
+        List<Long> registrationNo = jdbcTemplate.query(sql, (row, rn) -> row.getLong("registration_no"), rollNo);
+        // handles the registration number if not found then throw error
+        if (registrationNo.isEmpty()) {
             throw new UserMessageException(404, "Registration number not found!");
         }
-        return registrationNo;
+        return registrationNo.get(0);
     }
 
     // create operation of CRUD for student/writes into the student table
@@ -211,3 +210,4 @@ public class StudentRepo {
     }
 
 }
+

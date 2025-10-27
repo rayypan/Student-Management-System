@@ -164,10 +164,11 @@ public class RegistrationRepo {
                 """,
                 Constants.TableNames.REGISTRATION_TABLE);
 
-        Long registrationNo = jdbcTemplate.queryForObject(sql, Long.class, email);
-        if (registrationNo == null) {
+        List<Long> registrationNo = jdbcTemplate.query(sql, (row, rn) -> row.getLong("registration_no"), email);
+        if (registrationNo.isEmpty()) {
             throw new UserMessageException(404, "No Records Found!");
         }
-        return registrationNo;
+        return registrationNo.get(0);
     }
 }
+
