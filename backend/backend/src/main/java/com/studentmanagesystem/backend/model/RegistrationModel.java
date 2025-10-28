@@ -8,14 +8,14 @@ import lombok.Data;
 @Data
 public class RegistrationModel {
     
-    private long registration_no; // pk, server-side (java) auto-increment
-    private LocalDateTime registered_on; // generated
+    private long registrationNo; // pk, sql-side autoincrement
+    private LocalDateTime registeredOn; // generated (in java)
 
     private String username;
     private String email;
     private String password;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private LocalDate dob;
     private String role; // use Constants.Roles
 

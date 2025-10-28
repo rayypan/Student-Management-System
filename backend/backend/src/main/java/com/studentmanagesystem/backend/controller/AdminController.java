@@ -6,7 +6,6 @@ import com.studentmanagesystem.backend.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.studentmanagesystem.backend.errors.UserMessageException;
 import com.studentmanagesystem.backend.model.RegistrationModel;
 import com.studentmanagesystem.backend.model.StudentDetailsModel;
 import com.studentmanagesystem.backend.dtos.AdminRegistrationDTO;

@@ -2,13 +2,11 @@ package com.studentmanagesystem.backend.repo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 
 import com.studentmanagesystem.backend.model.Constants;
@@ -29,11 +27,11 @@ public class RegistrationRepo {
 
         r.setDob(row.getObject("dob", LocalDate.class));
         r.setEmail(row.getString("email"));
-        r.setFirst_name(row.getString("first_name"));
-        r.setLast_name(row.getString("last_name"));
+        r.setFirstName(row.getString("first_name"));
+        r.setLastName(row.getString("last_name"));
         r.setPassword(row.getString("password"));
-        r.setRegistered_on(row.getObject("registered_on", LocalDateTime.class));
-        r.setRegistration_no(row.getLong("registration_no"));
+        r.setRegisteredOn(row.getObject("registered_on", LocalDateTime.class));
+        r.setRegistrationNo(row.getLong("registration_no"));
         r.setRole(row.getString("role"));
         r.setUsername(row.getString("username"));
 
@@ -61,12 +59,18 @@ public class RegistrationRepo {
         }
 
         // return the new registration number
-        Long registrationNo = jdbcTemplate.queryForObject(
-                String.format("SELECT registration_no FROM %s WHERE email = ?;", Constants.TableNames.REGISTRATION_TABLE),
-                Long.class,
+        List<Long> registrationNo = jdbcTemplate.query(
+                String.format("SELECT registration_no FROM %s WHERE email = ?;",
+                        Constants.TableNames.REGISTRATION_TABLE),
+                (row, rn) -> row.getLong("registration_no"),
                 email);
 
-        return registrationNo;
+        if (registrationNo.isEmpty()) {
+            throw new UserMessageException(500, "Internal Server Error",
+                    new Exception("Registration was created but registration_no was not found using email"));
+        }
+
+        return registrationNo.get(0);
 
     }
 
@@ -171,4 +175,3 @@ public class RegistrationRepo {
         return registrationNo.get(0);
     }
 }
-

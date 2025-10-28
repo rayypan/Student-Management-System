@@ -5,10 +5,11 @@ import lombok.Data;
 @Data
 public class StudentDetailsModel {
 
-    private long roll_no; // pk, sql-side autoincrement
+    private long rollNo; // pk, sql-side autoincrement
 
-    private RegistrationModel registration;
+    private RegistrationModel registration; // filled in using registrationNo (fk)
+
     private String subjects;
-    private boolean is_enrolled;
+    private boolean enrolled;
 
 }

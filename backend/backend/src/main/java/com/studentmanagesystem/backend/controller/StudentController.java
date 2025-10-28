@@ -3,15 +3,12 @@ package com.studentmanagesystem.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.studentmanagesystem.backend.errors.UserMessageException;
 import com.studentmanagesystem.backend.model.StudentDetailsModel;
-import com.studentmanagesystem.backend.dtos.AdminRegistrationDTO;
 import com.studentmanagesystem.backend.dtos.StudentRegistrationDTO;
 import com.studentmanagesystem.backend.service.StudentService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,9 +36,6 @@ public class StudentController {
     public StudentDetailsModel updateDetails(
             @RequestParam(required = true) Long rollNo,
             @RequestBody StudentRegistrationDTO reqBody) {
-        // no longer needed coz @RequestParam(required = true) -> so it will
-        // automatically error if not given
-        // TODO: test if it works & so same in admin controller
         return studentService.updateDetails(rollNo, reqBody);
     }
 }

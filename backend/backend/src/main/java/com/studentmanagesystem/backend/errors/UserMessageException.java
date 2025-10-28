@@ -1,7 +1,6 @@
 package com.studentmanagesystem.backend.errors;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 public class UserMessageException extends RuntimeException {
 
@@ -14,6 +13,16 @@ public class UserMessageException extends RuntimeException {
 
     public UserMessageException(int status, String message) {
         super(message);
+        this.status = status;
+    }
+
+    public UserMessageException(HttpStatus status, String message, Throwable cause) {
+        super(message, cause);
+        this.status = status.value();
+    }
+
+    public UserMessageException(int status, String message, Throwable cause) {
+        super(message, cause);
         this.status = status;
     }
 

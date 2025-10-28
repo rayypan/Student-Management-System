@@ -1,16 +1,11 @@
 package com.studentmanagesystem.backend.service;
 
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.studentmanagesystem.backend.model.RegistrationModel;
 import com.studentmanagesystem.backend.repo.RegistrationRepo;
-import com.studentmanagesystem.backend.BackendApplication;
-import com.studentmanagesystem.backend.controller.AdminController;
 import com.studentmanagesystem.backend.dtos.AdminRegistrationDTO;
-import com.studentmanagesystem.backend.errors.UserMessageException;
 
 @Service
 public class AdminService {

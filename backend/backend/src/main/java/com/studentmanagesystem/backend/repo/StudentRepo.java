@@ -166,19 +166,19 @@ public class StudentRepo {
 
         // map from database to student repo
         StudentDetailsModel s = new StudentDetailsModel();
-        s.setRoll_no(rs.getLong("roll_no"));
+        s.setRollNo(rs.getLong("roll_no"));
         s.setSubjects(rs.getString("subjects"));
-        s.set_enrolled(rs.getBoolean("is_enrolled"));
+        s.setEnrolled(rs.getBoolean("is_enrolled"));
 
         // map from database to registration repo
         RegistrationModel r = new RegistrationModel();
         r.setDob(rs.getObject("dob", LocalDate.class));
         r.setEmail(rs.getString("email"));
-        r.setFirst_name(rs.getString("first_name"));
-        r.setLast_name(rs.getString("last_name"));
+        r.setFirstName(rs.getString("first_name"));
+        r.setLastName(rs.getString("last_name"));
         r.setPassword(rs.getString("password"));
-        r.setRegistered_on(rs.getObject("registered_on", LocalDateTime.class));
-        r.setRegistration_no(rs.getLong("registration_no"));
+        r.setRegisteredOn(rs.getObject("registered_on", LocalDateTime.class));
+        r.setRegistrationNo(rs.getLong("registration_no"));
         r.setRole(rs.getString("role"));
         r.setUsername(rs.getString("username"));
 
@@ -224,7 +224,7 @@ public class StudentRepo {
 
     public boolean getIsEnrolled(long registrationNo) {
         StudentDetailsModel s = this.readByRegnNo(registrationNo);
-        return s.is_enrolled();
+        return s.isEnrolled();
     }
 
 }
