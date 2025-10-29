@@ -38,7 +38,8 @@ public class StudentController {
         return studentService.getDetails(rollNo);
     }
 
-    @PostMapping("/api/student/register")
+    // Made auth so that one can register without login
+    @PostMapping("/auth/student/register")
     public StudentDetailsModel register(@RequestBody StudentRegistrationDTO reqBody) {
         StudentDetailsModel studModel = studentService.registration(reqBody);
         return studModel;

@@ -58,7 +58,8 @@ public class AdminController {
     /*------------------------------------------------------------------------*/
 
     // Registration - Admin
-    @PostMapping("/api/admin/register")
+    // Made auth so that one can register without login
+    @PostMapping("/auth/admin/register")
     public RegistrationModel register(@RequestBody AdminRegistrationDTO reqBody) {
         RegistrationModel regnModel = adminService.register(reqBody);
         return regnModel;
