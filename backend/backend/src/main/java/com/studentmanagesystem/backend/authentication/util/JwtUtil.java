@@ -47,14 +47,8 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public String extractEmail(String token) {
-
-        return validateToken(token).getSubject();
-
-    }
-
-    public String extractRole(String token) {
-        return validateToken(token).get("role", String.class);
+    public String extractEmail(Claims claims) {
+        return claims.getSubject();
     }
 
 }

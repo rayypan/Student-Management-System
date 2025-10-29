@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.studentmanagesystem.backend.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.studentmanagesystem.backend.model.RegistrationModel;
 import com.studentmanagesystem.backend.model.StudentDetailsModel;
+import com.studentmanagesystem.backend.authentication.model.User;
 import com.studentmanagesystem.backend.dtos.AdminRegistrationDTO;
 import com.studentmanagesystem.backend.dtos.StudentRegistrationDTO;
 import com.studentmanagesystem.backend.service.AdminService;
@@ -31,8 +33,8 @@ public class AdminController {
 
     // Admin Details by registration No
     @GetMapping("/api/admin/get")
-    public RegistrationModel getAdminDetails(@RequestParam(required = true) Long regnNo) {
-        return adminService.getDetails(regnNo);
+    public RegistrationModel getAdminDetails(@AuthenticationPrincipal User user) {
+        return adminService.getDetails(user.registrationNo);
     }
 
     // Read by rollno (is_enrolled = true)
@@ -65,9 +67,9 @@ public class AdminController {
     // Profile update
     @PostMapping("/api/admin/update")
     public RegistrationModel updateAdminDetails(
-            @RequestParam(required = true) Long regnNo,
+            @AuthenticationPrincipal User user,
             @RequestBody AdminRegistrationDTO reqBody) {
-        return adminService.updateDetails(regnNo, reqBody);
+        return adminService.updateDetails(user.registrationNo, reqBody);
     }
 
     // Student Details Update by rollNo
@@ -94,8 +96,8 @@ public class AdminController {
 
     // Not to be used by admin
     @DeleteMapping("/api/admin/delete")
-    public boolean deleteAdminDetails(@RequestParam(required = true) Long regnNo) {
-        return adminService.deleteDetails(regnNo);
+    public boolean deleteAdminDetails(@AuthenticationPrincipal User user) {
+        return adminService.deleteDetails(user.registrationNo);
     }
 
     // Delete student details
