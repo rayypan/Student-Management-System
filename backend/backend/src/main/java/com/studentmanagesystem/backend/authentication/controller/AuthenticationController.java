@@ -11,7 +11,7 @@ import com.studentmanagesystem.backend.authentication.service.AuthenticationServ
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+//for login
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
