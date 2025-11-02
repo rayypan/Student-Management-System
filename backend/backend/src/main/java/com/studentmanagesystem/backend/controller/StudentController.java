@@ -8,13 +8,11 @@ import com.studentmanagesystem.backend.model.StudentDetailsModel;
 import com.studentmanagesystem.backend.repo.StudentRepo;
 import com.studentmanagesystem.backend.authentication.service.AuthenticationService;
 import com.studentmanagesystem.backend.dtos.StudentRegistrationDTO;
-import com.studentmanagesystem.backend.errors.UserMessageException;
 import com.studentmanagesystem.backend.service.StudentService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.studentmanagesystem.backend.authentication.model.User;
 

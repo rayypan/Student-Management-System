@@ -1,7 +1,6 @@
 package com.studentmanagesystem.backend.authentication.util;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.List;
 
