@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = Constants.TableNames.REGISTRATION_TABLE)
+@Table(name = Constants.TableNames.REGISTRATION)
 public class User {
 
     @Id

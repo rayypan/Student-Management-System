@@ -47,7 +47,7 @@ public class RegistrationRepo {
                 (username, email, password, first_name, last_name, dob, role)
                 VALUES (?,?,?,?,?,?,?);
                 """,
-                Constants.TableNames.REGISTRATION_TABLE);
+                Constants.TableNames.REGISTRATION);
 
         int rowsAffected = jdbcTemplate.update(
                 sql,
@@ -61,7 +61,7 @@ public class RegistrationRepo {
         // return the new registration number
         List<Long> registrationNo = jdbcTemplate.query(
                 String.format("SELECT registration_no FROM %s WHERE email = ?;",
-                        Constants.TableNames.REGISTRATION_TABLE),
+                        Constants.TableNames.REGISTRATION),
                 (row, rn) -> row.getLong("registration_no"),
                 email);
 
@@ -86,7 +86,7 @@ public class RegistrationRepo {
                     last_name = ?
                 WHERE registration_no = ?;
                 """,
-                Constants.TableNames.REGISTRATION_TABLE);
+                Constants.TableNames.REGISTRATION);
 
         int rowsAffected = jdbcTemplate.update(sql, firstName, lastName, registrationNo);
         if (rowsAffected == 0) {
@@ -105,7 +105,7 @@ public class RegistrationRepo {
                     AND
                     registered_on IS NULL;
                 """,
-                Constants.TableNames.REGISTRATION_TABLE);
+                Constants.TableNames.REGISTRATION);
 
         int rowsAffected = jdbcTemplate.update(sql, currentDateTime, registrationNo);
         if (rowsAffected == 0) {
@@ -118,7 +118,7 @@ public class RegistrationRepo {
                 DELETE FROM %s
                 WHERE registration_no = ?;
                 """,
-                Constants.TableNames.REGISTRATION_TABLE);
+                Constants.TableNames.REGISTRATION);
 
         int rowsAffected = jdbcTemplate.update(sql, registrationNo);
         if (rowsAffected == 0) {
@@ -134,7 +134,7 @@ public class RegistrationRepo {
                     AND
                     registered_on IS NULL;
                 """,
-                Constants.TableNames.REGISTRATION_TABLE);
+                Constants.TableNames.REGISTRATION);
 
         int rowsAffected = jdbcTemplate.update(sql, registrationNo);
         if (rowsAffected == 0) {
@@ -147,7 +147,7 @@ public class RegistrationRepo {
                 SELECT * FROM %s
                 WHERE registration_no = ?;
                 """,
-                Constants.TableNames.REGISTRATION_TABLE);
+                Constants.TableNames.REGISTRATION);
 
         List<RegistrationModel> list = jdbcTemplate.query(
                 sql,
@@ -166,7 +166,7 @@ public class RegistrationRepo {
                 SELECT registration_no FROM %s
                 WHERE email = ?;
                 """,
-                Constants.TableNames.REGISTRATION_TABLE);
+                Constants.TableNames.REGISTRATION);
 
         List<Long> registrationNo = jdbcTemplate.query(sql, (row, rn) -> row.getLong("registration_no"), email);
         if (registrationNo.isEmpty()) {

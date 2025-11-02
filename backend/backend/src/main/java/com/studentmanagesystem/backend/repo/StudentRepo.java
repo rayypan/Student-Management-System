@@ -28,7 +28,7 @@ public class StudentRepo {
                 SELECT roll_no FROM %s
                 WHERE registration_no = ?;
                 """,
-                Constants.TableNames.STUDENT_TABLE);
+                Constants.TableNames.STUDENT_DETAILS);
 
         List<Long> rollNo = jdbcTemplate.query(sql, (row, rn) -> row.getLong("roll_no"), registrationNo);
         // handles the roll number if not found then throw error
@@ -45,7 +45,7 @@ public class StudentRepo {
                 SELECT registration_no FROM %s
                 WHERE roll_no = ?;
                 """,
-                Constants.TableNames.STUDENT_TABLE);
+                Constants.TableNames.STUDENT_DETAILS);
 
         List<Long> registrationNo = jdbcTemplate.query(sql, (row, rn) -> row.getLong("registration_no"), rollNo);
         // handles the registration number if not found then throw error
@@ -62,7 +62,7 @@ public class StudentRepo {
                 INSERT INTO %s (registration_no, subjects, is_enrolled)
                 VALUES (?, ?, FALSE);
                 """,
-                Constants.TableNames.STUDENT_TABLE);
+                Constants.TableNames.STUDENT_DETAILS);
 
         int rowsAffected = jdbcTemplate.update(sql, registrationNo, subjects);
         // handles error
@@ -83,7 +83,7 @@ public class StudentRepo {
                     subjects = ?
                 WHERE registration_no = ?;
                 """,
-                Constants.TableNames.STUDENT_TABLE);
+                Constants.TableNames.STUDENT_DETAILS);
 
         int rowsAffected = jdbcTemplate.update(sql, subjects, registrationNo);
         // handles error
@@ -102,7 +102,7 @@ public class StudentRepo {
                     AND
                     is_enrolled = FALSE;
                 """,
-                Constants.TableNames.STUDENT_TABLE);
+                Constants.TableNames.STUDENT_DETAILS);
 
         int rowsAffected = jdbcTemplate.update(sql, registrationNo);
         // handles error
@@ -118,7 +118,7 @@ public class StudentRepo {
                 DELETE FROM %s
                 WHERE registration_no = ?;
                 """,
-                Constants.TableNames.STUDENT_TABLE);
+                Constants.TableNames.STUDENT_DETAILS);
 
         int rowsAffected = jdbcTemplate.update(sql, registrationNo);
         // handles error
@@ -135,7 +135,7 @@ public class StudentRepo {
                   AND
                   is_enrolled = FALSE;
                 """,
-                Constants.TableNames.STUDENT_TABLE);
+                Constants.TableNames.STUDENT_DETAILS);
 
         int rowsAffected = jdbcTemplate.update(sql, registrationNo);
         // handles error
@@ -152,7 +152,7 @@ public class StudentRepo {
                     is_enrolled = TRUE
                 WHERE registration_no = ?;
                 """,
-                Constants.TableNames.STUDENT_TABLE);
+                Constants.TableNames.STUDENT_DETAILS);
 
         int rowsAffected = jdbcTemplate.update(sql, registrationNo);
         // handles error
@@ -193,8 +193,8 @@ public class StudentRepo {
                    username,   email,       password,
                    first_name,      last_name,  dob,         role,     registered_on,
                    roll_no,         subjects,   is_enrolled """ +
-            " FROM " + Constants.TableNames.REGISTRATION_TABLE + " r " +
-            " JOIN " + Constants.TableNames.STUDENT_TABLE + " s " +
+            " FROM " + Constants.TableNames.REGISTRATION + " r " +
+            " JOIN " + Constants.TableNames.STUDENT_DETAILS + " s " +
             " ON r.registration_no = s.registration_no ";
 
     // get all students who are enrolled (used by admin read all page)

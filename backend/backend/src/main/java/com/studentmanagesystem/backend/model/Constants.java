@@ -8,8 +8,8 @@ public final class Constants {
     }
 
     public final class TableNames {
-        public static final String REGISTRATION_TABLE = "registration";
-        public static final String STUDENT_DETAILS_TABLE = "student_details";
+        public static final String REGISTRATION = "registration";
+        public static final String STUDENT_DETAILS = "student_details";
     }
 
 }
