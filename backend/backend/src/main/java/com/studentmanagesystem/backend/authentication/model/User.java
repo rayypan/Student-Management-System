@@ -1,5 +1,7 @@
 package com.studentmanagesystem.backend.authentication.model;
 
+import com.studentmanagesystem.backend.model.Constants;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,7 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "registration")
+@Table(name = Constants.TableNames.REGISTRATION_TABLE)
 public class User {
 
     @Id

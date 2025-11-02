@@ -1,15 +1,15 @@
 package com.studentmanagesystem.backend.model;
 
-public class Constants {
+public final class Constants {
 
-    public class Roles {
-        public static String ADMIN = "ADMIN";
-        public static String STUDENT = "STUDENT";
+    public final class Roles {
+        public static final String ADMIN = "ADMIN";
+        public static final String STUDENT = "STUDENT";
     }
 
-    public class TableNames {
-        public static String REGISTRATION_TABLE = "Registration";
-        public static String STUDENT_TABLE = "StudentDetails";
+    public final class TableNames {
+        public static final String REGISTRATION_TABLE = "registration";
+        public static final String STUDENT_DETAILS_TABLE = "student_details";
     }
 
 }

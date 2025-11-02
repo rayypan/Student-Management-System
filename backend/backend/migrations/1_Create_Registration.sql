@@ -1,6 +1,6 @@
 USE studmansys;
 
-CREATE TABLE Registration (
+CREATE TABLE registration (
     registration_no BIGINT PRIMARY KEY AUTO_INCREMENT,
     registered_on TIMESTAMP NULL DEFAULT NULL,
     username VARCHAR(256),
