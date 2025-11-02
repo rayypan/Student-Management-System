@@ -41,10 +41,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        if (path.startsWith("/auth/")
-                || path.startsWith("/assets/")
-                || path.startsWith("/app/")
-                || path.equals("/favicon.ico")) {
+        if (!path.startsWith("/api")) {
             filterChain.doFilter(request, response);
             return;
         }
