@@ -1,6 +1,7 @@
 package com.studentmanagesystem.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.studentmanagesystem.backend.model.RegistrationModel;
@@ -13,9 +14,14 @@ public class AdminService {
     @Autowired
     private RegistrationRepo registrationRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public RegistrationModel register(AdminRegistrationDTO adminRegnDTO) {
+        String hashedPassword = passwordEncoder.encode(adminRegnDTO.password);
+
         long registrationNo = registrationRepo.create(
-                adminRegnDTO.username, adminRegnDTO.email, adminRegnDTO.password,
+                adminRegnDTO.username, adminRegnDTO.email, hashedPassword,
                 adminRegnDTO.firstName, adminRegnDTO.lastName, adminRegnDTO.dob,
                 adminRegnDTO.role);
 

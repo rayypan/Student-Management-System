@@ -3,6 +3,7 @@ package com.studentmanagesystem.backend.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.studentmanagesystem.backend.dtos.StudentRegistrationDTO;
@@ -18,10 +19,15 @@ public class StudentService {
 
     @Autowired
     private RegistrationRepo registrationRepo;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public StudentDetailsModel registration(StudentRegistrationDTO reqBody) {
+        String hashedPassword = passwordEncoder.encode(reqBody.password);
+
         long registrationNo = registrationRepo.create(
-                reqBody.username, reqBody.email, reqBody.password,
+                reqBody.username, reqBody.email, hashedPassword,
                 reqBody.firstName, reqBody.lastName,
                 reqBody.dob, reqBody.role);
 

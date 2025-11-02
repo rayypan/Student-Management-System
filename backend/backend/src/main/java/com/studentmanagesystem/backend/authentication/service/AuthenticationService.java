@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 
 import com.studentmanagesystem.backend.authentication.dto.LoginRequest;
@@ -24,17 +25,22 @@ public class AuthenticationService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public LoginResponse login(LoginRequest request) {
 
         Optional<User> optionalUser = userRepo.findByEmail(request.email);
-
         if (optionalUser.isEmpty()) {
-            throw new UserMessageException(401, "Invalid credential");
-        } else if (!optionalUser.get().password.equals(request.password)) {
             throw new UserMessageException(401, "Invalid credential");
         }
 
         User user = optionalUser.get();
+        
+        if (!passwordEncoder.matches(request.password, user.password)) {
+            throw new UserMessageException(401, "Invalid credential");
+        }
+
         String token = jwtUtil.generateTokens(user.email, user.role);
 
         LoginResponse response = new LoginResponse();
