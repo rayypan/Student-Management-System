@@ -30,7 +30,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasAuthority(Constants.Roles.ADMIN)
                         .requestMatchers("/api/student/**").hasAuthority(Constants.Roles.STUDENT)
                         // other permissions
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // custom error messages
                 .exceptionHandling(ex -> ex
