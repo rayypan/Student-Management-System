@@ -16,6 +16,8 @@ export default function AdminHomePage() {
   const [rollNumber, setRollNumber] = useState("");
   let i = 0;
 
+  // TODO: useEffect: get details from backend using token
+
   const crudOptions = [
     {
       id: ++i,

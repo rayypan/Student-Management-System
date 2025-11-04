@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
 import { fetchFakeLogin } from "../modules/FakeData";
 import { Roles } from "../modules/Types";
+import { LoginContext } from "../context/LoginContext";
+import { fetchData } from "../modules/Api";
 import StudentHomePage from "./Student/StudentHomePage";
 import AdminHomePage from "./Admin/AdminHomePage/AdminHomePage";
 
 export default function LoginPage() {
-  const [userName, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginData, setLoginData] = useState(null);
+
+  const [loginData, setLoginData] = useContext(LoginContext);
 
   let i = 0;
   const options = [
@@ -33,10 +36,10 @@ export default function LoginPage() {
   const inputFields = [
     {
       id: ++i,
-      fieldName: "Username",
-      type: "text",
-      value: userName,
-      onChange: (e) => setUsername(e.target.value),
+      fieldName: "Email",
+      type: "email",
+      value: email,
+      onChange: (e) => setEmail(e.target.value),
     },
     {
       id: ++i,
@@ -47,25 +50,26 @@ export default function LoginPage() {
     },
   ];
 
-  //when login is done, write to database
+  // when login is done, write to database
   async function handleSubmit(event) {
     event.preventDefault();
     // a wrapper to keep the received data from backend
-    const loginData = await fetchFakeLogin();
-    setLoginData(loginData);
-    alert("Submit button clicked");
-  }
-
-  function AdminOrStudent({ role }) {
-    if (role === Roles.STUDENT) {
-      return <StudentHomePage rollNo={loginData.roll} />;
-    } else {
-      return <AdminHomePage />;
+    const loginData = await fetchData(
+      "POST",
+      "https://localhost:8080/api/auth/login",
+      { email, password }
+    );
+    if (loginData != null) {
+      setLoginData(loginData);
     }
   }
 
   if (loginData != null) {
-    return <AdminOrStudent role={loginData.role} />;
+    if (loginData.role === Roles.STUDENT) {
+      return <StudentHomePage />;
+    } else {
+      return <AdminHomePage />;
+    }
   }
 
   return (
