@@ -1,37 +1,59 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Accordion from "../../components/Accordion";
 import { NameConstants } from "../../modules/NameConstants";
 import { PathConstants } from "../../modules/PathConstants";
+import { fetchData, SERVER_HOST } from "../../../modules/Api";
+import { LoginContext } from "../../context/LoginContext";
 
-import "../../style/EnrollStudentList.css"
-
-const studentData = Array.from({ length: 20 }, (_, i) => ({
-  id: i + 1,
-  name: `Student ${i + 1}`,
-  roll: `R${1000 + i}`,
-  class: `Class ${(i % 5) + 1}`,
-  section: ["A", "B", "C"][i % 3],
-  marks: Math.floor(Math.random() * 100),
-  email: `student${i + 1}@school.edu`,
-  enrolledOn: new Date(),
-}));
+import "../../style/EnrollStudentList.css";
 
 function SummaryStudent({ oneStudent }) {
+  const [isDiabled, setIsDisabled] = useState(false);
+
+  const { loginData } = useContext(LoginContext);
+
+  function handleAccept() {
+    fetchData(
+      "POST",
+      `${SERVER_HOST}/api/admin/student/enroll-by-roll?rollNo=${oneStudent.rollNo}`,
+      null,
+      loginData.token
+    ).then(() => setIsDisabled(true));
+  }
+
+  function handleReject() {
+    fetchData(
+      "POST",
+      `${SERVER_HOST}/api/admin/student/reject-by-roll?rollNo=${oneStudent.rollNo}`,
+      null,
+      loginData.token
+    ).then(() => setIsDisabled(true));
+  }
+
   return (
     <div className="OneStudent-Summary">
       <div className="OneStudent-Row-Left">
-        <div className="OneStudent-Name">{oneStudent.name}</div>
-        <div className="OneStudent-EnrolledOn">
-          {oneStudent.enrolledOn.toString()}
+        <div className="OneStudent-Name">
+          {oneStudent.firstName} {oneStudent.lastName}
         </div>
+        <div className="OneStudent-EnrolledOn">{oneStudent.rollNo}</div>
       </div>
 
       <div className="OneStudent-Row-Right">
-        <button className="OneStudent-Enrollment-BtnAccept">
+        <button
+          className="OneStudent-Enrollment-BtnAccept"
+          onClick={handleAccept}
+          disabled={isDiabled}
+        >
           {NameConstants.EnrollStudButton.ACCEPT}
         </button>
 
-        <button className="OneStudent-Enrollment-BtnReject">
+        <button
+          className="OneStudent-Enrollment-BtnReject"
+          onClick={handleReject}
+          disabled={isDiabled}
+        >
           {NameConstants.EnrollStudButton.REJECT}
         </button>
       </div>
@@ -44,25 +66,27 @@ function DetailStudent({ oneStudent }) {
     <div className="OneStudent-Detail">
       <div className="OneStudent-Row-Left">
         <label className="OneStudent-Item">
-          Name: <span>{oneStudent.name}</span>
+          Name:{" "}
+          <span>
+            {oneStudent.firstName} {oneStudent.lastName}
+          </span>
         </label>
 
         <label className="OneStudent-Item">
-          Roll: <span>{oneStudent.roll}</span>
+          Roll: <span>{oneStudent.rollNo}</span>
         </label>
 
         <label className="OneStudent-Item">
-          Class: <span>{oneStudent.class}</span>
+          Subjects: <span>{oneStudent.subjects}</span>
         </label>
+
       </div>
 
       <div className="OneStudent-Row-Right">
-        <label className="OneStudent-Item">
-          Section: <span>{oneStudent.section}</span>
-        </label>
+        
 
         <label className="OneStudent-Item">
-          Marks: <span>{oneStudent.marks}</span>
+          Username: <span>{oneStudent.username}</span>
         </label>
 
         <label className="OneStudent-Item">
@@ -75,27 +99,46 @@ function DetailStudent({ oneStudent }) {
 
 export default function EnrollStudentList() {
   const navigate = useNavigate();
+  const [studentData, setStudentData] = useState([]);
+
+  const { loginData } = useContext(LoginContext);
+
+  useEffect(() => {
+    fetchData(
+      "GET",
+      `${SERVER_HOST}/api/admin/student/get-all-notenrolled`,
+      null,
+      loginData.token
+    ).then((result) => setStudentData(result));
+  });
 
   function handleClick() {
     navigate(PathConstants.RootPaths.ADMIN_HOME_PAGE);
   }
+
+  function convertBackendDataToViewable(backendSudent) {
+    backendSudent = { ...backendSudent, ...backendSudent.registration };
+    delete backendSudent.registration;
+    return backendSudent;
+  }
+
   return (
     <div className="EnrollStudentList">
-  
       <div className="EnrollStudentList-List">
-        {studentData.map((oneStudent, idx) => (
-          <Accordion
-            key={idx}
-            summaryComponent={<SummaryStudent oneStudent={oneStudent} />}
-            detailComponent={<DetailStudent oneStudent={oneStudent} />}
-          />
-        ))}
+        {studentData
+          .map((d) => convertBackendDataToViewable(d))
+          .map((oneStudent, idx) => (
+            <Accordion
+              key={idx}
+              summaryComponent={<SummaryStudent oneStudent={oneStudent} />}
+              detailComponent={<DetailStudent oneStudent={oneStudent} />}
+            />
+          ))}
       </div>
 
       <a href={PathConstants.DEFAULT_HREF} onClick={handleClick}>
         Back to Home Page
       </a>
-
     </div>
   );
 }

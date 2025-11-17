@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
 import { Roles } from "../modules/Types";
+import { SERVER_HOST, fetchData } from "../modules/Api";
 
 export default function RegistrationPage() {
   const [formData, setFormData] = useState({});
@@ -10,39 +11,43 @@ export default function RegistrationPage() {
   const [fields, setFields] = useState(
     // prettier-ignore
     [
-      { id: ++i, type: "text", name: "Username", onChange: handleChange, required: false },
-      { id: ++i, type: "email", name: "Email", onChange: handleChange, required: true, },
-      { id: ++i, type: "password", name: "Confirm Password", onChange: handleChange, required: true, },
-      { id: ++i, type: "password", name: "Password", onChange: handleChange, required: true, },
-      { id: ++i, type: "text", name: "First Name & Last Name", onChange: handleChange, required: true, },
-      { id: ++i, type: "date", name: "DoB", onChange: handleChange, required: true, },
-      { id: ++i, type: "select", name: "Role", onChange: handleChange, required: true, option: Object.values(Roles) },
+      { id: ++i, type: "text",     label: "Username",         name: "username",     onChange: handleChange, required: false },
+      { id: ++i, type: "email",    label: "Email",            name: "email",        onChange: handleChange, required: true, },
+      { id: ++i, type: "password", label: "Confirm Password", name: "confPassword", onChange: handleChange, required: true, },
+      { id: ++i, type: "password", label: "Password",         name: "password",     onChange: handleChange, required: true, },
+      { id: ++i, type: "text",     label: "First Name",       name: "firstName",    onChange: handleChange, required: true, },
+      { id: ++i, type: "text",     label: "Last Name",        name: "lastName",     onChange: handleChange, required: true, },
+      { id: ++i, type: "date",     label: "DoB",              name: "dob",          onChange: handleChange, required: true, },
+      { id: ++i, type: "select",   label: "Role",             name: "role",         onChange: handleChange, required: true, option: Object.values(Roles) },
     ]
   );
 
-  const extraForm = [{ id: ++i, type: "text", name: "Subjects" }];
+  const extraForm = [
+    { id: ++i, type: "text", label: "subjects", name: "subjects" },
+  ];
 
   const navigate = useNavigate();
-
-  // e -> {
-  //   target -> {
-  //     "firstName": ...,
-  //     "lastName": ...,
-  //     ...
-  //   }
-  // }
 
   function handleSubmit(formEvent) {
     formEvent.preventDefault();
     let data = new FormData(formEvent.target);
     data = Object.fromEntries(data);
     setFormData(data);
-    alert(JSON.stringify(data));
+    // Send data to backend
+    if (data["role"] === Roles.ADMIN) {
+      fetchData("POST", `${SERVER_HOST}/auth/admin/register`, data).then(() =>
+        alert("Admin Registration Successfull!")
+      );
+    } else if (data["role"] === Roles.STUDENT) {
+      fetchData("POST", `${SERVER_HOST}/auth/student/register`, data).then(() =>
+        alert("Student Registration Successfull!")
+      );
+    }
     navigate(PathConstants.RootPaths.LOGIN);
   }
 
   function handleChange(changeEvent) {
-    if (changeEvent.target.name === "Role") {
+    if (changeEvent.target.label === "Role") {
       // student
       if (changeEvent.target.value === Roles.STUDENT) {
         setFields([...fields, ...extraForm]);
@@ -56,7 +61,7 @@ export default function RegistrationPage() {
         });
 
         setFields((oldFields) =>
-          oldFields.filter((field) => field.name !== "Subjects")
+          oldFields.filter((field) => field.label !== "Subjects")
         );
       }
 
@@ -70,9 +75,9 @@ export default function RegistrationPage() {
         {fields.map((field) =>
           field.type === "select" ? (
             <label key={field.id}>
-              <strong>{field.name}:</strong>
+              <strong>{field.label}:</strong>
               <select
-                name={field.name}
+                name={field.label}
                 type={field.type}
                 required={field.required}
                 onChange={field.onChange}
@@ -86,9 +91,9 @@ export default function RegistrationPage() {
             </label>
           ) : (
             <label key={field.id}>
-              <strong>{field.name}:</strong>
+              <strong>{field.label}:</strong>
               <input
-                name={field.name}
+                name={field.label}
                 type={field.type}
                 required={field.required}
                 onChange={field.onChange}

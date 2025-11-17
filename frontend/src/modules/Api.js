@@ -1,3 +1,5 @@
+export const SERVER_HOST = "http://localhost:8080";
+
 /**
  * @param {"GET" | "POST" | "DELETE"} method
  * @param {string} url

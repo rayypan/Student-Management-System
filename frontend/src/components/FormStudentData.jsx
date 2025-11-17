@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NameConstants } from "../modules/NameConstants";
-import { fetchRandomFakeData } from "../modules/FakeData";
-import { Roles } from "../modules/Types";
 
 import "../style/Form.css";
 
@@ -65,7 +63,7 @@ function StudentFields({ data, enabled, onChange }) {
   );
 }
 
-export default function FormStudentData({ title, isForm, rollNo, onSubmit, onFetch }) {
+export default function FormStudentData({ title, isForm, viewData, onSubmit }) {
   const showButtons = isForm;
 
   const [enableUpdateBtn, setEnableUpdateBtn] = useState(true);
@@ -91,29 +89,15 @@ export default function FormStudentData({ title, isForm, rollNo, onSubmit, onFet
     },
   ];
 
-  const [data, setData] = useState(null);
-  const [formData, setFormData] = useState({});
-
-  useEffect(
-    () =>
-      void fetchRandomFakeData(Roles.STUDENT, rollNo)
-        .then((data) => {
-          setData(data);
-          return data;
-        })
-        .then((data) => onFetch?.(data))
-        .catch((e) => alert(e.toString())),
-    [rollNo, onFetch]
-  );
+  const [updateData, setUpdateData] = useState({});
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     setEnableSubmitBtn((prev) => !prev);
     setEnableUpdateBtn((prev) => !prev);
-    alert(JSON.stringify(formData));
 
-    onSubmit?.(formData);
+    onSubmit?.(updateData);
   }
 
   function handleUpdateClick() {
@@ -122,8 +106,8 @@ export default function FormStudentData({ title, isForm, rollNo, onSubmit, onFet
   }
 
   function handleChange(e) {
-    setFormData((oldFormData) => ({
-      ...oldFormData,
+    setUpdateData((oldData) => ({
+      ...oldData,
       [e.target.name]: e.target.value,
     }));
   }
@@ -131,13 +115,14 @@ export default function FormStudentData({ title, isForm, rollNo, onSubmit, onFet
   return (
     <form className="FormReadOrUpdate-Form" onSubmit={handleSubmit}>
       <h1>{title}</h1>
+
       <BasicFields
-        data={data}
+        data={viewData}
         enabled={enableSubmitBtn}
         onChange={handleChange}
       />
       <StudentFields
-        data={data}
+        data={viewData}
         enabled={enableSubmitBtn}
         onChange={handleChange}
       />

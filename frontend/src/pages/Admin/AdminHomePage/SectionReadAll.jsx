@@ -1,65 +1,66 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { toTitleCase } from "../../../modules/Util.js";
-import { fetchData } from "../../../modules/Api.js";
+import { fetchData, SERVER_HOST } from "../../../modules/Api.js";
 import SectionAdminHomePage from "./SectionAdminHomePage.jsx";
 import Accordion from "../../../components/Accordion.jsx";
-
-// const studentData = Array.from({ length: 20 }, (_, i) => ({
-//   id: i + 1,
-//   name: `Student ${i + 1}`,
-//   roll: `R${1000 + i}`,
-//   class: `Class ${(i % 5) + 1}`,
-//   section: ["A", "B", "C"][i % 3],
-//   marks: Math.floor(Math.random() * 100),
-//   email: `student${i + 1}@school.edu`,
-//   enrolledOn: new Date().toString(),
-// }));
+import { LoginContext } from "../../../context/LoginContext.js";
 
 export default function SectionReadAll() {
   const [backToHome, setBackToHome] = useState(false);
+  const [studentData, setStudentData] = useState([]);
 
-  const [studentData, setStudentData] = useState([]); // Initialize with null or an empty array/object
+  const { loginData } = useContext(LoginContext);
 
   useEffect(() => {
     fetchData(
       "GET",
-      "https://localhost:8080/api/admin/student/get-all-enrolled"
+      `${SERVER_HOST}/api/admin/student/get-all-enrolled`,
+      null,
+      loginData.token
     ).then((result) => setStudentData(result ? result : []));
-  }, []); // Empty dependency array ensures this runs only once on component mount
+  }, []);
 
   if (backToHome) {
     return <SectionAdminHomePage />;
   }
 
+  function convertBackendDataToViewable(backendSudent) {
+    backendSudent = { ...backendSudent, ...backendSudent.registration };
+    delete backendSudent.registration;
+    return backendSudent;
+  }
+
   return (
     <div className="AdminHomePage-SectionReadAll">
       <div className="AdminHomePage-SectionReadAll-Content">
-        {studentData.map((student, idx) => (
-          <Accordion
-            key={idx}
-            summaryComponent={
-              <div>
-                <label>
-                  Name:
-                  {student.name}
-                </label>
-                <label>
-                  Roll:
-                  {student.roll}
-                </label>
-              </div>
-            }
-            detailComponent={
-              <div className="OneStudent-Detail">
-                {Object.entries(student).map(([key, value], idx) => (
-                  <label key={idx}>
-                    {toTitleCase(key)}: <p>{value}</p>
+        {studentData
+          .map((d) => convertBackendDataToViewable(d))
+          .map((student, idx) => (
+            <Accordion
+              key={idx}
+              summaryComponent={
+                <div>
+                  <label>
+                    Name:
+                    {student.firstName} {student.lastName}
                   </label>
-                ))}
-              </div>
-            }
-          />
-        ))}
+                  <label>
+                    Roll:
+                    {student.roll}
+                  </label>
+                </div>
+              }
+              detailComponent={
+                <div className="OneStudent-Detail">
+                  {Object.entries(student).map(([key, value], idx) => (
+                    <label key={idx}>
+                      {toTitleCase(key)}: <p>{value}</p>
+                    </label>
+                  ))}
+                </div>
+              }
+            />
+          ))}
       </div>
 
       <button

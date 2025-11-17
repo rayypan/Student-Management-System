@@ -1,10 +1,9 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
-import { fetchFakeLogin } from "../modules/FakeData";
 import { Roles } from "../modules/Types";
 import { LoginContext } from "../context/LoginContext";
-import { fetchData } from "../modules/Api";
+import { SERVER_HOST, fetchData } from "../modules/Api";
 import StudentHomePage from "./Student/StudentHomePage";
 import AdminHomePage from "./Admin/AdminHomePage/AdminHomePage";
 
@@ -12,7 +11,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [loginData, setLoginData] = useContext(LoginContext);
+  const { loginData, setLoginData } = useContext(LoginContext);
 
   let i = 0;
   const options = [
@@ -56,7 +55,7 @@ export default function LoginPage() {
     // a wrapper to keep the received data from backend
     const loginData = await fetchData(
       "POST",
-      "https://localhost:8080/api/auth/login",
+      `${SERVER_HOST}/api/auth/login`,
       { email, password }
     );
     if (loginData != null) {

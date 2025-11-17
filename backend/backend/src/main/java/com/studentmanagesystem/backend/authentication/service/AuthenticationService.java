@@ -1,17 +1,16 @@
 package com.studentmanagesystem.backend.authentication.service;
 
-import com.studentmanagesystem.backend.authentication.model.User;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 
 import com.studentmanagesystem.backend.authentication.dto.LoginRequest;
 import com.studentmanagesystem.backend.authentication.dto.LoginResponse;
+import com.studentmanagesystem.backend.authentication.model.User;
 import com.studentmanagesystem.backend.authentication.repo.UserRepository;
 import com.studentmanagesystem.backend.authentication.util.JwtUtil;
 import com.studentmanagesystem.backend.errors.UserMessageException;
@@ -56,8 +55,8 @@ public class AuthenticationService {
             return null;
         }
         Object maybeUser = authentication.getPrincipal();
-        if (maybeUser instanceof User) {
-            return (User) maybeUser;
+        if (maybeUser instanceof User user) {
+            return user;
         }
         return null;
     }

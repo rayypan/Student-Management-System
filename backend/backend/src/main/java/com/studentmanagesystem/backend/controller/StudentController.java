@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.studentmanagesystem.backend.model.StudentDetailsModel;
 import com.studentmanagesystem.backend.repo.StudentRepo;
-import com.studentmanagesystem.backend.authentication.service.AuthenticationService;
 import com.studentmanagesystem.backend.dtos.StudentRegistrationDTO;
 import com.studentmanagesystem.backend.service.StudentService;
 
@@ -26,8 +25,6 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    @Autowired
-    AuthenticationService authService;
 
     // Not GetByRoll coz roll (or maybe regn no) will come from auth (maybe)
     @GetMapping("/api/student/get")

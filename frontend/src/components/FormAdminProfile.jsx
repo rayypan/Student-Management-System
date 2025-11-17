@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
-import { Roles } from "../modules/Types";
+import { useState } from "react";
 import { NameConstants } from "../modules/NameConstants";
-import { fetchRandomFakeData } from "../modules/FakeData";
 
 import "../style/Form.css";
 
@@ -34,12 +32,7 @@ function BasicFields({ data, enabled, onChange }) {
   );
 }
 
-export default function FormAdminProfile({
-  title,
-  isForm = true,
-  onSubmit,
-  onFetch,
-}) {
+export default function FormAdminProfile({ isForm = true, viewData, onSubmit }) {
   const showButtons = isForm;
 
   const [enableUpdateBtn, setEnableUpdateBtn] = useState(isForm);
@@ -65,30 +58,16 @@ export default function FormAdminProfile({
     },
   ];
 
-  const [data, setData] = useState(null);
-  const [formData, setFormData] = useState({});
-
-  useEffect(
-    () =>
-      void fetchRandomFakeData(Roles.ADMIN)
-        .then((data) => {
-          setData(data);
-          return data;
-        })
-        .then((data) => onFetch?.(data))
-        .catch((e) => alert(e.toString())),
-    [onFetch]
-  );
+  const [updateData, setUpdateData] = useState({});
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     setEnableSubmitBtn((prev) => !prev);
     setEnableUpdateBtn((prev) => !prev);
-    alert(JSON.stringify(formData));
+    alert(JSON.stringify(updateData));
 
-    setData(formData);
-    onSubmit?.(formData);
+    onSubmit?.(updateData);
   }
 
   function handleUpdateClick() {
@@ -97,7 +76,7 @@ export default function FormAdminProfile({
   }
 
   function handleChange(e) {
-    setFormData((oldFormData) => ({
+    setUpdateData((oldFormData) => ({
       ...oldFormData,
       [e.target.name]: e.target.value,
     }));
@@ -106,12 +85,12 @@ export default function FormAdminProfile({
   return (
     <form className="FormReadOrUpdate-Form" onSubmit={handleSubmit}>
       <h1>
-        {data == null
+        {viewData == null
           ? "Welcome Admin"
-          : `Welcome ${data.firstName} ${data.lastName}`}
+          : `Welcome ${viewData.firstName} ${viewData.lastName}`}
       </h1>
       <BasicFields
-        data={data}
+        data={viewData}
         enabled={enableSubmitBtn}
         onChange={handleChange}
       />
