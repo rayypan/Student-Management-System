@@ -45,6 +45,7 @@ public class AuthenticationService {
         LoginResponse response = new LoginResponse();
         response.token = token;
         response.expires = "15 Mins";
+        response.role = user.role;
 
         return response;
     }
