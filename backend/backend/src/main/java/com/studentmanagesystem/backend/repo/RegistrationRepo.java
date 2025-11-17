@@ -49,6 +49,7 @@ public class RegistrationRepo {
                 """,
                 Constants.TableNames.REGISTRATION);
 
+        // TODO: Handle relevant exceptions from DB
         int rowsAffected = jdbcTemplate.update(
                 sql,
                 userName, email, password,
