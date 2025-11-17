@@ -10,10 +10,6 @@ export default function SectionReadByRoll({ rollNo }) {
 
   const { loginData } = useContext(LoginContext);
 
-  if (backToHome) {
-    return <SectionAdminHomePage />;
-  }
-  
   function convertBackendDataToViewable(backendSudent) {
     backendSudent = { ...backendSudent, ...backendSudent.registration };
     delete backendSudent.registration;
@@ -28,6 +24,10 @@ export default function SectionReadByRoll({ rollNo }) {
       loginData.token
     ).then((result) => setViewData(convertBackendDataToViewable(result)));
   });
+
+  if (backToHome) {
+    return <SectionAdminHomePage />;
+  }
 
   return (
     <div className="AdminHomePage-SectionReadByRoll">

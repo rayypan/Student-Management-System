@@ -10,10 +10,6 @@ export default function SectionProfile() {
 
   const { loginData } = useContext(LoginContext);
 
-  if (backToHome) {
-    return <SectionAdminHomePage />;
-  }
-
   useEffect(() => {
     fetchData(
       "GET",
@@ -33,6 +29,10 @@ export default function SectionProfile() {
       setViewData(updatedBackendData);
       alert("Profile Updated Successfull!!");
     });
+  }
+
+  if (backToHome) {
+    return <SectionAdminHomePage />;
   }
 
   return (

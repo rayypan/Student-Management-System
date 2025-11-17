@@ -55,7 +55,7 @@ export default function LoginPage() {
     // a wrapper to keep the received data from backend
     const loginData = await fetchData(
       "POST",
-      `${SERVER_HOST}/api/auth/login`,
+      `${SERVER_HOST}/auth/login`,
       { email, password }
     );
     if (loginData != null) {

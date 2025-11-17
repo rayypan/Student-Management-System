@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import FormStudentData from "../../components/FormStudentData";
-import { fetchData, SERVER_HOST } from "../../../modules/Api";
+import { fetchData, SERVER_HOST } from "../../modules/Api";
 import { LoginContext } from "../../context/LoginContext";
 
 import "../../style/StudentHomePage.css";
@@ -8,7 +8,7 @@ import "../../style/StudentHomePage.css";
 export default function StudentHomePage() {
   const [viewData, setViewData] = useState(null);
 
-  const { loginData,setLoginData } = useContext(LoginContext);
+  const { loginData } = useContext(LoginContext);
 
   useEffect(() => {
     fetchData(

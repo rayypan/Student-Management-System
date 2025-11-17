@@ -11,8 +11,8 @@ export function LoginProvider({ children }) {
   );
 
   return (
-    <UserContext.Provider value={{ loginData, setLoginData }}>
+    <LoginContext.Provider value={{ loginData, setLoginData }}>
       {children}
-    </UserContext.Provider>
+    </LoginContext.Provider>
   );
 }

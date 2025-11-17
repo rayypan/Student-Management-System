@@ -5,7 +5,7 @@ import { Roles } from "../modules/Types";
 import { SERVER_HOST, fetchData } from "../modules/Api";
 
 export default function RegistrationPage() {
-  const [formData, setFormData] = useState({});
+  // const [formData, setFormData] = useState({});
 
   let i = 0;
   const [fields, setFields] = useState(
@@ -32,7 +32,7 @@ export default function RegistrationPage() {
     formEvent.preventDefault();
     let data = new FormData(formEvent.target);
     data = Object.fromEntries(data);
-    setFormData(data);
+    // setFormData(data);
     // Send data to backend
     if (data["role"] === Roles.ADMIN) {
       fetchData("POST", `${SERVER_HOST}/auth/admin/register`, data).then(() =>
@@ -55,10 +55,10 @@ export default function RegistrationPage() {
 
       // admin
       else {
-        setFormData((oldFormData) => {
-          delete oldFormData["Subjects"];
-          return oldFormData;
-        });
+        // setFormData((oldFormData) => {
+        //   delete oldFormData["Subjects"];
+        //   return oldFormData;
+        // });
 
         setFields((oldFields) =>
           oldFields.filter((field) => field.label !== "Subjects")

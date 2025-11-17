@@ -10,10 +10,6 @@ export default function SectionUpdate({ rollNo }) {
 
   const { loginData } = useContext(LoginContext);
 
-  if (backToHome) {
-    return <SectionAdminHomePage />;
-  }
-
   function convertBackendDataToViewable(backendSudent) {
     // backendSudent: {
     //   rollNo,
@@ -80,6 +76,10 @@ export default function SectionUpdate({ rollNo }) {
       setViewData(convertBackendDataToViewable(updatedBackendData));
       alert(`Student ${rollNo} Updated Successfully`);
     });
+  }
+
+  if (backToHome) {
+    return <SectionAdminHomePage />;
   }
 
   return (

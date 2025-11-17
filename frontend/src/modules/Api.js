@@ -11,14 +11,19 @@ export async function fetchData(method, url, body = null, token = null) {
   try {
     let response = null;
     if (method === "GET" || method === "DELETE") {
-      response = fetch(url, {
+      response = await fetch(url, {
         method,
+
         headers: { Authorization: `Bearer ${token}` },
       });
     } else
-      response = fetch(url, {
+      response = await fetch(url, {
         method,
-        headers: { Authorization: `Bearer ${token}` },
+
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(body),
       });
     const result = await response.json();

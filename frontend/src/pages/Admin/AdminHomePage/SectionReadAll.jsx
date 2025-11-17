@@ -18,7 +18,7 @@ export default function SectionReadAll() {
       null,
       loginData.token
     ).then((result) => setStudentData(result ? result : []));
-  }, []);
+  }, [loginData.token]);
 
   if (backToHome) {
     return <SectionAdminHomePage />;
