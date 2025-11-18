@@ -9,7 +9,8 @@ import { LoginContext } from "../../context/LoginContext";
 import "../../style/EnrollStudentList.css";
 
 function SummaryStudent({ oneStudent }) {
-  const [isDiabled, setIsDisabled] = useState(false);
+  // TODO: isDisabled not working for buttons
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const { loginData } = useContext(LoginContext);
 
@@ -18,8 +19,10 @@ function SummaryStudent({ oneStudent }) {
       "POST",
       `${SERVER_HOST}/api/admin/student/enroll-by-roll?rollNo=${oneStudent.rollNo}`,
       null,
-      loginData.token
-    ).then(() => setIsDisabled(true));
+      loginData?.token
+    )
+      .then(() => setIsDisabled(true))
+      .catch((error) => alert(error));
   }
 
   function handleReject() {
@@ -27,8 +30,10 @@ function SummaryStudent({ oneStudent }) {
       "POST",
       `${SERVER_HOST}/api/admin/student/reject-by-roll?rollNo=${oneStudent.rollNo}`,
       null,
-      loginData.token
-    ).then(() => setIsDisabled(true));
+      loginData?.token
+    )
+      .then(() => setIsDisabled(true))
+      .catch((error) => alert(error));
   }
 
   return (
@@ -44,7 +49,7 @@ function SummaryStudent({ oneStudent }) {
         <button
           className="OneStudent-Enrollment-BtnAccept"
           onClick={handleAccept}
-          disabled={isDiabled}
+          disabled={isDisabled}
         >
           {NameConstants.EnrollStudButton.ACCEPT}
         </button>
@@ -52,7 +57,7 @@ function SummaryStudent({ oneStudent }) {
         <button
           className="OneStudent-Enrollment-BtnReject"
           onClick={handleReject}
-          disabled={isDiabled}
+          disabled={isDisabled}
         >
           {NameConstants.EnrollStudButton.REJECT}
         </button>
@@ -79,12 +84,9 @@ function DetailStudent({ oneStudent }) {
         <label className="OneStudent-Item">
           Subjects: <span>{oneStudent.subjects}</span>
         </label>
-
       </div>
 
       <div className="OneStudent-Row-Right">
-        
-
         <label className="OneStudent-Item">
           Username: <span>{oneStudent.username}</span>
         </label>
@@ -108,9 +110,9 @@ export default function EnrollStudentList() {
       "GET",
       `${SERVER_HOST}/api/admin/student/get-all-notenrolled`,
       null,
-      loginData.token
-    ).then((result) => setStudentData(result));
-  });
+      loginData?.token
+    ).then((result) => setStudentData(result || []));
+  }, []);
 
   function handleClick() {
     navigate(PathConstants.RootPaths.ADMIN_HOME_PAGE);

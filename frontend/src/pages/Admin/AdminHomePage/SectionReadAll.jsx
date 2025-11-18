@@ -16,9 +16,11 @@ export default function SectionReadAll() {
       "GET",
       `${SERVER_HOST}/api/admin/student/get-all-enrolled`,
       null,
-      loginData.token
-    ).then((result) => setStudentData(result ? result : []));
-  }, [loginData.token]);
+      loginData?.token
+    )
+      .then((result) => setStudentData(result ? result : []))
+      .catch((error) => alert(error));
+  }, [loginData?.token]);
 
   if (backToHome) {
     return <SectionAdminHomePage />;
@@ -41,20 +43,18 @@ export default function SectionReadAll() {
               summaryComponent={
                 <div>
                   <label>
-                    Name:
-                    {student.firstName} {student.lastName}
+                    Name:&nbsp;{student.firstName} {student.lastName}
                   </label>
-                  <label>
-                    Roll:
-                    {student.roll}
-                  </label>
+                  <br />
+                  <label>Roll:&nbsp;{student.rollNo}</label>
                 </div>
               }
               detailComponent={
                 <div className="OneStudent-Detail">
                   {Object.entries(student).map(([key, value], idx) => (
                     <label key={idx}>
-                      {toTitleCase(key)}: <p>{value}</p>
+                      {toTitleCase(key)}:{" "}
+                      <p>{key === "password" ? "********" : value}</p>
                     </label>
                   ))}
                 </div>

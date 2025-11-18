@@ -53,11 +53,11 @@ export default function LoginPage() {
   async function handleSubmit(event) {
     event.preventDefault();
     // a wrapper to keep the received data from backend
-    const loginData = await fetchData(
-      "POST",
-      `${SERVER_HOST}/auth/login`,
-      { email, password }
-    );
+    const loginData = await fetchData("POST", `${SERVER_HOST}/auth/login`, {
+      email,
+      password,
+    }).catch((error) => alert(error));
+
     if (loginData != null) {
       setLoginData(loginData);
     }

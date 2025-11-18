@@ -13,13 +13,11 @@ export async function fetchData(method, url, body = null, token = null) {
     if (method === "GET" || method === "DELETE") {
       response = await fetch(url, {
         method,
-
         headers: { Authorization: `Bearer ${token}` },
       });
     } else
       response = await fetch(url, {
         method,
-
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -28,11 +26,14 @@ export async function fetchData(method, url, body = null, token = null) {
       });
     const result = await response.json();
     if (!response.ok) {
-      alert(response.message);
-      return null;
+      alert(response.message || `Response Error: ${response.status}`);
+      return Promise.reject(
+        response?.message || `Response Error: ${response.status}`
+      );
     }
     return result;
   } catch (error) {
     console.error(error);
+    return Promise.reject(error?.message || "Uncaught Exception");
   }
 }

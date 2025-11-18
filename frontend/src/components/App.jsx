@@ -7,10 +7,12 @@ import ForgetUserName from "../pages/ForgetUserName";
 import AdminHomePage from "../pages/Admin/AdminHomePage/AdminHomePage";
 import StudentHomePage from "../pages/Student/StudentHomePage";
 import EnrollStudentList from "../pages/Admin/EnrollStudentList";
+import { LoginProvider } from "../context/LoginContext";
 
 export default function App() {
+  // prettier-ignore
   return (
-    <>
+    <LoginProvider>
       <BrowserRouter>
         <Routes>
           <Route path={PathConstants.RootPaths.ROOT} Component={LoginPage}/>
@@ -23,6 +25,6 @@ export default function App() {
           <Route path={PathConstants.EnrollNavigate.ENROLL_STUDENT_LIST} Component={EnrollStudentList}/>
         </Routes>
       </BrowserRouter>
-    </>
+    </LoginProvider>
   );
 }

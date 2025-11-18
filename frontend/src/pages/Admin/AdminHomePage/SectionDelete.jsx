@@ -19,9 +19,11 @@ export default function SectionDelete({ rollNo }) {
       "DELETE",
       `${SERVER_HOST}/api/admin/student/delete-by-roll?rollNo=${rollNo}`,
       null,
-      loginData.token
-    ).then(() => alert(`Deleted Student ${rollNo} Successfully!`));
-    
+      loginData?.token
+    )
+      .then(() => alert(`Deleted Student ${rollNo} Successfully!`))
+      .catch((error) => alert(error));
+
     setBackToHome(true);
   }
 

@@ -28,21 +28,25 @@ export default function RegistrationPage() {
 
   const navigate = useNavigate();
 
-  function handleSubmit(formEvent) {
+  async function handleSubmit(formEvent) {
     formEvent.preventDefault();
-    let data = new FormData(formEvent.target);
-    data = Object.fromEntries(data);
+
+    const formData = new FormData(formEvent.target);
+    const regnData = Object.fromEntries(formData);
+
     // setFormData(data);
     // Send data to backend
-    if (data["role"] === Roles.ADMIN) {
-      fetchData("POST", `${SERVER_HOST}/auth/admin/register`, data).then(() =>
-        alert("Admin Registration Successfull!")
-      );
-    } else if (data["role"] === Roles.STUDENT) {
-      fetchData("POST", `${SERVER_HOST}/auth/student/register`, data).then(() =>
-        alert("Student Registration Successfull!")
-      );
+
+    if (regnData["role"] === Roles.ADMIN) {
+      await fetchData("POST", `${SERVER_HOST}/auth/admin/register`, regnData)
+        .then(() => alert("Admin Registration Successfull!"))
+        .catch((error) => alert(error));
+    } else if (regnData["role"] === Roles.STUDENT) {
+      await fetchData("POST", `${SERVER_HOST}/auth/student/register`, regnData)
+        .then(() => alert("Student Registration Successfull!"))
+        .catch((error) => alert(error));
     }
+
     navigate(PathConstants.RootPaths.LOGIN);
   }
 
@@ -70,14 +74,14 @@ export default function RegistrationPage() {
   }
 
   return (
-    <form className="Card" onSubmit={handleSubmit}>
+    <form className="Card" onSubmit={(e) => void handleSubmit(e)}>
       <div className="InputFields">
         {fields.map((field) =>
           field.type === "select" ? (
             <label key={field.id}>
               <strong>{field.label}:</strong>
               <select
-                name={field.label}
+                name={field.name}
                 type={field.type}
                 required={field.required}
                 onChange={field.onChange}
@@ -93,7 +97,7 @@ export default function RegistrationPage() {
             <label key={field.id}>
               <strong>{field.label}:</strong>
               <input
-                name={field.label}
+                name={field.name}
                 type={field.type}
                 required={field.required}
                 onChange={field.onChange}

@@ -7,7 +7,7 @@ export default function Accordion({ summaryComponent, detailComponent }) {
   return (
     <div className="Accordion">
       <div className="Accordion-Summary">
-        <button className="Accordion-BtnExpand" onClick={() => setIsOpen(!isOpen)}>{isOpen ? "+" : "-"}</button>
+        <button className="Accordion-BtnExpand" onClick={() => setIsOpen(!isOpen)}>{isOpen ? "-" : "+"}</button>
         {summaryComponent}
       </div>
 

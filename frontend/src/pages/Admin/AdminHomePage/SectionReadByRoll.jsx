@@ -21,9 +21,11 @@ export default function SectionReadByRoll({ rollNo }) {
       "GET",
       `${SERVER_HOST}/api/admin/student/get-by-roll?rollNo=${rollNo}`,
       null,
-      loginData.token
-    ).then((result) => setViewData(convertBackendDataToViewable(result)));
-  });
+      loginData?.token
+    )
+      .then((result) => setViewData(convertBackendDataToViewable(result)))
+      .catch((error) => alert(error));
+  }, []);
 
   if (backToHome) {
     return <SectionAdminHomePage />;

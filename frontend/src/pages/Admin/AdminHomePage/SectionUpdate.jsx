@@ -51,31 +51,35 @@ export default function SectionUpdate({ rollNo }) {
       "GET",
       `${SERVER_HOST}/api/admin/student/get-by-roll?rollNo=${rollNo}`,
       null,
-      loginData.token
-    ).then((result) => setViewData(convertBackendDataToViewable(result)));
-  });
+      loginData?.token
+    )
+      .then((result) => setViewData(convertBackendDataToViewable(result)))
+      .catch((error) => alert(error));
+  }, []);
 
   function handleSubmit(updateData) {
     fetchData(
       "POST",
       `${SERVER_HOST}/api/admin/student/update-by-roll?rollNo=${rollNo}`,
       updateData,
-      loginData.token
-    ).then((updatedBackendData) => {
-      // updatedBackendData: {
-      //   rollNo,
-      //   subjects,
-      //   registration: {
-      //     uid,
-      //     firstName,
-      //     ...
-      //   }
-      // }
-      // step 1. set form data as updated data
-      // step 2. bring registration out into same level
-      setViewData(convertBackendDataToViewable(updatedBackendData));
-      alert(`Student ${rollNo} Updated Successfully`);
-    });
+      loginData?.token
+    )
+      .then((updatedBackendData) => {
+        // updatedBackendData: {
+        //   rollNo,
+        //   subjects,
+        //   registration: {
+        //     uid,
+        //     firstName,
+        //     ...
+        //   }
+        // }
+        // step 1. set form data as updated data
+        // step 2. bring registration out into same level
+        setViewData(convertBackendDataToViewable(updatedBackendData));
+        alert(`Student ${rollNo} Updated Successfully`);
+      })
+      .catch((error) => alert(error));
   }
 
   if (backToHome) {

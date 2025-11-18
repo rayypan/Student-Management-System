@@ -11,24 +11,23 @@ export default function StudentHomePage() {
   const { loginData } = useContext(LoginContext);
 
   useEffect(() => {
-    fetchData(
-      "GET",
-      `${SERVER_HOST}/api/student/get`,
-      null,
-      loginData.token
-    ).then((result) => setViewData(convertBackendDataToViewable(result)));
-  });
+    fetchData("GET", `${SERVER_HOST}/api/student/get`, null, loginData?.token)
+      .then((result) => setViewData(convertBackendDataToViewable(result)))
+      .catch((error) => alert(error));
+  }, []);
 
   function handleSubmit(updateData) {
     fetchData(
       "POST",
       `${SERVER_HOST}/api/student/update`,
       updateData,
-      loginData.token
-    ).then((updatedBackendData) => {
-      setViewData(convertBackendDataToViewable(updatedBackendData));
-      alert("Profile Updated Successfull!");
-    });
+      loginData?.token
+    )
+      .then((updatedBackendData) => {
+        setViewData(convertBackendDataToViewable(updatedBackendData));
+        alert("Profile Updated Successfull!");
+      })
+      .catch((error) => alert(error));
   }
 
   function convertBackendDataToViewable(backendSudent) {
@@ -37,7 +36,7 @@ export default function StudentHomePage() {
     return backendSudent;
   }
 
-  const heading = `Welcome ${viewData.firstName}!`;
+  const heading = viewData ? `Welcome ${viewData.firstName}!` : "Welcome!";
 
   function Default() {
     return (

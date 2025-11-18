@@ -5,7 +5,8 @@ import "../style/Form.css";
 
 function BasicFields({ data, enabled, onChange }) {
   const fields = [
-    { label: "UID", name: "uid", enabled: false },
+    { label: "Registration No", name: "registrationNo", enabled: false },
+    { label: "Username", name: "username", enabled: false },
     { label: "Registered On", name: "registeredOn", enabled: false },
     { label: "First Name", name: "firstName", enabled },
     { label: "Last Name", name: "lastName", enabled },
@@ -58,10 +59,11 @@ export default function FormAdminProfile({ isForm = true, viewData, onSubmit }) 
     },
   ];
 
-  const [updateData, setUpdateData] = useState({});
+  async function handleSubmit(formEvent) {
+    formEvent.preventDefault();
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+    const entries = new FormData(formEvent.target);
+    const updateData = Object.fromEntries(entries);
 
     setEnableSubmitBtn((prev) => !prev);
     setEnableUpdateBtn((prev) => !prev);
@@ -75,13 +77,6 @@ export default function FormAdminProfile({ isForm = true, viewData, onSubmit }) 
     setEnableSubmitBtn(!enableSubmitBtn);
   }
 
-  function handleChange(e) {
-    setUpdateData((oldFormData) => ({
-      ...oldFormData,
-      [e.target.name]: e.target.value,
-    }));
-  }
-
   return (
     <form className="FormReadOrUpdate-Form" onSubmit={handleSubmit}>
       <h1>
@@ -92,7 +87,6 @@ export default function FormAdminProfile({ isForm = true, viewData, onSubmit }) 
       <BasicFields
         data={viewData}
         enabled={enableSubmitBtn}
-        onChange={handleChange}
       />
 
       <div className="FormReadOrUpdate-Buttons">

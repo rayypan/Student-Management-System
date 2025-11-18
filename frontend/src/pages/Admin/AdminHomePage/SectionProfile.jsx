@@ -11,24 +11,23 @@ export default function SectionProfile() {
   const { loginData } = useContext(LoginContext);
 
   useEffect(() => {
-    fetchData(
-      "GET",
-      `${SERVER_HOST}/api/admin/get`,
-      null,
-      loginData.token
-    ).then((result) => setViewData(result));
-  });
+    fetchData("GET", `${SERVER_HOST}/api/admin/get`, null, loginData?.token)
+      .then((result) => setViewData(result))
+      .catch((error) => alert(error));
+  }, []);
 
   function handleSubmit(updateData) {
     fetchData(
       "POST",
       `${SERVER_HOST}/api/admin/update`,
       updateData,
-      loginData.token
-    ).then((updatedBackendData) => {
-      setViewData(updatedBackendData);
-      alert("Profile Updated Successfull!!");
-    });
+      loginData?.token
+    )
+      .then((updatedBackendData) => {
+        setViewData(updatedBackendData);
+        alert("Profile Updated Successfull!!");
+      })
+      .catch((error) => alert(error));
   }
 
   if (backToHome) {
@@ -37,7 +36,11 @@ export default function SectionProfile() {
 
   return (
     <div className="AdminHomePage-SectionProfile">
-      <FormAdminProfile isForm={true} viewData={viewData} onSubmit={handleSubmit} />
+      <FormAdminProfile
+        isForm={true}
+        viewData={viewData}
+        onSubmit={handleSubmit}
+      />
       <button
         className="AdminHomePage-BtnBackToHome"
         onClick={() => setBackToHome(true)}
