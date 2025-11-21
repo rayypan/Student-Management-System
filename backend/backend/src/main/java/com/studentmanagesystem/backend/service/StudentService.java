@@ -61,27 +61,24 @@ public class StudentService {
     }
 
     // Used by admin (delete by roll)
-    public boolean deleteDetails(Long rollNo) {
+    public void deleteDetails(Long rollNo) {
         long registrationNo = studentRepo.getRegistrationNo(rollNo);
         studentRepo.deleteByRegnNo(registrationNo);
         registrationRepo.deleteByRegNo(registrationNo);
-        return true;  
     }
 
     //Set is_enrolled true on accept
-    public boolean acceptEnrollment(Long rollNo){
+    public void acceptEnrollment(Long rollNo){
         long registationNo = studentRepo.getRegistrationNo(rollNo);
         registrationRepo.setRegisteredOn(registationNo);
         studentRepo.setIsEnrolled(registationNo);
-        return true;
     }
 
     //On reject - delete record from stud and registration db
-    public boolean rejectEnrollment(Long rollNo) {
+    public void rejectEnrollment(Long rollNo) {
         long registationNo = studentRepo.getRegistrationNo(rollNo);
         studentRepo.deleteOnStudentReject(registationNo);
         registrationRepo.deleteOnStudentReject(registationNo);
-        return true;
     }
 }
 

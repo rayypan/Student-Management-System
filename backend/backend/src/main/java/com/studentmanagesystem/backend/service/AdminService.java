@@ -40,8 +40,7 @@ public class AdminService {
     }
 
     // Not to be used by admin
-    public boolean deleteDetails(long registrationNo) {
+    public void deleteDetails(long registrationNo) {
         registrationRepo.deleteByRegNo(registrationNo);
-        return true;
     }
 }

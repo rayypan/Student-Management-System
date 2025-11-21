@@ -11,6 +11,7 @@ import com.studentmanagesystem.backend.model.RegistrationModel;
 import com.studentmanagesystem.backend.model.StudentDetailsModel;
 import com.studentmanagesystem.backend.authentication.model.User;
 import com.studentmanagesystem.backend.dtos.AdminRegistrationDTO;
+import com.studentmanagesystem.backend.dtos.GenericMessage;
 import com.studentmanagesystem.backend.dtos.StudentRegistrationDTO;
 import com.studentmanagesystem.backend.service.AdminService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,27 +84,31 @@ public class AdminController {
 
     // Accepting the enrollment - is_enrolled = true
     @PostMapping("/api/admin/student/enroll-by-roll")
-    public boolean enrollStudent(@RequestParam(required = true) Long rollNo) {
-        return studentService.acceptEnrollment(rollNo);
+    public GenericMessage enrollStudent(@RequestParam(required = true) Long rollNo) {
+        studentService.acceptEnrollment(rollNo);
+        return new GenericMessage("Student enrolled successfully!");
     }
 
     // Rejecting the enrollment - whose enrollment is false
     @PostMapping("/api/admin/student/reject-by-roll")
-    public boolean rejectStudent(@RequestParam(required = true) Long rollNo) {
-        return studentService.rejectEnrollment(rollNo);
+    public GenericMessage rejectStudent(@RequestParam(required = true) Long rollNo) {
+        studentService.rejectEnrollment(rollNo);
+        return new GenericMessage("Student rejected successfully!");
     }
 
     /*------------------------------------------------------------------------*/
 
     // Not to be used by admin
     @DeleteMapping("/api/admin/delete")
-    public boolean deleteAdminDetails(@AuthenticationPrincipal User user) {
-        return adminService.deleteDetails(user.registrationNo);
+    public GenericMessage deleteAdminDetails(@AuthenticationPrincipal User user) {
+        adminService.deleteDetails(user.registrationNo);
+        return new GenericMessage("Admin deleted successfully!");
     }
 
     // Delete student details
     @DeleteMapping("/api/admin/student/delete-by-roll")
-    public boolean deleteStudentDetails(@RequestParam(required = true) Long rollNo) {
-        return studentService.deleteDetails(rollNo);
+    public GenericMessage deleteStudentDetails(@RequestParam(required = true) Long rollNo) {
+        studentService.deleteDetails(rollNo);
+        return new GenericMessage("Student deleted successfully!");
     }
 }
