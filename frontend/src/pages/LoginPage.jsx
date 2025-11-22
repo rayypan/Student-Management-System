@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
 import { Roles } from "../modules/Types";
 import { LoginContext } from "../context/LoginContext";
@@ -11,7 +11,9 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { loginData, setLoginData } = useContext(LoginContext);
+  const { setLoginData } = useContext(LoginContext);
+
+  const navigate = useNavigate();
 
   let i = 0;
   const options = [
@@ -58,17 +60,17 @@ export default function LoginPage() {
       password,
     }).catch((error) => alert(error));
 
+    // update the context
     if (loginData != null) {
       setLoginData(loginData);
     }
-  }
 
-  if (loginData != null) {
-    if (loginData.role === Roles.STUDENT) {
-      return <StudentHomePage />;
+    if (loginData.role === Roles.ADMIN) {
+      navigate(PathConstants.RootPaths.ADMIN_HOME_PAGE);
     } else {
-      return <AdminHomePage />;
+      navigate(PathConstants.RootPaths.STUDENT_HOME_PAGE);
     }
+
   }
 
   return (
