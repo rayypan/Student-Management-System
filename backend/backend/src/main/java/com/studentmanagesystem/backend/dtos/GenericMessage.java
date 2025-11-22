@@ -1,8 +1,8 @@
 package com.studentmanagesystem.backend.dtos;
 
 public class GenericMessage {
-    int status;
-    String message;
+    public int status;
+    public String message;
 
     public GenericMessage(String message) {
         this.status = 200;
