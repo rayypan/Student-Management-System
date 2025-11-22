@@ -14,7 +14,7 @@ export default function SectionProfile() {
     apiCall("GET", `/api/admin/get`, null, loginData?.token)
       .then((result) => setViewData(result))
       .catch((error) => alert(error));
-  }, []);
+  }, [loginData?.token]);
 
   function handleSubmit(updateData) {
     apiCall("POST", `/api/admin/update`, updateData, loginData?.token)

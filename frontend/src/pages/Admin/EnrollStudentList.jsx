@@ -111,8 +111,9 @@ export default function EnrollStudentList() {
       `/api/admin/student/get-all-notenrolled`,
       null,
       loginData?.token
-    ).then((result) => setStudentData(result || []));
-  }, []);
+    ).then((result) => setStudentData(result || []))
+    .catch((error) => alert(error));
+  }, [loginData?.token]);
 
   function handleClick() {
     navigate(PathConstants.RootPaths.ADMIN_HOME_PAGE);

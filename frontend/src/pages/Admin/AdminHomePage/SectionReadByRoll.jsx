@@ -25,7 +25,7 @@ export default function SectionReadByRoll({ rollNo }) {
     )
       .then((result) => setViewData(convertBackendDataToViewable(result)))
       .catch((error) => alert(error));
-  }, []);
+  }, [loginData?.token, rollNo]);
 
   if (backToHome) {
     return <SectionAdminHomePage />;

@@ -55,7 +55,7 @@ export default function SectionUpdate({ rollNo }) {
     )
       .then((result) => setViewData(convertBackendDataToViewable(result)))
       .catch((error) => alert(error));
-  }, []);
+  }, [loginData?.token, rollNo]);
 
   function handleSubmit(updateData) {
     apiCall(

@@ -31,7 +31,7 @@ export async function apiCall(method, path, body = null, token = null) {
       });
     const result = await response.json();
     if (!response.ok) {
-      alert(result?.message || `Response Error: ${response.status}`);
+      // alert(result?.message || `Response Error: ${response.status}`);
       return Promise.reject(
         result?.message || `Response Error: ${response.status}`
       );
@@ -39,6 +39,6 @@ export async function apiCall(method, path, body = null, token = null) {
     return result;
   } catch (error) {
     console.error(error);
-    return Promise.reject(error?.message || "Uncaught Exception");
+    return Promise.reject("Api Error");
   }
 }

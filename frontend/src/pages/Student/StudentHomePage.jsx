@@ -14,7 +14,7 @@ export default function StudentHomePage() {
     apiCall("GET", `/api/student/get`, null, loginData?.token)
       .then((result) => setViewData(convertBackendDataToViewable(result)))
       .catch((error) => alert(error));
-  }, []);
+  }, [loginData?.token]);
 
   function handleSubmit(updateData) {
     apiCall("POST", `/api/student/update`, updateData, loginData?.token)
