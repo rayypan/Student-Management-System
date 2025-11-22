@@ -21,10 +21,11 @@ export default function ResetPassword() {
       return;
     }
 
-    apiCall("POST", "/reset-password/verify-and-reset", { password, token })
+    apiCall("POST", "/auth/reset-password/verify-and-reset", { password, token })
       .then((res) => {
         if (res?.message) alert(res.message);
-        navigate(PathConstants.RootPaths.LOGIN);
+        // replace current URL (with token)
+        navigate(PathConstants.RootPaths.LOGIN, { replace: true });
       })
       .catch((error) => alert(error));
   }
