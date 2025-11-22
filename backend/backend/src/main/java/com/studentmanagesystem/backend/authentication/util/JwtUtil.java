@@ -29,7 +29,11 @@ public class JwtUtil {
     }
 
     public String generateTokens(String email, String role) {
-        long expirationMillis = 1000 * 60 * 15;
+        return generateTokens(email, role, 15);
+    }
+
+    public String generateTokens(String email, String role, int timeInMin) {
+        long expirationMillis = 1000 * 60 * timeInMin;
         return Jwts.builder()
                 .setSubject(email)
                 .claim("role", role)
