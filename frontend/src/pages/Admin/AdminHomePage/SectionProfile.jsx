@@ -17,12 +17,7 @@ export default function SectionProfile() {
   }, []);
 
   function handleSubmit(updateData) {
-    apiCall(
-      "POST",
-      `/api/admin/update`,
-      updateData,
-      loginData?.token
-    )
+    apiCall("POST", `/api/admin/update`, updateData, loginData?.token)
       .then((updatedBackendData) => {
         setViewData(updatedBackendData);
         alert("Profile Updated Successfull!!");

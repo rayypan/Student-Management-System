@@ -1,15 +1,27 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
 import { apiCall } from "../modules/Api";
 
-export default function ForgetPassword() {
+export default function ResetPassword() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confPassword, setConfPassword] = useState("");
+
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
 
   function handleSubmit() {
-    apiCall("POST", "/auth/reset-password/send-email", { email })
+    if (!token) {
+      alert("Invalid credentials. Please try again.");
+    }
+    if (password !== confPassword) {
+      alert("Passwords don't match");
+      return;
+    }
+
+    apiCall("POST", "/reset-password/verify-and-reset", { password, token })
       .then((res) => {
         if (res?.message) alert(res.message);
         navigate(PathConstants.RootPaths.LOGIN);
@@ -20,14 +32,20 @@ export default function ForgetPassword() {
   let i = 0;
   const inputFields = [
     {
-      fieldName: "Email",
+      fieldName: "Password",
       id: i++,
       required: true,
-      maxLenth: null,
-      minLength: null,
-      type: "text",
-      onChange: (e) => setEmail(e.target.value),
-      value: email,
+      type: "password",
+      onChange: (e) => setPassword(e.target.value),
+      value: password,
+    },
+    {
+      fieldName: "Confirm Password",
+      id: i++,
+      required: true,
+      type: "password",
+      onChange: (e) => setConfPassword(e.target.value),
+      value: confPassword,
     },
   ];
 
@@ -41,6 +59,8 @@ export default function ForgetPassword() {
               name={inputField.fieldName}
               required={inputField.required}
               type={inputField.type}
+              minLength={inputField.minLength}
+              maxLength={inputField.minLength}
               onChange={inputField.onChange}
               value={inputField.value}
             />

@@ -1,26 +1,31 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
+import { apiCall } from "../modules/Api";
 
 export default function ForgetUserName() {
   const navigate = useNavigate();
 
-  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
 
   let i = 0;
   const inputFields = [
     {
       id: i++,
-      fieldName: "Username",
+      fieldName: "Email",
       type: "text",
-      onChange: (e) => setUserName(e.target.value),
-      value: userName,
+      onChange: (e) => setEmail(e.target.value),
+      value: email,
     },
   ];
 
   function handleSubmit() {
-    alert(userName);
-    navigate(PathConstants.RootPaths.LOGIN);
+    apiCall("POST", "/auth/forgot-username", { email })
+      .then((res) => {
+        if (res?.message) alert(res.message);
+        navigate(PathConstants.RootPaths.LOGIN);
+      })
+      .catch((error) => alert(error));
   }
 
   return (
@@ -44,7 +49,6 @@ export default function ForgetUserName() {
       <div className="BtnSubmit">
         <button onClick={handleSubmit}>Submit</button>
       </div>
-
     </div>
   );
 }
