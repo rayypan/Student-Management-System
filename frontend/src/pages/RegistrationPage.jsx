@@ -22,8 +22,8 @@ export default function RegistrationPage() {
     ])
   );
 
-  const extraForm = [
-    { id: ++i, type: "text", label: "subjects", name: "subjects" },
+  const extraFields = [
+    { id: ++i, type: "text", label: "Subjects", name: "subjects" },
   ];
 
   const navigate = useNavigate();
@@ -34,8 +34,10 @@ export default function RegistrationPage() {
     const formData = new FormData(formEvent.target);
     const regnData = Object.fromEntries(formData);
 
-    // setFormData(data);
-    // Send data to backend
+    if (regnData.password !== regnData.confPassword) {
+      alert("Passwords don't match!");
+      return;
+    }
 
     if (regnData["role"] === Roles.ADMIN) {
       await apiCall("POST", `/auth/admin/register`, regnData)
@@ -51,10 +53,10 @@ export default function RegistrationPage() {
   }
 
   function handleChange(changeEvent) {
-    if (changeEvent.target.label === "Role") {
+    if (changeEvent.target.name === "role") {
       // student
       if (changeEvent.target.value === Roles.STUDENT) {
-        setFields([...fields, ...extraForm]);
+        setFields([...fields, ...extraFields]);
       }
 
       // admin
@@ -65,7 +67,7 @@ export default function RegistrationPage() {
         // });
 
         setFields((oldFields) =>
-          oldFields.filter((field) => field.label !== "Subjects")
+          oldFields.filter((field) => field.name !== "subjects")
         );
       }
 
