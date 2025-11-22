@@ -95,6 +95,23 @@ public class RegistrationRepo {
         }
     }
 
+    public void resetPassword(long registrationNo, String password) {
+        if (password == null || password.equals("")) {
+            throw new UserMessageException(400, "Password should not be blank");
+        }
+
+        String sql = String.format("""
+                UPDATE %s SET password = ?
+                WHERE registration_no = ?;
+                """,
+                Constants.TableNames.REGISTRATION);
+
+        int rowsAffected = jdbcTemplate.update(sql, password, registrationNo);
+        if (rowsAffected == 0) {
+            throw new UserMessageException(400, "Reset password failed");
+        }
+    }
+
     public void setRegisteredOn(long registrationNo) {
         LocalDateTime currentDateTime = LocalDateTime.now();
 
