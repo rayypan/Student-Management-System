@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
 import { Roles } from "../modules/Types";
 import { LoginContext } from "../context/LoginContext";
-import { SERVER_HOST, fetchData } from "../modules/Api";
+import { apiCall } from "../modules/Api";
 import StudentHomePage from "./Student/StudentHomePage";
 import AdminHomePage from "./Admin/AdminHomePage/AdminHomePage";
 
@@ -53,7 +53,7 @@ export default function LoginPage() {
   async function handleSubmit(event) {
     event.preventDefault();
     // a wrapper to keep the received data from backend
-    const loginData = await fetchData("POST", `${SERVER_HOST}/auth/login`, {
+    const loginData = await apiCall("POST", `/auth/login`, {
       email,
       password,
     }).catch((error) => alert(error));

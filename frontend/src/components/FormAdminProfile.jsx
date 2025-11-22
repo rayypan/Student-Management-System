@@ -3,7 +3,7 @@ import { NameConstants } from "../modules/NameConstants";
 
 import "../style/Form.css";
 
-function BasicFields({ data, enabled, onChange }) {
+function BasicFields({ data, enabled }) {
   const fields = [
     { label: "Registration No", name: "registrationNo", enabled: false },
     { label: "Username", name: "username", enabled: false },
@@ -25,7 +25,6 @@ function BasicFields({ data, enabled, onChange }) {
             name={field.name}
             disabled={!field.enabled}
             defaultValue={data[field.name]}
-            onChange={onChange}
           />
         </label>
       ))}
@@ -46,7 +45,7 @@ export default function FormAdminProfile({ isForm = true, viewData, onSubmit }) 
       label: NameConstants.FormButtons.SUBMIT,
       enabled: enableSubmitBtn,
       visible: showButtons,
-      onClick: null,
+      onClick: void 0,
       type: "submit",
     },
     {
@@ -55,7 +54,7 @@ export default function FormAdminProfile({ isForm = true, viewData, onSubmit }) 
       enabled: enableUpdateBtn,
       visible: showButtons,
       onClick: handleUpdateClick,
-      type: null,
+      type: void 0,
     },
   ];
 
@@ -96,7 +95,7 @@ export default function FormAdminProfile({ isForm = true, viewData, onSubmit }) 
               key={btn.id}
               disabled={!btn.enabled}
               onClick={btn.onClick}
-              type={btn.type}
+              type={/** @type {any} */ (btn.type)}
             >
               {btn.label}
             </button>

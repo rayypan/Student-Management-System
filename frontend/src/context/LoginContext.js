@@ -1,13 +1,21 @@
 import { useState, createContext } from "react";
 
 export const LoginContext = createContext({
-  loginData: /** @type {{ token: string, expires: string } | null} */ (null),
-  setLoginData: () => {},
+  loginData:
+    /** @type {{ token: string, expires: string, role: string } | null} */ (
+      null
+    ),
+  setLoginData:
+    /** @type {React.Dispatch<React.SetStateAction<{ token: string; expires: string;  role: string } | null>>} */ (
+      () => {}
+    ),
 });
 
 export function LoginProvider({ children }) {
   const [loginData, setLoginData] = useState(
-    /** @type {{ token: string, expires: string } | null} */ (null)
+    /** @type {{ token: string, expires: string, role: string } | null} */ (
+      null
+    )
   );
 
   return (

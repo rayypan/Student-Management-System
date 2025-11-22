@@ -1,28 +1,23 @@
 import { useState, useEffect, useContext } from "react";
 import FormStudentData from "../../components/FormStudentData";
-import { fetchData, SERVER_HOST } from "../../modules/Api";
+import { apiCall } from "../../modules/Api";
 import { LoginContext } from "../../context/LoginContext";
 
 import "../../style/StudentHomePage.css";
 
 export default function StudentHomePage() {
-  const [viewData, setViewData] = useState(null);
+  const [viewData, setViewData] = useState(/** @type {any} */ (null));
 
   const { loginData } = useContext(LoginContext);
 
   useEffect(() => {
-    fetchData("GET", `${SERVER_HOST}/api/student/get`, null, loginData?.token)
+    apiCall("GET", `/api/student/get`, null, loginData?.token)
       .then((result) => setViewData(convertBackendDataToViewable(result)))
       .catch((error) => alert(error));
   }, []);
 
   function handleSubmit(updateData) {
-    fetchData(
-      "POST",
-      `${SERVER_HOST}/api/student/update`,
-      updateData,
-      loginData?.token
-    )
+    apiCall("POST", `/api/student/update`, updateData, loginData?.token)
       .then((updatedBackendData) => {
         setViewData(convertBackendDataToViewable(updatedBackendData));
         alert("Profile Updated Successfull!");

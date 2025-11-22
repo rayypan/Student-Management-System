@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import SectionAdminHomePage from "./SectionAdminHomePage";
 import FormStudentData from "../../../components/FormStudentData";
-import { fetchData, SERVER_HOST } from "../../../modules/Api";
+import { apiCall } from "../../../modules/Api";
 import { LoginContext } from "../../../context/LoginContext";
 
 export default function SectionUpdate({ rollNo }) {
@@ -47,9 +47,9 @@ export default function SectionUpdate({ rollNo }) {
   }
 
   useEffect(() => {
-    fetchData(
+    apiCall(
       "GET",
-      `${SERVER_HOST}/api/admin/student/get-by-roll?rollNo=${rollNo}`,
+      `/api/admin/student/get-by-roll?rollNo=${rollNo}`,
       null,
       loginData?.token
     )
@@ -58,9 +58,9 @@ export default function SectionUpdate({ rollNo }) {
   }, []);
 
   function handleSubmit(updateData) {
-    fetchData(
+    apiCall(
       "POST",
-      `${SERVER_HOST}/api/admin/student/update-by-roll?rollNo=${rollNo}`,
+      `/api/admin/student/update-by-roll?rollNo=${rollNo}`,
       updateData,
       loginData?.token
     )

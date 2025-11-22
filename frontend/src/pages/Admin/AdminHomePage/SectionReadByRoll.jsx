@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import SectionAdminHomePage from "./SectionAdminHomePage";
 import FormStudentData from "../../../components/FormStudentData";
-import { fetchData, SERVER_HOST } from "../../../modules/Api";
+import { apiCall } from "../../../modules/Api";
 import { LoginContext } from "../../../context/LoginContext";
 
 export default function SectionReadByRoll({ rollNo }) {
@@ -17,9 +17,9 @@ export default function SectionReadByRoll({ rollNo }) {
   }
 
   useEffect(() => {
-    fetchData(
+    apiCall(
       "GET",
-      `${SERVER_HOST}/api/admin/student/get-by-roll?rollNo=${rollNo}`,
+      `/api/admin/student/get-by-roll?rollNo=${rollNo}`,
       null,
       loginData?.token
     )
@@ -37,7 +37,7 @@ export default function SectionReadByRoll({ rollNo }) {
         title="Read Student Details"
         isForm={false}
         viewData={viewData}
-        rollNo={rollNo}
+        onSubmit={() => {}}
       />
       <button
         className="AdminHomePage-BtnBackToHome"

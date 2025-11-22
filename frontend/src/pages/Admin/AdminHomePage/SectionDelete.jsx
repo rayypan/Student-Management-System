@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import SectionAdminHomePage from "./SectionAdminHomePage";
-import { fetchData, SERVER_HOST } from "../../../modules/Api";
+import { apiCall } from "../../../modules/Api";
 import { LoginContext } from "../../../context/LoginContext";
 
 export default function SectionDelete({ rollNo }) {
@@ -15,9 +15,9 @@ export default function SectionDelete({ rollNo }) {
     e.preventDefault();
 
     // Send the roll and call the back function to perform the delete op.
-    fetchData(
+    apiCall(
       "DELETE",
-      `${SERVER_HOST}/api/admin/student/delete-by-roll?rollNo=${rollNo}`,
+      `/api/admin/student/delete-by-roll?rollNo=${rollNo}`,
       null,
       loginData?.token
     )

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Accordion from "../../components/Accordion";
 import { NameConstants } from "../../modules/NameConstants";
 import { PathConstants } from "../../modules/PathConstants";
-import { fetchData, SERVER_HOST } from "../../modules/Api";
+import { apiCall } from "../../modules/Api";
 import { LoginContext } from "../../context/LoginContext";
 
 import "../../style/EnrollStudentList.css";
@@ -15,9 +15,9 @@ function SummaryStudent({ oneStudent }) {
   const { loginData } = useContext(LoginContext);
 
   function handleAccept() {
-    fetchData(
+    apiCall(
       "POST",
-      `${SERVER_HOST}/api/admin/student/enroll-by-roll?rollNo=${oneStudent.rollNo}`,
+      `/api/admin/student/enroll-by-roll?rollNo=${oneStudent.rollNo}`,
       null,
       loginData?.token
     )
@@ -26,9 +26,9 @@ function SummaryStudent({ oneStudent }) {
   }
 
   function handleReject() {
-    fetchData(
+    apiCall(
       "POST",
-      `${SERVER_HOST}/api/admin/student/reject-by-roll?rollNo=${oneStudent.rollNo}`,
+      `/api/admin/student/reject-by-roll?rollNo=${oneStudent.rollNo}`,
       null,
       loginData?.token
     )
@@ -106,9 +106,9 @@ export default function EnrollStudentList() {
   const { loginData } = useContext(LoginContext);
 
   useEffect(() => {
-    fetchData(
+    apiCall(
       "GET",
-      `${SERVER_HOST}/api/admin/student/get-all-notenrolled`,
+      `/api/admin/student/get-all-notenrolled`,
       null,
       loginData?.token
     ).then((result) => setStudentData(result || []));

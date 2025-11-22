@@ -1,22 +1,27 @@
-export const SERVER_HOST = "http://localhost:8080";
+import SERVER_ORIGIN from "../serverOrigin";
 
 /**
  * @param {"GET" | "POST" | "DELETE"} method
- * @param {string} url
+ * @param {string} path
  * @param {object} body
- * @param {string} token
+ * @param {string|null} token
  */
-export async function fetchData(method, url, body = null, token = null) {
+export async function apiCall(method, path, body = null, token = null) {
+  // @ts-ignore
   method = method.toUpperCase();
+  if (!path.startsWith("/")) {
+    throw new Error("path should not start with '/'");
+  }
+  path = `http://${SERVER_ORIGIN}/${path}`;
   try {
     let response = null;
     if (method === "GET" || method === "DELETE") {
-      response = await fetch(url, {
+      response = await fetch(path, {
         method,
         headers: { Authorization: `Bearer ${token}` },
       });
     } else
-      response = await fetch(url, {
+      response = await fetch(path, {
         method,
         headers: {
           "Content-Type": "application/json",
@@ -26,9 +31,9 @@ export async function fetchData(method, url, body = null, token = null) {
       });
     const result = await response.json();
     if (!response.ok) {
-      alert(response.message || `Response Error: ${response.status}`);
+      alert(result?.message || `Response Error: ${response.status}`);
       return Promise.reject(
-        response?.message || `Response Error: ${response.status}`
+        result?.message || `Response Error: ${response.status}`
       );
     }
     return result;

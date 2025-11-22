@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { toTitleCase } from "../../../modules/Util.js";
-import { fetchData, SERVER_HOST } from "../../../modules/Api.js";
+import { apiCall } from "../../../modules/Api.js";
 import SectionAdminHomePage from "./SectionAdminHomePage.jsx";
 import Accordion from "../../../components/Accordion.jsx";
 import { LoginContext } from "../../../context/LoginContext.js";
@@ -12,9 +12,9 @@ export default function SectionReadAll() {
   const { loginData } = useContext(LoginContext);
 
   useEffect(() => {
-    fetchData(
+    apiCall(
       "GET",
-      `${SERVER_HOST}/api/admin/student/get-all-enrolled`,
+      `/api/admin/student/get-all-enrolled`,
       null,
       loginData?.token
     )

@@ -3,7 +3,7 @@ import { NameConstants } from "../modules/NameConstants";
 
 import "../style/Form.css";
 
-function BasicFields({ data, enabled, onChange }) {
+function BasicFields({ data, enabled }) {
   const fields = [
     { label: "Resgistration No", name: "registrationNo", enabled: false },
     { label: "Username", name: "username", enabled: false },
@@ -25,7 +25,6 @@ function BasicFields({ data, enabled, onChange }) {
             name={field.name}
             disabled={!field.enabled}
             defaultValue={data[field.name]}
-            onChange={onChange}
           />
         </label>
       ))}
@@ -33,7 +32,7 @@ function BasicFields({ data, enabled, onChange }) {
   );
 }
 
-function StudentFields({ data, enabled, onChange }) {
+function StudentFields({ data, enabled }) {
   // TODO: change subjects input into a pick list coponent instead of HTML input
   const fields = [
     { label: "Roll", name: "rollNo", enabled: false },
@@ -56,7 +55,6 @@ function StudentFields({ data, enabled, onChange }) {
                 ? data[field.name].join(", ")
                 : data[field.name]
             }
-            onChange={onChange}
           />
         </label>
       ))}
@@ -77,7 +75,7 @@ export default function FormStudentData({ title, isForm, viewData, onSubmit }) {
       label: NameConstants.FormButtons.SUBMIT,
       enabled: enableSubmitBtn,
       visible: showButtons,
-      onClick: null,
+      onClick: void 0,
       type: "submit",
     },
     {
@@ -86,7 +84,7 @@ export default function FormStudentData({ title, isForm, viewData, onSubmit }) {
       enabled: enableUpdateBtn,
       visible: showButtons,
       onClick: handleUpdateClick,
-      type: null,
+      type: void 0,
     },
   ];
 
@@ -121,7 +119,7 @@ export default function FormStudentData({ title, isForm, viewData, onSubmit }) {
               key={btn.id}
               disabled={!btn.enabled}
               onClick={btn.onClick}
-              type={btn.type}
+              type={/** @type {"submit"|undefined} */ (btn.type)}
             >
               {btn.label}
             </button>

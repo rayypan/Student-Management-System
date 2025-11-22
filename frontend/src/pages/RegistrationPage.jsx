@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PathConstants } from "../modules/PathConstants";
 import { Roles } from "../modules/Types";
-import { SERVER_HOST, fetchData } from "../modules/Api";
+import { apiCall } from "../modules/Api";
 
 export default function RegistrationPage() {
   // const [formData, setFormData] = useState({});
@@ -10,7 +10,7 @@ export default function RegistrationPage() {
   let i = 0;
   const [fields, setFields] = useState(
     // prettier-ignore
-    [
+    /** @type {any} */ ([
       { id: ++i, type: "text",     label: "Username",         name: "username",     onChange: handleChange, required: false },
       { id: ++i, type: "email",    label: "Email",            name: "email",        onChange: handleChange, required: true, },
       { id: ++i, type: "password", label: "Confirm Password", name: "confPassword", onChange: handleChange, required: true, },
@@ -19,7 +19,7 @@ export default function RegistrationPage() {
       { id: ++i, type: "text",     label: "Last Name",        name: "lastName",     onChange: handleChange, required: true, },
       { id: ++i, type: "date",     label: "DoB",              name: "dob",          onChange: handleChange, required: true, },
       { id: ++i, type: "select",   label: "Role",             name: "role",         onChange: handleChange, required: true, option: Object.values(Roles) },
-    ]
+    ])
   );
 
   const extraForm = [
@@ -38,11 +38,11 @@ export default function RegistrationPage() {
     // Send data to backend
 
     if (regnData["role"] === Roles.ADMIN) {
-      await fetchData("POST", `${SERVER_HOST}/auth/admin/register`, regnData)
+      await apiCall("POST", `/auth/admin/register`, regnData)
         .then(() => alert("Admin Registration Successfull!"))
         .catch((error) => alert(error));
     } else if (regnData["role"] === Roles.STUDENT) {
-      await fetchData("POST", `${SERVER_HOST}/auth/student/register`, regnData)
+      await apiCall("POST", `/auth/student/register`, regnData)
         .then(() => alert("Student Registration Successfull!"))
         .catch((error) => alert(error));
     }
@@ -82,7 +82,6 @@ export default function RegistrationPage() {
               <strong>{field.label}:</strong>
               <select
                 name={field.name}
-                type={field.type}
                 required={field.required}
                 onChange={field.onChange}
               >

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import SectionAdminHomePage from "./SectionAdminHomePage";
 import FormAdminProfile from "../../../components/FormAdminProfile";
-import { fetchData, SERVER_HOST } from "../../../modules/Api";
+import { apiCall } from "../../../modules/Api";
 import { LoginContext } from "../../../context/LoginContext";
 
 export default function SectionProfile() {
@@ -11,15 +11,15 @@ export default function SectionProfile() {
   const { loginData } = useContext(LoginContext);
 
   useEffect(() => {
-    fetchData("GET", `${SERVER_HOST}/api/admin/get`, null, loginData?.token)
+    apiCall("GET", `/api/admin/get`, null, loginData?.token)
       .then((result) => setViewData(result))
       .catch((error) => alert(error));
   }, []);
 
   function handleSubmit(updateData) {
-    fetchData(
+    apiCall(
       "POST",
-      `${SERVER_HOST}/api/admin/update`,
+      `/api/admin/update`,
       updateData,
       loginData?.token
     )

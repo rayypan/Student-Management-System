@@ -5,7 +5,10 @@ export const PathConstants = {
     ROOT: "/",
     LOGIN: "/login",
     REGISTER: "/register",
+    // only takes your email
     FORGOT_PASSWORD: "/forgot-password",
+    // actual reset takes place
+    RESET_PASSWORD: "/reset-password",
     FORGOT_USERNAME: "/forgot-username",
     ADMIN_HOME_PAGE: "/admin-home-page",
     STUDENT_HOME_PAGE: "/student-home-page",
