@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "app.server-origin",
+      "type": "java.lang.String",
+      "description": "Server origin. Eg: `www.myserver.com`"
+    },
+    {
+      "name": "app.webapp-origin",
+      "type": "java.lang.String",
+      "description": "Server origin. Eg: `www.webapp.com`"
+    }
+  ]
+}
