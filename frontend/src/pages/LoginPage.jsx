@@ -4,8 +4,6 @@ import { PathConstants } from "../modules/PathConstants";
 import { Roles } from "../modules/Types";
 import { LoginContext } from "../context/LoginContext";
 import { apiCall } from "../modules/Api";
-import StudentHomePage from "./Student/StudentHomePage";
-import AdminHomePage from "./Admin/AdminHomePage/AdminHomePage";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");

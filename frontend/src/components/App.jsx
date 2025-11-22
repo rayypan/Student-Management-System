@@ -17,7 +17,7 @@ function AuthPageGuard({ children }) {
 
   useEffect(() => {
     if (!loginData?.token) navigate(PathConstants.RootPaths.LOGIN);
-  }, [loginData?.token]);
+  }, [loginData?.token, navigate]);
 
   if (!loginData?.token) return <LoginPage />
 
