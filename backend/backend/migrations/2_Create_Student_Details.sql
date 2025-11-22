@@ -1,6 +1,6 @@
 USE studmansys;
 
-CREATE TABLE student_details (
+CREATE TABLE studentdetails (
     registration_no BIGINT,
     roll_no BIGINT AUTO_INCREMENT PRIMARY KEY,
     is_enrolled BOOLEAN,
