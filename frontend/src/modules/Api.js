@@ -10,9 +10,9 @@ export async function apiCall(method, path, body = null, token = null) {
   // @ts-ignore
   method = method.toUpperCase();
   if (!path.startsWith("/")) {
-    throw new Error("path should not start with '/'");
+    throw new Error("path should start with '/'");
   }
-  path = `http://${SERVER_ORIGIN}/${path}`;
+  path = `http://${SERVER_ORIGIN}${path}`;
   try {
     let response = null;
     if (method === "GET" || method === "DELETE") {

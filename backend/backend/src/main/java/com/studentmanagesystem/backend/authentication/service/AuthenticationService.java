@@ -107,7 +107,7 @@ public class AuthenticationService {
          * WARNING: Compact JWT tokes are Base64 encoded and thus URL safe.
          * If different token variety used, url-encode the token explicitly.
          */
-        String link = String.format("http://%s/reset-password?token=%s", config.getServerOrigin(), token);
+        String link = String.format("http://%s/reset-password?token=%s", config.getWebappOrigin(), token);
         String body = String.format(
                 "Visit %s to reset your password.\n"
                         + "This link expires in %d minutes.\n"
