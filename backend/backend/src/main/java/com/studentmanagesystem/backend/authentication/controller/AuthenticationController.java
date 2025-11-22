@@ -43,7 +43,7 @@ public class AuthenticationController {
     // Called by API from the reset password page when user visits it and enters new password
     @PostMapping("/reset-password/verify-and-reset")
     public GenericMessage verifyAndResetPassword(@RequestBody ResetPasswordRequest reqBody) {
-        authService.verifyAndResetPassword(reqBody.code, reqBody.password);
+        authService.verifyAndResetPassword(reqBody.token, reqBody.password);
         return new GenericMessage("Password reset successfully!");
     }
 }
