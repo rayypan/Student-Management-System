@@ -66,7 +66,6 @@ export default function FormAdminProfile({ isForm = true, viewData, onSubmit }) 
 
     setEnableSubmitBtn((prev) => !prev);
     setEnableUpdateBtn((prev) => !prev);
-    alert(JSON.stringify(updateData));
 
     onSubmit?.(updateData);
   }
