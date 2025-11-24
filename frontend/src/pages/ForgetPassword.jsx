@@ -7,8 +7,10 @@ export default function ForgetPassword() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
+  const [isDisabled,setIsDisabled] = useState(false);
 
   function handleSubmit() {
+    setIsDisabled(true);
     apiCall("POST", "/auth/reset-password/send-email", { email })
       .then((res) => {
         if (res?.message) alert(res.message);
@@ -48,7 +50,10 @@ export default function ForgetPassword() {
         ))}
 
         <div className="BtnSubmit">
-          <button onClick={handleSubmit}>Submit</button>
+          <button onClick={handleSubmit} disabled={isDisabled} style={{cursor:"not-allowed"}}
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div>
