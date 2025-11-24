@@ -50,7 +50,7 @@ export default function ForgetPassword() {
         ))}
 
         <div className="BtnSubmit">
-          <button onClick={handleSubmit} disabled={isDisabled} style={{cursor:"not-allowed"}}
+          <button onClick={handleSubmit} disabled={isDisabled} style={{cursor: isDisabled? "not-allowed": "" }}
           >
             Submit
           </button>
