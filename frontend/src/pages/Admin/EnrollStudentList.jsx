@@ -15,24 +15,30 @@ function SummaryStudent({ oneStudent }) {
   const { loginData } = useContext(LoginContext);
 
   function handleAccept() {
-    apiCall(
-      "POST",
-      `/api/admin/student/enroll-by-roll?rollNo=${oneStudent.rollNo}`,
-      null,
-      loginData?.token
-    )
+    Promise.resolve()
       .then(() => setIsDisabled(true))
+      .then(() =>
+        apiCall(
+          "POST",
+          `/api/admin/student/enroll-by-roll?rollNo=${oneStudent.rollNo}`,
+          null,
+          loginData?.token
+        )
+      )
       .catch((error) => alert(error));
   }
 
   function handleReject() {
-    apiCall(
-      "POST",
-      `/api/admin/student/reject-by-roll?rollNo=${oneStudent.rollNo}`,
-      null,
-      loginData?.token
-    )
+    Promise.resolve()
       .then(() => setIsDisabled(true))
+      .then(() =>
+        apiCall(
+          "POST",
+          `/api/admin/student/reject-by-roll?rollNo=${oneStudent.rollNo}`,
+          null,
+          loginData?.token
+        )
+      )
       .catch((error) => alert(error));
   }
 
@@ -111,8 +117,9 @@ export default function EnrollStudentList() {
       `/api/admin/student/get-all-notenrolled`,
       null,
       loginData?.token
-    ).then((result) => setStudentData(result || []))
-    .catch((error) => alert(error));
+    )
+      .then((result) => setStudentData(result || []))
+      .catch((error) => alert(error));
   }, [loginData?.token]);
 
   function handleClick() {
