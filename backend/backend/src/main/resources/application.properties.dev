@@ -8,7 +8,7 @@ spring.datasource.password=
 # spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
 # spring.main.allow-bean-definition-overriding=true
 
-jwt-server-secret=${JWT_SERVER_SECRET}
+app.jwt-server-secret=${JWT_SERVER_SECRET}
 
 # The app must know where it is
 # It knows where it is but not where it isn't

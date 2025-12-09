@@ -10,7 +10,7 @@
     "description": "Server origin. Eg: `www.webapp.com`"
   },
   {
-    "name": "jwt-server-secret",
+    "name": "app.jwt-server-secret",
     "type": "java.lang.String",
     "description": "JWT Secret (Server side key)"
   }

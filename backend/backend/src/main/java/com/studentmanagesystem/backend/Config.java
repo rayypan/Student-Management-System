@@ -10,11 +10,22 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Component
 public class Config {
 
+    @Value("${app.jwt-server-secret}")
+    private String appJwtServerSecret;
+
     @Value("${app.server-origin}")
     private String appServerOrigin;
 
     @Value("${app.webapp-origin}")
     private String appWebappOrigin;
+
+    public String getJwtServerSecret() {
+        if (appJwtServerSecret == null || appJwtServerSecret.isBlank()) {
+            throw new IllegalStateException(
+                    "Cannot find JWT server secret: no `app.jwt-server-secret` configured");
+        }
+        return appJwtServerSecret;
+    }
 
     public String getServerOrigin() {
         if (appServerOrigin == null || appServerOrigin.isBlank()) {

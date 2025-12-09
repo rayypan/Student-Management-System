@@ -1,31 +1,26 @@
 package com.studentmanagesystem.backend.authentication.util;
 
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.studentmanagesystem.backend.Config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtUtil {
 
-    private final Key secretkey;
+    private final Key secretKey;
 
-    public JwtUtil() {
-        // byte[] KeyBytes = new byte[32];
-        String secret = "123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123123";
-        // new SecureRandom().nextBytes(KeyBytes);
-        byte[] KeyBytes = secret.getBytes(StandardCharsets.UTF_8);
-        this.secretkey = new SecretKeySpec(KeyBytes, "HmacSHA256");
-        System.out.println("JWT Secret Key (Base64): " + Base64.getEncoder().encodeToString(KeyBytes));
-
+    public JwtUtil(@Autowired Config config) {
+        String secret = config.getJwtServerSecret();
+        this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     public String generateTokens(String email, String role) {
@@ -39,13 +34,13 @@ public class JwtUtil {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMillis))
-                .signWith(secretkey, SignatureAlgorithm.HS256)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
     public Claims validateToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(secretkey)
+                .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
