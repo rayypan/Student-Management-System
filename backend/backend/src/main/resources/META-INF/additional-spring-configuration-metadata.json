@@ -1,14 +1,17 @@
-{
-  "properties": [
-    {
-      "name": "app.server-origin",
-      "type": "java.lang.String",
-      "description": "Server origin. Eg: `www.myserver.com`"
-    },
-    {
-      "name": "app.webapp-origin",
-      "type": "java.lang.String",
-      "description": "Server origin. Eg: `www.webapp.com`"
-    }
-  ]
-}
+{"properties": [
+  {
+    "name": "app.server-origin",
+    "type": "java.lang.String",
+    "description": "Server origin. Eg: `www.myserver.com`"
+  },
+  {
+    "name": "app.webapp-origin",
+    "type": "java.lang.String",
+    "description": "Server origin. Eg: `www.webapp.com`"
+  },
+  {
+    "name": "jwt-server-secret",
+    "type": "java.lang.String",
+    "description": "JWT Secret (Server side key)"
+  }
+]}

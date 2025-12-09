@@ -7,5 +7,5 @@ CREATE TABLE studentdetails (
     subjects VARCHAR(4096),
 
     CONSTRAINT FOREIGN KEY (registration_no)
-    REFERENCES Registration(registration_no)
+    REFERENCES registration(registration_no)
 );
