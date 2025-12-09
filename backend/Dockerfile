@@ -8,13 +8,13 @@ FROM eclipse-temurin:21 AS build
 WORKDIR /app
 
 # Copy only required stuff
-# Maven wrapper (this runs Maven)
+# - Maven wrapper (this runs Maven)
+# - This is the list of dependencies for the app
+# - The config for Maven itself
+# - THe main app code
 COPY backend/mvnw    ./
-# This is the list of dependencies for the app
 COPY backend/pom.xml ./
-# The config for Maven itself
 COPY backend/.mvn    ./.mvn
-# THe main app code
 COPY backend/src     ./src
 
 RUN chmod +x ./mvnw
