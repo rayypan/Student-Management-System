@@ -15,14 +15,16 @@ WORKDIR /app
 COPY backend/mvnw    ./
 COPY backend/pom.xml ./
 COPY backend/.mvn    ./.mvn
-COPY backend/src     ./src
 
 RUN chmod +x ./mvnw
 
 # Maven: Download dependencies
+# NOTE: Don't copy source before installing dependencies
 RUN ./mvnw dependency:go-offline -B
 
-# Maven: Build a JAR
+# Maven: Build a JAR from source
+# NOTE: Don't copy source before installing dependencies
+COPY backend/src ./src
 RUN ./mvnw clean package -DskipTests
 
 # -----------------------------------------------------------------------
