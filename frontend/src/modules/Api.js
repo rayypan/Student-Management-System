@@ -12,7 +12,7 @@ export async function apiCall(method, path, body = null, token = null) {
   if (!path.startsWith("/")) {
     throw new Error("path should start with '/'");
   }
-  path = `http://${SERVER_ORIGIN}${path}`;
+  path = `${SERVER_ORIGIN}${path}`;
   try {
     let response = null;
     if (method === "GET" || method === "DELETE") {

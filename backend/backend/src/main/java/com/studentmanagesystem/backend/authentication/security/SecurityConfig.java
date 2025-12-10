@@ -76,9 +76,7 @@ public class SecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         // your frontend
-                        .allowedOrigins(
-                                String.format("http://%s", config.getWebappOrigin()),
-                                String.format("https://%s", config.getWebappOrigin()))
+                        .allowedOrigins(config.getWebappOrigin())
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .exposedHeaders("*")
